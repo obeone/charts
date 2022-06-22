@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: "3.36"
 description: Mikrotik Winbox in browser 
 name: winbox
-version: 1.0.1
+version: 1.0.2
 kubeVersion: ">=1.16.0-0"
 keywords:
 - winbox
@@ -21,6 +21,8 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Initial version
+    - kind: fixed
+      description: Fixing logo url
   artifacthub.io/screenshots: |
     - title: Login screen
       url: https://github.com/obeone/winbox-docker/blob/main/docs/screenshots/login.png
