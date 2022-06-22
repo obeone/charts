@@ -1,0 +1,115 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: obebete/winbox
+  # -- image tag
+  # @default -- chart.appVersion
+  tag: latest
+  # -- image pull policy
+  pullPolicy: Always
+
+# -- environment variables. See more environment variables in the [winbox documentation](https://winbox.org/docs).
+# @default -- See below
+env:
+  # -- Set the container timezone
+  TZ: Europe/Paris
+  VNC_PW: 3aBv2Cpt1Cj6qwhNt3pwm5TCGcxXygFTnf6mqS8W3TZZ
+  KASM_DEBUG: 1
+
+
+nodeSelector:
+  topology.kubernetes.io/zone: home
+# additionalContainers:
+#   oauth2:
+#     name: oauth2
+#     image: "quay.io/oauth2-proxy/oauth2-proxy:v7.2.1"
+#     imagePullPolicy: "IfNotPresent"
+#     env:
+#       - name: OAUTH2_PROXY_COOKIE_SECRET
+#         value: vGbtuynR4M0W3-JCwx-MLuXI2MtfuDii4hgNCRmMwko=
+#       - name: OAUTH2_PROXY_HTTP_ADDRESS
+#         value: http://[::]:4180
+#       - name: OAUTH2_PROXY_EMAIL_DOMAINS
+#         value: "*"
+#       - name: OAUTH2_PROXY_PROVIDER
+#         value: oidc
+#       - name: OAUTH2_PROXY_CLIENT_ID
+#         value: e686d9e8959f1cf72650cc4c60961e22c9343561
+#       - name: OAUTH2_PROXY_CLIENT_SECRET
+#         value: 3ef63b9788edf15cbbfdfe6bc68ffc785f11e37f5515034a1794e492d8fcbda8f517c36e2dc0f3de6cc39194954215f1d8f6bef40ae5fce8ea56c327cdf8c745
+#       - name: OAUTH2_PROXY_REDIRECT_URL
+#         value: "https://{{ (first .Values.ingress.main.hosts).host }}/oauth2/callback"
+#       - name: OAUTH2_PROXY_OIDC_ISSUER_URL
+#         value: https://authentik.obeone.cloud/application/o/winbox/
+#       - name: OAUTH2_PROXY_UPSTREAMS
+#         value: https://localhost:6901
+#       - name: OAUTH2_PROXY_SSL_UPSTREAM_INSECURE_SKIP_VERIFY
+#         value: "true"
+#       - name: OAUTH2_PROXY_SKIP_PROVIDER_BUTTON
+#         value: "true"
+#       - name: OAUTH2_PROXY_STANDARD_LOGGING
+#         value: "true"
+#       - name: OAUTH2_PROXY_AUTH_LOGGING
+#         value: "true"
+#       - name: OAUTH2_PROXY_REQUEST_LOGGING
+#         value: "true"
+
+#     ports:
+#       - containerPort: 4180
+#         name: http
+
+# -- Configures service settings for the chart.
+# @default -- See values.yaml
+service:
+  main:
+    ports:
+      http:
+        port: 6901
+
+
+ingress:
+  main:
+    # enabled: false
+    enabled: true
+    annotations:
+      traefik.ingress.kubernetes.io/router.middlewares: sensible-tools-ak-outpost-home@kubernetescrd
+    hosts:
+      - host: winbox.obeone.cloud
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: traefik-home
+    tls:
+      - hosts:
+          - winbox.obeone.cloud
+        secretName: obeone-cloud-tls
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See values.yaml
+persistence:
+  wine:
+    enabled: true
+    mountPath: /home/kasm_user/.wine
+    type: pvc
+    size: 1Gi
+    retain: false
+    accessMode: ReadWriteOnce
+  # data:
+  #   enabled: false
+  #   mountPath: /data
+  cert:
+    enabled: true
+    type: custom
+    volumeSpec:
+      secret:
+        secretName: obeone-cloud-tls
+    subPath:
+      - path: tls-combined.pem
+        mountPath: /config/private-cert.pem
+        readOnly: true
