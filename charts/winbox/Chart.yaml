@@ -7,7 +7,7 @@ kubeVersion: ">=1.16.0-0"
 keywords:
 - winbox
 home: https://mikrotik.com/download
-icon: https://github.com/obeone/winbox-docker/blob/main/docs/winbox-logo.png
+icon: https://charts.obeone.cloud/logo/winbox.png
 sources:
 - https://github.com/obeone/winbox-docker
 maintainers:
