@@ -1,4 +1,6 @@
 # Helm charts
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/search?repo=obeone)
+
 To use this repository :
 
 ```console
