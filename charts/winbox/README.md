@@ -1,7 +1,5 @@
 # Winbox
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: 3.36](https://img.shields.io/badge/AppVersion-3.36-informational?style=flat-square)
-
 Mikrotik Winbox in browser
 
 This chart setup [Wine](https://www.winehq.org/) with [KasmVNC](https://github.com/kasmtech/KasmVNC) to start Winbox in browser.
