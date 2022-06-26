@@ -1,0 +1,18 @@
+apiVersion: v2
+appVersion: v9.39.1
+description: GCHQ CyberChef helm package
+name: cyberchef
+version: 1.0.3
+kubeVersion: ">=1.16.0-0"
+keywords: 
+- cyberchef
+home: https://github.com/gchq/CyberChef
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+dependencies:
+- name: common
+  repository: https://library-charts.k8s-at-home.com
+  version: 4.3.0
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial version
