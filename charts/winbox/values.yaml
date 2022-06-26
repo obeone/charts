@@ -26,7 +26,7 @@ env:
   KASM_DEBUG: 1
 
 # -- Configures service settings for the chart.
-# @default -- See values.yaml
+# @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
 service:
   main:
     ports:
@@ -35,7 +35,7 @@ service:
 
 ingress:
   # -- Enable and configure ingress settings for the chart under this key.
-  # @default -- See values.yaml
+  # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
   main:
     enabled: false
     annotations: {}
@@ -51,15 +51,18 @@ ingress:
         secretName: mycert-tls
 
 # -- Configure persistence settings for the chart under this key.
-# @default -- See values.yaml
+# @default -- See the [docs](https://docs.k8s-at-home.com/our-helm-charts/common-library-storage/)
 persistence:
   wine:
     enabled: false
     mountPath: /home/kasm-user/.wine
-  cert:
-    # -- This image needs cert in PEM format
-    # -- If you use cert-manager, you can add it to your certificates :
-    # -- https://cert-manager.io/docs/usage/certificate/#additional-certificate-output-formats
+  cert: 
+    # This image needs cert in PEM format (or a default cert will be generate)
+    #
+    # If you use cert-manager, you can add it to your certificates :
+    # https://cert-manager.io/docs/usage/certificate/#additional-certificate-output-formats
+    #
+    # -- TLS certificate 
     enabled: false
     type: custom
     volumeSpec:
