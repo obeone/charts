@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v9.39.1
 description: GCHQ CyberChef helm package
 name: cyberchef
-version: 1.0.3
+version: 1.0.4
 kubeVersion: ">=1.16.0-0"
 keywords: 
 - cyberchef
