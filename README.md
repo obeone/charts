@@ -9,7 +9,7 @@ helm repo update
 ```
 
 ## Winbox
-Mikrotik Winbox in browser [[Sources]](https://github.com/obeone/winbox-docker) [[Chart]](winbox)
+Mikrotik Winbox in browser [[Sources]](https://github.com/obeone/winbox-docker) [[Chart]](charts/winbox)
 
 ## CyberChef
-CyberChef, The Cyber Swiss Army Knife [[Demo]](https://gchq.github.io/cyberchef) [[Sources]](https://github.com/gchq/CyberChef) [[Chart]](cyberchef)
+CyberChef, The Cyber Swiss Army Knife [[Demo]](https://gchq.github.io/cyberchef) [[Sources]](https://github.com/gchq/CyberChef) [[Chart]](charts/cyberchef)
