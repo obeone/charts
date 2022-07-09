@@ -1,5 +1,10 @@
 name: Release Charts
 
+env:
+  URL: https://charts.obeone.cloud
+  NAME: obeone
+  
+
 on:
   push:
     branches:
@@ -27,13 +32,23 @@ jobs:
         uses: azure/setup-helm@v1
         with:
           version: v3.8.1
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+
       - name: Helm Deps
         run: |
           helm repo add k8s-at-home https://library-charts.k8s-at-home.com
 
+      - name: Helm Chart Docs Github Pages
+        uses: omegion/helm-charts-docs@v0.15
+        with:
+          helmRepository: ${{  env.NAME }}
+          helmRepositoryUrl: ${{  env.URL }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
         with:
-          charts_repo_url: https://charts.obeone.cloud
+          charts_repo_url: ${{  env.URL }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
