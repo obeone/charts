@@ -34,12 +34,6 @@ jobs:
         run: |
           helm repo add k8s-at-home https://library-charts.k8s-at-home.com
 
-      - name: Helm Chart Docs Github Pages
-        uses: omegion/helm-charts-docs@v0.15
-        with:
-          helmRepository: ${{  env.NAME }}
-          helmRepositoryUrl: ${{  env.URL }}
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
