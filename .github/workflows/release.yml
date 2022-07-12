@@ -48,14 +48,9 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Helm Chart Docs Github Pages
-        uses: omegion/helm-charts-docs@v0.15
-        with:
-          helmRepository: ${{ env.NAME }}
-          helmRepositoryUrl: ${{ env.URL }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - uses: helaili/jekyll-action@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: 'gh-pages'
+      - name: Build & Deploy to GitHub Pages
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
+          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+        uses: BryanSchuetz/jekyll-deploy-gh-pages@master
