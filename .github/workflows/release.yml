@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - main
+      - test-jekyll
 
 jobs:
   release:
@@ -39,6 +40,20 @@ jobs:
           helm repo add k8s-at-home https://library-charts.k8s-at-home.com
           helm repo add bitnami https://charts.bitnami.com/bitnami
 
+      - name: Bundler Cache
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      
+      - name: Publish jekyll pages
+        uses:  helaili/jekyll-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
@@ -47,18 +62,3 @@ jobs:
           charts_repo_url: ${{  env.URL }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
-      - name: Bundler Cache
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Build & Deploy to GitHub Pages
-        uses: joshlarsen/jekyll4-deploy-gh-pages@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ env.GITHUB_REPOSITORY }}
-          GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
-          JEKYLL_DESTINATION: .
