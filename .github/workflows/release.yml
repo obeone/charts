@@ -28,16 +28,20 @@ jobs:
 
       - name: Install Helm
         uses: azure/setup-helm@v3
+        with:
+          version: 3.8.1
 
 
       - name: Helm Deps
         run: |
           helm repo add k8s-at-home https://library-charts.k8s-at-home.com
+          helm repo add bitnami https://charts.bitnami.com/bitnami
 
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
         with:
+          charts_dir: charts
           charts_repo_url: ${{  env.URL }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
