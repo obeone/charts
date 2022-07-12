@@ -1,6 +1,6 @@
 # ferdi-server
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: 1.3.2](https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square)
 
 Ferdi helps you organize how you use your favourite apps by combining them into one application
 
@@ -15,7 +15,6 @@ Ferdi helps you organize how you use your favourite apps by combining them into 
 ## Source Code
 
 * <https://github.com/getferdi/server>
-* <https://github.com/obeone/ferdi-server-docker>
 
 ## Requirements
 

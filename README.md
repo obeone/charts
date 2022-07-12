@@ -16,3 +16,7 @@ Mikrotik Winbox in browser [[Sources]](https://github.com/obeone/winbox-docker) 
 ## CyberChef
 
 CyberChef, The Cyber Swiss Army Knife [[Demo]](https://gchq.github.io/cyberchef) [[Sources]](https://github.com/gchq/CyberChef) [[Chart]](charts/cyberchef)
+
+## Ferdi
+
+Ferdi helps you organize how you use your favourite apps by combining them into one application [[Sources]](https://github.com/getferdi/server) [[Chart]](charts/ferdi-server)
