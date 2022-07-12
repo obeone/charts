@@ -47,3 +47,10 @@ jobs:
           charts_repo_url: ${{  env.URL }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Helm Chart Docs Github Pages
+        uses: omegion/helm-charts-docs@v0.15
+        with:
+          helmRepository: ${{ env.NAME }}
+          helmRepositoryUrl: ${{ env.URL }}
+          token: ${{ secrets.GITHUB_TOKEN }}
