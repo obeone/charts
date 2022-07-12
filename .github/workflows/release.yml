@@ -50,16 +50,11 @@ jobs:
 
       
       - name: Publish jekyll pages
-        uses:  helaili/jekyll-action@v2
+        uses: jeffreytse/jekyll-deploy-action@v0.3.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          target_branch: gh-pages
-
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.0
-        with:
-          charts_dir: charts
-          charts_repo_url: ${{  env.URL }}
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          provider: 'github'
+          token: ${{ secrets.GITHUB_TOKEN }} # It's your Personal Access Token(PAT)
+          branch: 'gh-pages'         # Default is gh-pages for github provider
+          jekyll_src: './'           # Default is root directory
+          jekyll_cfg: '_config.yml'  # Default is _config.yml
+          cname: charts.obeone.cloud'                  # Default is to not use a cname
