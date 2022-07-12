@@ -1,0 +1,38 @@
+apiVersion: v2
+appVersion: "3.36"
+description: |
+  Mikrotik Winbox in browser 
+  
+  This chart setup [Wine](https://www.winehq.org/) with [KasmVNC](https://github.com/kasmtech/KasmVNC) to start Winbox in browser.
+
+  Currently only available for amd64 platforms.
+name: winbox
+version: 1.1.0
+kubeVersion: ">=1.16.0-0"
+keywords:
+- winbox
+home: https://mikrotik.com/download
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+sources:
+- https://github.com/obeone/winbox-docker
+maintainers:
+- name: obeone
+  email: obeone@obeone.org
+dependencies:
+- name: common
+  repository: https://library-charts.k8s-at-home.com
+  version: 4.3.0
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial version
+    - kind: fixed
+      description: Fixing logo url
+  artifacthub.io/screenshots: |
+    - title: Login screen
+      url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+    - title: Main screen
+      url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
