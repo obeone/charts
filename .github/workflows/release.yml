@@ -58,3 +58,4 @@ jobs:
           jekyll_src: './'           # Default is root directory
           jekyll_cfg: '_config.yml'  # Default is _config.yml
           cname: charts.obeone.cloud'                  # Default is to not use a cname
+          pre_build_commands: apk --update add nodejs
