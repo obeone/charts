@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+    <title>cyberchef | obeone’s charts repository</title>
+    <meta name="generator" content="Jekyll v3.9.2" />
+    <meta property="og:title" content="cyberchef" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="Various Helm charts missing elsewhere" />
+    <meta
+      property="og:description"
+      content="Various Helm charts missing elsewhere"
+    />
+    <link
+      rel="canonical"
+      href="https://github.com/pages/obeone/charts/charts/cyberchef/"
+    />
+    <meta
+      property="og:url"
+      content="https://github.com/pages/obeone/charts/charts/cyberchef/"
+    />
+    <meta property="og:site_name" content="obeone’s charts repository" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="cyberchef" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "description": "Various Helm charts missing elsewhere",
+        "headline": "cyberchef",
+        "url": "https://github.com/pages/obeone/charts/charts/cyberchef/"
+      }
+    </script>
+    <!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap"
+      as="style"
+      type="text/css"
+      crossorigin
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#157878" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link
+      rel="stylesheet"
+      href="/pages/obeone/charts/assets/css/style.css?v=b99a3d951a8b79c0d2bfd85abb1928174772faca"
+    />
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+    <!-- Setup Google Analytics -->
+
+    <!-- You can set your favicon here -->
+    <!-- link rel="shortcut icon" type="image/x-icon" href="/pages/obeone/charts/favicon.ico" -->
+
+    <!-- end custom head snippets -->
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">cyberchef</h1>
+      <h2 class="project-tagline">Various Helm charts missing elsewhere</h2>
+
+      <a href="https://github.com/obeone/charts" class="btn">View on GitHub</a>
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="cyberchef">cyberchef</h1>
+
+      <p>
+        <img
+          src="https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square"
+          alt="Version: 1.1.0"
+        />
+        <img
+          src="https://img.shields.io/badge/AppVersion-v9.46.0-informational?style=flat-square"
+          alt="AppVersion: v9.46.0"
+        />
+      </p>
+
+      <p>GCHQ CyberChef [multi-arch]</p>
+
+      <p>
+        <strong>Homepage:</strong>
+        <a href="https://github.com/gchq/CyberChef"
+          >https://github.com/gchq/CyberChef</a
+        >
+      </p>
+
+      <h2 id="requirements">Requirements</h2>
+
+      <p>
+        Kubernetes:
+        <code class="language-plaintext highlighter-rouge">&gt;=1.16.0-0</code>
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th>Name</th>
+            <th>Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>https://library-charts.k8s-at-home.com</td>
+            <td>common</td>
+            <td>4.3.0</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="values">Values</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>env</td>
+            <td>object</td>
+            <td>See below</td>
+            <td>environment variables</td>
+          </tr>
+          <tr>
+            <td>env.TZ</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge">"UTC"</code>
+            </td>
+            <td>Set the container timezone</td>
+          </tr>
+          <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge">"Always"</code>
+            </td>
+            <td>image pull policy</td>
+          </tr>
+          <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge"
+                >"obebete/cyberchef"</code
+              >
+            </td>
+            <td>image repository</td>
+          </tr>
+          <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td>chart.appVersion</td>
+            <td>image tag</td>
+          </tr>
+          <tr>
+            <td>ingress.main</td>
+            <td>object</td>
+            <td>
+              See the
+              <a
+                href="https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md"
+                >docs</a
+              >
+            </td>
+            <td>
+              Enable and configure ingress settings for the chart under this
+              key.
+            </td>
+          </tr>
+          <tr>
+            <td>persistence</td>
+            <td>object</td>
+            <td>
+              See the
+              <a
+                href="https://docs.k8s-at-home.com/our-helm-charts/common-library-storage/"
+                >docs</a
+              >
+            </td>
+            <td>
+              Configure persistence settings for the chart under this key.
+            </td>
+          </tr>
+          <tr>
+            <td>service</td>
+            <td>object</td>
+            <td>
+              See the
+              <a
+                href="https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md"
+                >docs</a
+              >
+            </td>
+            <td>Configures service settings for the chart.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr />
+      <p>
+        Autogenerated from chart metadata using
+        <a href="https://github.com/norwoodj/helm-docs/releases/v1.11.0"
+          >helm-docs v1.11.0</a
+        >
+      </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"
+          ><a href="https://github.com/obeone/charts">charts</a> is maintained
+          by <a href="https://github.com/obeone">obeone</a>.</span
+        >
+
+        <span class="site-footer-credits"
+          >This page was generated by
+          <a href="https://pages.github.com">GitHub Pages</a>.</span
+        >
+      </footer>
+    </main>
+  </body>
+</html>

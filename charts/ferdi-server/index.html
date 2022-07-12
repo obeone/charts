@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+    <title>ferdi-server | obeone’s charts repository</title>
+    <meta name="generator" content="Jekyll v3.9.2" />
+    <meta property="og:title" content="ferdi-server" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="description" content="Various Helm charts missing elsewhere" />
+    <meta
+      property="og:description"
+      content="Various Helm charts missing elsewhere"
+    />
+    <link
+      rel="canonical"
+      href="https://github.com/pages/obeone/charts/charts/ferdi-server/"
+    />
+    <meta
+      property="og:url"
+      content="https://github.com/pages/obeone/charts/charts/ferdi-server/"
+    />
+    <meta property="og:site_name" content="obeone’s charts repository" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content="ferdi-server" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "description": "Various Helm charts missing elsewhere",
+        "headline": "ferdi-server",
+        "url": "https://github.com/pages/obeone/charts/charts/ferdi-server/"
+      }
+    </script>
+    <!-- End Jekyll SEO tag -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap"
+      as="style"
+      type="text/css"
+      crossorigin
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#157878" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link
+      rel="stylesheet"
+      href="/pages/obeone/charts/assets/css/style.css?v=b99a3d951a8b79c0d2bfd85abb1928174772faca"
+    />
+    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
+
+    <!-- Setup Google Analytics -->
+
+    <!-- You can set your favicon here -->
+    <!-- link rel="shortcut icon" type="image/x-icon" href="/pages/obeone/charts/favicon.ico" -->
+
+    <!-- end custom head snippets -->
+  </head>
+  <body>
+    <a id="skip-to-content" href="#content">Skip to the content.</a>
+
+    <header class="page-header" role="banner">
+      <h1 class="project-name">ferdi-server</h1>
+      <h2 class="project-tagline">Various Helm charts missing elsewhere</h2>
+
+      <a href="https://github.com/obeone/charts" class="btn">View on GitHub</a>
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <h1 id="ferdi-server">ferdi-server</h1>
+
+      <p>
+        <img
+          src="https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square"
+          alt="Version: 1.0.1"
+        />
+        <img
+          src="https://img.shields.io/badge/AppVersion-1.3.2-informational?style=flat-square"
+          alt="AppVersion: 1.3.2"
+        />
+      </p>
+
+      <p>
+        Ferdi helps you organize how you use your favourite apps by combining
+        them into one application
+      </p>
+
+      <p>
+        <strong>Homepage:</strong>
+        <a href="https://getferdi.com/">https://getferdi.com/</a>
+      </p>
+
+      <h2 id="maintainers">Maintainers</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Url</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>obeone</td>
+            <td><a href="mailto:obeone@obeone.org">obeone@obeone.org</a></td>
+            <td> </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="source-code">Source Code</h2>
+
+      <ul>
+        <li>
+          <a href="https://github.com/getferdi/server"
+            >https://github.com/getferdi/server</a
+          >
+        </li>
+      </ul>
+
+      <h2 id="requirements">Requirements</h2>
+
+      <p>
+        Kubernetes:
+        <code class="language-plaintext highlighter-rouge">&gt;=1.16.0-0</code>
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Repository</th>
+            <th>Name</th>
+            <th>Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>https://charts.bitnami.com/bitnami</td>
+            <td>postgresql</td>
+            <td>11.6.12</td>
+          </tr>
+          <tr>
+            <td>https://library-charts.k8s-at-home.com</td>
+            <td>common</td>
+            <td>4.4.2</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="values">Values</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>env</td>
+            <td>object</td>
+            <td>See below</td>
+            <td>
+              environment variables. See more environment variables in the
+              <a href="https://ferdi-server.org/docs"
+                >ferdi-server documentation</a
+              >.
+            </td>
+          </tr>
+          <tr>
+            <td>env.DB_CONNECTION</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge">"sqlite"</code>
+            </td>
+            <td>
+              pg/mysql/sqlite If you enable embedded postgresql, you can skip
+              these settings.
+            </td>
+          </tr>
+          <tr>
+            <td>env.TZ</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge">"UTC"</code>
+            </td>
+            <td>Set the container timezone</td>
+          </tr>
+          <tr>
+            <td>image.pullPolicy</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge"
+                >"IfNotPresent"</code
+              >
+            </td>
+            <td>image pull policy</td>
+          </tr>
+          <tr>
+            <td>image.repository</td>
+            <td>string</td>
+            <td>
+              <code class="language-plaintext highlighter-rouge"
+                >"getferdi/ferdi-server"</code
+              >
+            </td>
+            <td>image repository</td>
+          </tr>
+          <tr>
+            <td>image.tag</td>
+            <td>string</td>
+            <td>chart.appVersion</td>
+            <td>image tag</td>
+          </tr>
+          <tr>
+            <td>ingress.main</td>
+            <td>object</td>
+            <td>See values.yaml</td>
+            <td>
+              Enable and configure ingress settings for the chart under this
+              key.
+            </td>
+          </tr>
+          <tr>
+            <td>persistence</td>
+            <td>object</td>
+            <td>See values.yaml</td>
+            <td>
+              Configure persistence settings for the chart under this key.
+            </td>
+          </tr>
+          <tr>
+            <td>postgresql</td>
+            <td>object</td>
+            <td>See values.yaml</td>
+            <td>
+              Enable and configure postgresql database subchart under this key.
+              For more options see
+              <a
+                href="https://github.com/bitnami/charts/tree/master/bitnami/postgresql"
+                >postgresql chart documentation</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>service</td>
+            <td>object</td>
+            <td>See values.yaml</td>
+            <td>Configures service settings for the chart.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <hr />
+      <p>
+        Autogenerated from chart metadata using
+        <a href="https://github.com/norwoodj/helm-docs/releases/v1.11.0"
+          >helm-docs v1.11.0</a
+        >
+      </p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"
+          ><a href="https://github.com/obeone/charts">charts</a> is maintained
+          by <a href="https://github.com/obeone">obeone</a>.</span
+        >
+
+        <span class="site-footer-credits"
+          >This page was generated by
+          <a href="https://pages.github.com">GitHub Pages</a>.</span
+        >
+      </footer>
+    </main>
+  </body>
+</html>
