@@ -12,7 +12,7 @@ on:
       - test-jekyll
 
 jobs:
-  release:
+  docs:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
@@ -21,26 +21,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: 3.8.1
-
-
-      - name: Helm Deps
-        run: |
-          helm repo add k8s-at-home https://library-charts.k8s-at-home.com
-          helm repo add bitnami https://charts.bitnami.com/bitnami
-
-      - name: 💎 setup ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.6 # can change this to 2.7 or whatever version you prefer
@@ -89,10 +74,41 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
+          destination_dir: ./
           # if the repo you are deploying to is <username>.github.io, uncomment the line below.
           # if you are including the line below, make sure your source files are NOT in the master branch:
           publish_branch: gh-pages
 
+
+  charts:
+    needs:
+      - docs
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 3.8.1
+
+
+      - name: Helm Deps
+        run: |
+          helm repo add k8s-at-home https://library-charts.k8s-at-home.com
+          helm repo add bitnami https://charts.bitnami.com/bitnami
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
