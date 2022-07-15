@@ -20,3 +20,8 @@ CyberChef, The Cyber Swiss Army Knife [[Demo]](https://gchq.github.io/cyberchef)
 ## Ferdi
 
 Ferdi helps you organize how you use your favourite apps by combining them into one application [[Sources]](https://github.com/getferdi/server) [[Chart]](charts/ferdi-server)
+
+## Petio
+
+Request, review and discover shows and movies with this companion app for plex.
+[[Sources]](https://github.com/petio-team/petio) [[Chart]](charts/petio)
