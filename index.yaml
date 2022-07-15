@@ -70,6 +70,40 @@ entries:
   ferdi-server:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Updated icon
+    apiVersion: v2
+    appVersion: 1.3.2
+    created: "2022-07-13T01:17:57.815532+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.12
+    description: Ferdi helps you organize how you use your favourite apps by combining
+      them into one application
+    digest: 29c044fea7d65783aa3c5251060b72bac9ed2f2113cee5224b59d98607de7fd3
+    home: https://getferdi.com/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ferdi.png
+    keywords:
+    - ferdi-server
+    - ferdi
+    - getferdi
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ferdi-server
+    sources:
+    - https://github.com/getferdi/server
+    urls:
+    - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial version
     apiVersion: v2
