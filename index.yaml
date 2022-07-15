@@ -1,0 +1,360 @@
+apiVersion: v1
+entries:
+  cyberchef:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion
+    apiVersion: v2
+    appVersion: v9.46.0
+    created: "2022-07-13T01:17:57.286741+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: GCHQ CyberChef [multi-arch]
+    digest: 12f5aaa4b5fdd4fc9a391f986762ef0b2479aa3b1a72f3cbd2b78b8ec59d17f2
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.1.0/cyberchef-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion
+    apiVersion: v2
+    appVersion: v9.46.0
+    created: "2022-07-13T01:17:57.11787+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: GCHQ CyberChef [multi-arch]
+    digest: 1023558abc76edcdee3c4360918fe2a1a5c1fc9fa642e4627c323cc2891cb00c
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.0.6/cyberchef-1.0.6.tgz
+    version: 1.0.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: v9.39.1
+    created: "2022-07-13T01:17:56.946939+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: GCHQ CyberChef helm package
+    digest: 8fe5949c9d359c4fa84ab6961e498327ead16b20f7effbc954a28aa2bf329b14
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.0.4/cyberchef-1.0.4.tgz
+    version: 1.0.4
+  ferdi-server:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: 1.3.2
+    created: "2022-07-13T01:17:57.815532+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.12
+    description: Ferdi helps you organize how you use your favourite apps by combining
+      them into one application
+    digest: 29c044fea7d65783aa3c5251060b72bac9ed2f2113cee5224b59d98607de7fd3
+    home: https://getferdi.com/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ferdi.svg
+    keywords:
+    - ferdi-server
+    - ferdi
+    - getferdi
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ferdi-server
+    sources:
+    - https://github.com/getferdi/server
+    urls:
+    - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.2/ferdi-server-1.0.2.tgz
+    version: 1.0.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: 1.3.2
+    created: "2022-07-13T01:17:57.628003+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.12
+    description: Ferdi helps you organize how you use your favourite apps by combining
+      them into one application
+    digest: e1ad285f9dff4bd15022faa5888fd0be2210c3e3d1204223a784b448f5bbe67b
+    home: https://getferdi.com/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - ferdi-server
+    - ferdi
+    - getferdi
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ferdi-server
+    sources:
+    - https://github.com/getferdi/server
+    urls:
+    - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.1/ferdi-server-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: 1.3.2
+    created: "2022-07-13T01:17:57.458156+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.6.12
+    description: Ferdi helps you organize how you use your favourite apps by combining
+      them into one application
+    digest: 2cac07f64a4f151db88aad813d37f0563368bdf73fb00fff6549e0d571d3a102
+    home: https://getferdi.com/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - ferdi-server
+    - ferdi
+    - getferdi
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ferdi-server
+    sources:
+    - https://github.com/getferdi/server
+    - https://github.com/obeone/ferdi-server-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.0/ferdi-server-1.0.0.tgz
+    version: 1.0.0
+  winbox:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+        - kind: fixed
+          description: Fixing logo url
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+    apiVersion: v2
+    appVersion: "3.36"
+    created: "2022-07-13T01:17:58.502306+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: 'Mikrotik Winbox in browser   This chart setup [Wine](https://www.winehq.org/)
+      with [KasmVNC](https://github.com/kasmtech/KasmVNC) to start Winbox in browser.  Currently
+      only available for amd64 platforms. '
+    digest: e22d70ba55d4ff2ee48beeead7562ed68f9ff3e2d41f0cb42888100e808cca0e
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+        - kind: fixed
+          description: Fixing logo url
+      artifacthub.io/maintainers: |-
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+    apiVersion: v2
+    appVersion: "3.36"
+    created: "2022-07-13T01:17:58.323598+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: 'Mikrotik Winbox in browser   This chart setup [Wine](https://www.winehq.org/)
+      with [KasmVNC](https://github.com/kasmtech/KasmVNC) to start Winbox in browser.  Currently
+      only available for amd64 platforms. '
+    digest: 5a0faad215c3789ea9f62f0cd67ea631be7755b900d7258b55b7bc86f42424e3
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.0.4/winbox-1.0.4.tgz
+    version: 1.0.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+        - kind: fixed
+          description: Fixing logo url
+      artifacthub.io/maintainers: |-
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+    apiVersion: v2
+    appVersion: "3.36"
+    created: "2022-07-13T01:17:58.158144+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: Mikrotik Winbox in browser
+    digest: f2f22f3bab7754d733e9f5fc2b788fae366fdb542d3970db563859d60105bd27
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.0.3/winbox-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+        - kind: fixed
+          description: Fixing logo url
+      artifacthub.io/maintainers: |-
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+    apiVersion: v2
+    appVersion: "3.36"
+    created: "2022-07-13T01:17:57.987579+02:00"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: Mikrotik Winbox in browser
+    digest: d6abb5b890a7b306c2cefe93dfbf819bebe59ff972be4c38d747abfdfe84a381
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.0.2/winbox-1.0.2.tgz
+    version: 1.0.2
+  petio:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: release-0.5.4
+    created: "2022-07-15T10:36:25.320968441Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.10
+    description: Request, review and discover companion app for plex.
+    digest: 1c7810aa6e56e4d1eabe06b4b0d95cb3e227709634f26175744fb3c8a49f94b9
+    home: https://petio.tv/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/petio.png
+    keywords:
+    - petio
+    - plex
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: petio
+    sources:
+    - https://github.com/petio-team/petio
+    urls:
+    - https://github.com/obeone/charts/releases/download/petio-1.0.0/petio-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-07-13T01:17:58.502355+02:00"
