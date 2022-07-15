@@ -1,0 +1,36 @@
+apiVersion: v1
+entries:
+  petio:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version
+    apiVersion: v2
+    appVersion: release-0.5.4
+    created: "2022-07-15T10:36:25.320968441Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.4.2
+    - condition: mongodb.enabled
+      name: mongodb
+      repository: https://charts.bitnami.com/bitnami
+      version: 11.1.10
+    description: Request, review and discover companion app for plex.
+    digest: 1c7810aa6e56e4d1eabe06b4b0d95cb3e227709634f26175744fb3c8a49f94b9
+    home: https://petio.tv/
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/petio.png
+    keywords:
+    - petio
+    - plex
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: petio
+    sources:
+    - https://github.com/petio-team/petio
+    urls:
+    - https://github.com/obeone/charts/releases/download/petio-1.0.0/petio-1.0.0.tgz
+    version: 1.0.0
+generated: "2022-07-15T10:36:25.320983742Z"
