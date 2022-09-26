@@ -121,3 +121,12 @@ jobs:
           charts_repo_url: ${{  env.URL }}
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Commit files
+        run: |
+          git commit -m "Add changes" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          ssh: true
+          branch: gh-pages
