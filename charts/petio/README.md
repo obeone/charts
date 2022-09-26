@@ -1,6 +1,6 @@
 # petio
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: release-0.5.4](https://img.shields.io/badge/AppVersion-release--0.5.4-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: new-ui](https://img.shields.io/badge/AppVersion-new--ui-informational?style=flat-square)
 
 Request, review and discover companion app for plex.
 
@@ -32,7 +32,7 @@ Kubernetes: `>=1.16.0-0`
 | env | object | See below | environment variables. See more environment variables in the [petio documentation](https://petio.org/docs). |
 | env.TZ | string | `"UTC"` | Set the container timezone |
 | image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"hotio/petio"` | image repository |
+| image.repository | string | `"ghcr.io/petio-team/petio"` | image repository |
 | image.tag | string | chart.appVersion | image tag |
 | ingress.main | object | See values.yaml | Enable and configure ingress settings for the chart under this key. |
 | mongodb | object | See values.yaml | Enable and configure mongodb database subchart under this key.    For more options see [mongodb chart    documentation](https://github.com/bitnami/charts/tree/master/bitnami/mongodb)  The mongodb address to set in petio config will be displayed in intall notes |
