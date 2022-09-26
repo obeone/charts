@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: release-0.5.4
+appVersion: new-ui
 description: Request, review and discover companion app for plex.
 name: petio
-version: 1.0.0
+version: 1.0.1
 kubeVersion: ">=1.16.0-0"
 keywords:
   - petio
