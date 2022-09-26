@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: "3.36"
+appVersion: "3.37"
 description: |
   Mikrotik Winbox in browser 
   
