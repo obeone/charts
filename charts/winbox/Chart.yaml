@@ -7,7 +7,7 @@ description: |
 
   Currently only available for amd64 platforms.
 name: winbox
-version: 1.1.0
+version: 1.1.1
 kubeVersion: ">=1.16.0-0"
 keywords:
 - winbox
