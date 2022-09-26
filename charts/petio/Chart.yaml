@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: new-ui
 description: Request, review and discover companion app for plex.
 name: petio
-version: 1.0.1
+version: 1.0.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - petio
@@ -17,12 +17,14 @@ maintainers:
 dependencies:
   - name: common
     repository: https://library-charts.k8s-at-home.com
-    version: 4.4.2
+    version: 4.5.2
   - name: mongodb
-    version: 11.1.10
+    version: 12.1.31
     repository: https://charts.bitnami.com/bitnami
     condition: mongodb.enabled
-annotations:
+annotations: 
   artifacthub.io/changes: |
+    - kind: changed
+      description: Update common library chart to 4.5.2 and mongodb chart to 12.1.31 (mongodb version 5)
     - kind: added
       description: Initial version

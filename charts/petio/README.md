@@ -1,6 +1,6 @@
 # petio
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: new-ui](https://img.shields.io/badge/AppVersion-new--ui-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: new-ui](https://img.shields.io/badge/AppVersion-new--ui-informational?style=flat-square)
 
 Request, review and discover companion app for plex.
 
@@ -22,8 +22,8 @@ Kubernetes: `>=1.16.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://charts.bitnami.com/bitnami | mongodb | 11.1.10 |
-| https://library-charts.k8s-at-home.com | common | 4.4.2 |
+| https://charts.bitnami.com/bitnami | mongodb | 12.1.31 |
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
 
 ## Values
 

@@ -34,7 +34,7 @@ mongodb:
   persistence:
     enabled: false
     # storageClass: ""
-    # size: 8Gi
+    # size: 8Gi 
 
 # -- Configures service settings for the chart.
 # @default -- See values.yaml

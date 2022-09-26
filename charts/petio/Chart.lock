@@ -1,9 +1,9 @@
 dependencies:
 - name: common
   repository: https://library-charts.k8s-at-home.com
-  version: 4.4.2
+  version: 4.5.2
 - name: mongodb
   repository: https://charts.bitnami.com/bitnami
-  version: 11.1.10
-digest: sha256:5a67a369e3ae4855a40239d16c9e73f7f89ebdda8094e982922cb81ef16e5886
-generated: "2022-07-15T12:34:36.736512+02:00"
+  version: 12.1.31
+digest: sha256:b81adf93c68e0104787234de97ecff4fe9c919eebf0b5b4f00193abee6bee807
+generated: "2022-09-27T01:48:54.711645+02:00"
