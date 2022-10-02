@@ -1,0 +1,31 @@
+apiVersion: v2
+name: nfs-server
+description: A lightweight, robust, flexible, and containerized NFS server.
+
+type: application
+keywords:
+  - nfs
+  - nfs-server
+  - file-sharing
+  - file-server
+  - file-storage
+  - sharing
+version: 1.0.0
+appVersion: 2.2.1
+
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
+sources:
+  - https://github.com/obeone/docker-nfs-server
+  - https://github.com/ehough/docker-nfs-server
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://library-charts.k8s-at-home.com
+    version: 4.5.2
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: New chart

@@ -25,3 +25,8 @@ Ferdi helps you organize how you use your favourite apps by combining them into 
 
 Request, review and discover shows and movies with this companion app for plex.
 [[Sources]](https://github.com/petio-team/petio) [[Chart]](charts/petio)
+
+## NFS Server
+
+A lightweight, robust, flexible, and containerized NFS server.
+[[Sources]](https://github.com/obeone/docker-nfs-server) [[Chart]](charts/nfs-server)
