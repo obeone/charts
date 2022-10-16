@@ -30,3 +30,8 @@ Request, review and discover shows and movies with this companion app for plex.
 
 A lightweight, robust, flexible, and containerized NFS server.
 [[Sources]](https://github.com/obeone/docker-nfs-server) [[Chart]](charts/nfs-server)
+
+## MKTXP
+
+A Prometheus metrics exporter for Mikrotik's RouterOS
+[[Sources]](https://github.com/akpw/mktxp) [[Chart]](charts/mktxp)

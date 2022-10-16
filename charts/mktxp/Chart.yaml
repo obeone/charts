@@ -1,0 +1,28 @@
+apiVersion: v2
+appVersion: latest
+description: Mikrotik (RouterOS) exporter for Prometheus metics
+name: mktxp
+version: 1.0.0
+kubeVersion: ">=1.16.0-0"
+keywords:
+- mktxp
+- mikrotik
+- routeros
+- prometheus
+- metrics
+home: https://github.com/akpw/mktxp
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/mikrotik.png
+sources:
+- https://github.com/akpw/mktxp
+- https://github.com/obeone/charts
+maintainers:
+- name: obeone
+  email: obeone@obeone.org
+dependencies:
+- name: common
+  repository: https://library-charts.k8s-at-home.com
+  version: 4.3.0
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial version

@@ -1,0 +1,42 @@
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+
+{{/* Append the harcoded settings */}}
+{{- define "mktxp.harcodedValues" -}}
+  {{- if .Values.configmap.config.enabled }}
+    {{/* Do a change on podAnnotation to force a restart */}}
+    podAnnotations:
+      configmap/checksum: "{{ .Values.configmap.config.data | toYaml | sha256sum }}"
+
+    {{/* Append the configMap volume to the volumes */}}
+    persistence:
+      config:
+        enabled: true
+        type: "configMap"
+        name: "{{ printf "%v-config" (include "common.names.fullname" .) }}"
+        mountPath: "/tmp/cm"
+      root:
+        enabled: true
+        type: emptyDir
+        mountPath: /home/mktxp/mktxp/
+
+    initContainers:
+      cp:
+        image: alpine
+        command:
+        - sh
+        - -c
+        - cp /tmp/cm/mktxp.conf /home/mktxp/mktxp/mktxp.conf && chown -R 100:101 /home/mktxp/mktxp
+        volumeMounts:
+        - name: config
+          mountPath: /tmp/cm
+        - name: root
+          mountPath: /home/mktxp/mktxp
+    {{- end -}}
+{{- end -}}
+
+{{/* Applying change to original values.yaml content */}}
+{{- $_ := mergeOverwrite .Values (include "mktxp.harcodedValues" . | fromYaml) -}}
+
+
+{{ include "common.all" . }}
