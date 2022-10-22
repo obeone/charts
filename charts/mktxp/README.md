@@ -1,6 +1,6 @@
 # mktxp
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Mikrotik (RouterOS) exporter for Prometheus metics
 
@@ -37,7 +37,7 @@ Kubernetes: `>=1.16.0-0`
 | image.repository | string | `"ghcr.io/akpw/mktxp"` | image repository |
 | image.tag | string | chart.appVersion | image tag |
 | ingress.main.enabled | bool | `false` |  |
-| metrics | object | `{"enabled":true,"serviceMonitor":{"interval":"30s","labels":{},"scrapeTimeout":"1m"}}` | ServiceMonitor to tell to prometheus to scrape metrics |
+| metrics | object | `{"enabled":true,"serviceMonitor":{"interval":"30s","labels":{},"scrapeTimeout":"20s"}}` | ServiceMonitor to tell to prometheus to scrape metrics |
 | persistence | object | See values.yaml | Configure persistence settings for the chart under this key. (none required for this chart) |
 | service | object | See values.yaml | Configures service settings for the chart. |
 
