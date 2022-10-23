@@ -1,6 +1,6 @@
 apiVersion: v2
 name: nfs-server
-description: A lightweight, robust, flexible, and containerized NFS server.
+description: A lightweight, robust, flexible, and containerized NFS server. This charts support multiarch
 
 type: application
 keywords:
@@ -10,7 +10,7 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.0.0
+version: 1.0.1
 appVersion: 2.2.1
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
@@ -27,5 +27,12 @@ dependencies:
     version: 4.5.2
 annotations:
   artifacthub.io/changes: |
+    - kind: changed
+      description: Changed container name from docker-nfs-server to nfs-server
+    - kind: added
+      description: Information about multiarch builds
     - kind: added
       description: New chart
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org

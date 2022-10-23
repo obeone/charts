@@ -1,8 +1,8 @@
 # nfs-server
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.1](https://img.shields.io/badge/AppVersion-2.2.1-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.1](https://img.shields.io/badge/AppVersion-2.2.1-informational?style=flat-square)
 
-A lightweight, robust, flexible, and containerized NFS server.
+A lightweight, robust, flexible, and containerized NFS server. This charts support multiarch
 
 ## Maintainers
 
@@ -28,7 +28,7 @@ A lightweight, robust, flexible, and containerized NFS server.
 | env | object | See below | environment variables. See more environment variables in the [petio documentation](https://petio.org/docs). |
 | env.TZ | string | `"UTC"` | Set the container timezone |
 | image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"ghcr.io/obeone/docker-nfs-server"` | image repository |
+| image.repository | string | `"ghcr.io/obeone/nfs-server"` | image repository |
 | image.tag | string | chart.appVersion | image tag |
 | persistence | object | See values.yaml | Configure persistence settings for the chart under this key. |
 | securityContext.capabilities.add[0] | string | `"SYS_ADMIN"` |  |

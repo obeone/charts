@@ -7,7 +7,7 @@
 
 image:
   # -- image repository
-  repository: ghcr.io/obeone/docker-nfs-server
+  repository: ghcr.io/obeone/nfs-server
   # -- image tag
   # @default -- chart.appVersion
   tag:
