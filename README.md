@@ -38,4 +38,4 @@ A Prometheus metrics exporter for Mikrotik's RouterOS
 
 ## DNSCrypt proxy
 
-A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](https://github.com/klutchell/dnscrypt-proxy-docker) [[Chart]](charts/mktxp)
+A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](https://github.com/klutchell/dnscrypt-proxy-docker) [[Chart]](charts/dnscrypt-proxy)
