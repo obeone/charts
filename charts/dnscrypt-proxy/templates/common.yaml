@@ -3,7 +3,7 @@
 
 {{/* Append the harcoded settings */}}
 {{- define "dnscryptproxy.harcodedValues" -}}
-  {{- if .Values.configmap.enabled }}
+  {{- if .Values.configmap.config.enabled }}
     {{/* Do a change on podAnnotation to force a restart */}}
     podAnnotations:
       configmap/checksum: "{{ .Values.configmap.config.data | toYaml | sha256sum }}"
