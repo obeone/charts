@@ -35,3 +35,7 @@ A lightweight, robust, flexible, and containerized NFS server.
 
 A Prometheus metrics exporter for Mikrotik's RouterOS
 [[Sources]](https://github.com/akpw/mktxp) [[Chart]](charts/mktxp)
+
+## DNSCrypt proxy
+
+A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](https://github.com/klutchell/dnscrypt-proxy-docker) [[Chart]](charts/mktxp)
