@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v9.49.0
+appVersion: v9.49.2
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 1.1.3
+version: 1.1.4
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
