@@ -1,6 +1,6 @@
 # cyberchef
 
-![Version: 1.1.4](https://img.shields.io/badge/Version-1.1.4-informational?style=flat-square) ![AppVersion: v9.49.2](https://img.shields.io/badge/AppVersion-v9.49.2-informational?style=flat-square)
+![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![AppVersion: v9.51.0](https://img.shields.io/badge/AppVersion-v9.51.0-informational?style=flat-square)
 
 GCHQ CyberChef [multi-arch]
 
@@ -12,7 +12,7 @@ Kubernetes: `>=1.16.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.3.0 |
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
 
 ## Values
 

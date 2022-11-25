@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v9.49.2
+appVersion: v9.51.0
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 1.1.4
+version: 1.1.5
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
@@ -11,8 +11,10 @@ icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
 dependencies:
   - name: common
     repository: https://library-charts.k8s-at-home.com
-    version: 4.3.0
+    version: 4.5.2
 annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Update appVersion
+    - kind: changed
+      description: Library chart version
