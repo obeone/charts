@@ -1,20 +1,15 @@
-
 name: Release Charts
 
 env:
   URL: https://charts.obeone.cloud
   NAME: obeone
-  
 
 on:
   push:
     branches:
       - main
-      - test-jekyll
 
 jobs:
-
-
   charts:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
@@ -32,11 +27,17 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
+      - name: Merge main -> pages
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          target_branch: pages
+          github_token: ${{ github.token }}
+
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
           version: 3.8.1
-
 
       - name: Helm Deps
         run: |
