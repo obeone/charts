@@ -27,11 +27,11 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Merge main -> pages
+      - name: Merge main -> gh-pages
         uses: devmasx/merge-branch@master
         with:
           type: now
-          target_branch: pages
+          target_branch: gh-pages
           github_token: ${{ github.token }}
 
       - name: Install Helm
