@@ -11,7 +11,7 @@ image:
   repository: obebete/winbox
   # -- image tag
   # @default -- chart.appVersion
-  tag: 
+  tag:
   # -- image pull policy
   pullPolicy: Always
 
@@ -29,6 +29,11 @@ env:
 # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
 service:
   main:
+    annotations:
+      # -- Tell Traefik to use TLS to connect to service
+      # You also need a verified connection (valid certificate, you can set it trougth storage)
+      # or by setting insecure server transport (on ingressRoute or with --serversTransport.insecureSkipVerify=true startup option)
+      traefik.ingress.kubernetes.io/service.serversscheme: https
     ports:
       http:
         port: 6901
@@ -38,7 +43,9 @@ ingress:
   # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
   main:
     enabled: false
-    annotations: {}
+    annotations:
+      # -- Specify connect to service using TLS (not sure it's the right configuration for nginx... Tell me if it's ok !)
+      nginx.org/ssl-services: winbox
     hosts:
       - host: my.host.local
         paths:
@@ -56,20 +63,17 @@ persistence:
   wine:
     enabled: false
     mountPath: /home/kasm-user/.wine
-  cert: 
-    # This image needs cert in PEM format (or a default cert will be generate)
-    #
-    # If you use cert-manager, you can add it to your certificates :
-    # https://cert-manager.io/docs/usage/certificate/#additional-certificate-output-formats
-    #
-    # -- TLS certificate 
+  cert:
+    # -- TLS certificate
     enabled: false
     type: custom
     volumeSpec:
       secret:
         secretName: mycert-tls
     subPath:
-      - path: tls-combined.pem
-        mountPath: /config/private-cert.pem
+      - path: tls.crt
+        mountPath: /opt/kasm/current/certs/kasm_nginx.crt
         readOnly: true
-
+      - path: tls.key
+        mountPath: /opt/kasm/current/certs/kasm_nginx.key
+        readOnly: true
