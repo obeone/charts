@@ -10,8 +10,8 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.0.1
-appVersion: 2.2.1
+version: 1.1.0
+appVersion: 2.2.2
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
 sources:
@@ -28,11 +28,7 @@ dependencies:
 annotations:
   artifacthub.io/changes: |
     - kind: changed
-      description: Changed container name from docker-nfs-server to nfs-server
-    - kind: added
-      description: Information about multiarch builds
-    - kind: added
-      description: New chart
+      description: New appVersion
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
