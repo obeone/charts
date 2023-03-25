@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v9.55.0
+appVersion: v10.4.0
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 1.1.7
+version: 1.1.8
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
@@ -16,5 +16,3 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Update appVersion
-    - kind: added
-      description: Container images are now signed
