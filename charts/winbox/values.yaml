@@ -62,7 +62,7 @@ ingress:
 persistence:
   wine:
     enabled: false
-    mountPath: /home/kasm-user/.wine
+    mountPath: /home/kasm-default-profile/.wine
   cert:
     # -- TLS certificate
     enabled: false
