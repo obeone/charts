@@ -1,10 +1,11 @@
 # winbox
 
-![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![AppVersion: 3.38](https://img.shields.io/badge/AppVersion-3.38-informational?style=flat-square)
+![Version: 1.3.2](https://img.shields.io/badge/Version-1.3.2-informational?style=flat-square) ![AppVersion: 3.38](https://img.shields.io/badge/AppVersion-3.38-informational?style=flat-square)
 
 Mikrotik Winbox in browser
 
-This chart setup [Wine](https://www.winehq.org/) with [KasmVNC](https://github.com/kasmtech/KasmVNC) to start Winbox in browser.
+Access to Mikrotik Winbox using your browser. This container start a VNC server and client,
+with winbox started by Wine.
 
 Currently only available for amd64 platforms.
 
