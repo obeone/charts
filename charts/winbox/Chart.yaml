@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: "3.37"
+appVersion: "3.38"
 description: |
   Mikrotik Winbox in browser
 
@@ -7,7 +7,7 @@ description: |
 
   Currently only available for amd64 platforms.
 name: winbox
-version: 1.2.0
+version: 1.3.0
 kubeVersion: ">=1.16.0-0"
 keywords:
 - winbox
@@ -24,8 +24,8 @@ dependencies:
   version: 4.3.0
 annotations:
   artifacthub.io/changes: |
-    - kind: fixed
-      description: TLS configuration
+    - kind: updated
+      description: New app version
   artifacthub.io/screenshots: |
     - title: Login screen
       url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
