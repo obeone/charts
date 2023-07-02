@@ -26,7 +26,11 @@
         command:
         - sh
         - -c
-        - cp /tmp/cm/mktxp.conf /home/mktxp/mktxp/mktxp.conf && chown -R 100:101 /home/mktxp/mktxp
+        - |
+          set -e
+          cp /tmp/cm/mktxp.conf /home/mktxp/mktxp/mktxp.conf
+          cp /tmp/cm/_mktxp.conf /home/mktxp/mktxp/_mktxp.conf
+          chown -R 100:101 /home/mktxp/mktxp
         volumeMounts:
         - name: config
           mountPath: /tmp/cm
