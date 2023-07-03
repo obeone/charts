@@ -1,0 +1,33 @@
+apiVersion: v2
+name: technitium
+description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server
+
+type: application
+keywords:
+  - dns
+  - recursive
+  - authoritative
+  - pihole
+  - adguard
+
+version: 1.0.3
+appVersion: "11.3"
+
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+sources:
+  - https://github.com/TechnitiumSoftware/DnsServer
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://library-charts.k8s-at-home.com
+    version: 4.5.2
+annotations:
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org

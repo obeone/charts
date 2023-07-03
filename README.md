@@ -39,3 +39,8 @@ A Prometheus metrics exporter for Mikrotik's RouterOS
 ## DNSCrypt proxy
 
 A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](https://github.com/klutchell/dnscrypt-proxy-docker) [[Chart]](charts/dnscrypt-proxy)
+
+## Technitium DNSServer
+
+Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server
+[[Sources]](https://github.com/TechnitiumSoftware/DnsServer) [[Chart]](charts/technitium-dnsserver)
