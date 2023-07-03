@@ -17,20 +17,6 @@ Mikrotik Winbox in browser [[Sources]](https://github.com/obeone/winbox-docker) 
 
 CyberChef, The Cyber Swiss Army Knife [[Demo]](https://gchq.github.io/cyberchef) [[Sources]](https://github.com/gchq/CyberChef) [[Chart]](charts/cyberchef)
 
-## Ferdi
-
-Ferdi helps you organize how you use your favourite apps by combining them into one application [[Sources]](https://github.com/getferdi/server) [[Chart]](charts/ferdi-server)
-
-## Petio
-
-Request, review and discover shows and movies with this companion app for plex.
-[[Sources]](https://github.com/petio-team/petio) [[Chart]](charts/petio)
-
-## NFS Server
-
-A lightweight, robust, flexible, and containerized NFS server.
-[[Sources]](https://github.com/obeone/docker-nfs-server) [[Chart]](charts/nfs-server)
-
 ## MKTXP
 
 A Prometheus metrics exporter for Mikrotik's RouterOS
@@ -44,3 +30,8 @@ A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](http
 
 Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server
 [[Sources]](https://github.com/TechnitiumSoftware/DnsServer) [[Chart]](charts/technitium-dnsserver)
+
+## NFS Server
+
+A lightweight, robust, flexible, and containerized NFS server.
+[[Sources]](https://github.com/obeone/docker-nfs-server) [[Chart]](charts/nfs-server)
