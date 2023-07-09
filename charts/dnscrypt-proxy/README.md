@@ -1,6 +1,6 @@
 # dnscrypt-proxy
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: 2.1.4](https://img.shields.io/badge/AppVersion-2.1.4-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![AppVersion: 2.1.4](https://img.shields.io/badge/AppVersion-2.1.4-informational?style=flat-square)
 
 A flexible DNS proxy, with support for encrypted DNS protocols.
 
@@ -38,9 +38,9 @@ Kubernetes: `>=1.16.0-0`
 | controller.replicas | int | `1` |  |
 | env | object | See below | environment variables. See more environment variables in the [dnscrypt-proxy documentation](https://dnscrypt-proxy.org/docs). |
 | env.TZ | string | `"UTC"` | Set the container timezone |
-| image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
+| image.pullPolicy | string | `"IfNotPresent"` | image pull policy. Set to Slways if you used "main" as tag |
 | image.repository | string | `"klutchell/dnscrypt-proxy"` | image repository |
-| image.tag | string | chart.appVersion | image tag |
+| image.tag | string | chart.appVersion | image tag. Use "main" if you want to be able to use DNS probes |
 | ingress.main | object | See values.yaml | Enable and configure ingress settings for the chart under this key. |
 | persistence | object | See values.yaml | Configure persistence settings for the chart under this key. |
 | service | object | See values.yaml | Configures service settings for the chart. |

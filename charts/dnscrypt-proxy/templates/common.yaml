@@ -14,7 +14,8 @@
         enabled: true
         type: "configMap"
         name: "{{ printf "%v-config" (include "common.names.fullname" .) }}"
-        mountPath: "/config"
+        subPath: "dnscrypt-proxy.toml"
+        mountPath: "/config/dnscrypt-proxy.toml"
   {{- end }}
 {{- end -}}
 

@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: 2.1.4
 description: A flexible DNS proxy, with support for encrypted DNS protocols.
 name: dnscrypt-proxy
-version: 1.0.3
+version: 1.1.0
 kubeVersion: ">=1.16.0-0"
 keywords:
   - dnscrypt-proxy
@@ -20,7 +20,7 @@ dependencies:
     version: 4.3.0
 annotations:
   artifacthub.io/changes: |
-    - kind: changed
-      description: New appVersion
     - kind: fixed
-      description: Fixing dnscrypt-proxy logo url
+      description: Mount config as subPath to keep directory writable
+    - kind: added
+      description: Support for DNS probes

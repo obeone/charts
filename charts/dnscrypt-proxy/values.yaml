@@ -8,10 +8,10 @@
 image:
   # -- image repository
   repository: klutchell/dnscrypt-proxy
-  # -- image tag
+  # -- image tag. Use "main" if you want to be able to use DNS probes
   # @default -- chart.appVersion
   tag:
-  # -- image pull policy
+  # -- image pull policy. Set to Slways if you used "main" as tag
   pullPolicy: IfNotPresent
 
 # -- environment variables. See more environment variables in the [dnscrypt-proxy documentation](https://dnscrypt-proxy.org/docs).
@@ -45,6 +45,46 @@ service:
         targetPort: 5353
         protocol: TCP
         primary: true
+
+
+# To use these probes, you need to use "main" image tag
+#
+# probes:
+#   readiness:
+#     custom: true
+#     spec:
+#       timeoutSeconds: 1
+#       failureThreshold: 1
+#       periodSeconds: 5
+#       exec:
+#         command:
+#           - /usr/local/bin/dnsprobe
+#           - google.com
+#           - 127.0.0.1:5353
+#   liveness:
+#     custom: true
+#     spec:
+#       timeoutSeconds: 3
+#       failureThreshold: 3
+#       periodSeconds: 5
+#       initialDelaySeconds: 30
+#       exec:
+#         command:
+#           - /usr/local/bin/dnsprobe
+#           - google.com
+#           - 127.0.0.1:5353
+#   startup:
+#     custom: true
+#     spec:
+#       timeoutSeconds: 3
+#       failureThreshold: 10
+#       periodSeconds: 5
+#       initialDelaySeconds: 10
+#       exec:
+#         command:
+#           - /usr/local/bin/dnsprobe
+#           - google.com
+#           - 127.0.0.1:5353
 
 ingress:
   # -- Enable and configure ingress settings for the chart under this key.
