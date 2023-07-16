@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: 2.1.4
 description: A flexible DNS proxy, with support for encrypted DNS protocols.
 name: dnscrypt-proxy
-version: 1.1.0
+version: 1.1.1
 kubeVersion: ">=1.16.0-0"
 keywords:
   - dnscrypt-proxy
@@ -19,8 +19,12 @@ dependencies:
     repository: https://library-charts.k8s-at-home.com
     version: 4.3.0
 annotations:
+  artifacthub.io/signKey: |
+    fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+    url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Mount config as subPath to keep directory writable
     - kind: added
-      description: Support for DNS probes
+      description: GPG public key
