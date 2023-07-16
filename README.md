@@ -9,6 +9,8 @@ helm repo add obeone https://charts.obeone.cloud
 helm repo update
 ```
 
+All charts are [signed](https://helm.sh/docs/topics/provenance/). You can checked using key [B9FE852F28888D27F8C9A11CD33E04CD22E335CE](public_key.gpg)
+
 ## Winbox
 
 Mikrotik Winbox in browser [[Sources]](https://github.com/obeone/winbox-docker) [[Chart]](charts/winbox)
