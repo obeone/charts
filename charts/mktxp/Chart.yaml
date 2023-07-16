@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: latest
 description: Mikrotik (RouterOS) exporter for Prometheus metics
 name: mktxp
-version: 1.1.0
+version: 1.1.1
 kubeVersion: ">=1.16.0-0"
 keywords:
 - mktxp
@@ -23,8 +23,12 @@ dependencies:
   repository: https://library-charts.k8s-at-home.com
   version: 4.3.0
 annotations:
+  artifacthub.io/signKey: |
+    fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+    url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Updated mktxp.conf
     - kind: added
-      description: Config file _mktxp.conf
+      description: GPG public key
