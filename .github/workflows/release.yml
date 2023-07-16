@@ -58,6 +58,8 @@ jobs:
           CR_SIGN: true
           CR_KEY: helm@obeone.org
           CR_KEYRING: keyring.gpg
+          CR_SKIP_EXISTING: true
 
       - name: Cleanup GPG key
+        if: always()
         run: rm keyring.gpg
