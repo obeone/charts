@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: 2.1.4
 description: A flexible DNS proxy, with support for encrypted DNS protocols.
 name: dnscrypt-proxy
-version: 1.1.1
+version: 1.1.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - dnscrypt-proxy
