@@ -1,6 +1,6 @@
 # cyberchef
 
-![Version: 1.1.9](https://img.shields.io/badge/Version-1.1.9-informational?style=flat-square) ![AppVersion: v10.5.2](https://img.shields.io/badge/AppVersion-v10.5.2-informational?style=flat-square)
+![Version: 1.1.11](https://img.shields.io/badge/Version-1.1.11-informational?style=flat-square) ![AppVersion: v10.5.2](https://img.shields.io/badge/AppVersion-v10.5.2-informational?style=flat-square)
 
 GCHQ CyberChef [multi-arch]
 

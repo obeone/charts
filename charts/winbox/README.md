@@ -1,6 +1,6 @@
 # winbox
 
-![Version: 1.3.3](https://img.shields.io/badge/Version-1.3.3-informational?style=flat-square) ![AppVersion: 3.38](https://img.shields.io/badge/AppVersion-3.38-informational?style=flat-square)
+![Version: 1.3.5](https://img.shields.io/badge/Version-1.3.5-informational?style=flat-square) ![AppVersion: 3.38](https://img.shields.io/badge/AppVersion-3.38-informational?style=flat-square)
 
 Mikrotik Winbox in browser
 

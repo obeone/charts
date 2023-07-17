@@ -10,7 +10,7 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.1.0
+version: 1.1.2
 appVersion: 2.2.2
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
@@ -26,9 +26,12 @@ dependencies:
     repository: https://library-charts.k8s-at-home.com
     version: 4.5.2
 annotations:
-  artifacthub.io/changes: |
-    - kind: changed
-      description: New appVersion
+  artifacthub.io/signKey: |
+    fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+    url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: GPG public key
