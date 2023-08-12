@@ -467,7 +467,6 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
-
   mktxp:
   - annotations:
       artifacthub.io/changes: |
@@ -821,6 +820,43 @@ entries:
     - https://github.com/obeone/charts/releases/download/petio-1.0.1/petio-1.0.1.tgz
     version: 1.0.1
   technitium-dnsserver:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: GPG public key
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: "11.4"
+    created: "2023-08-12T21:47:00.217218939Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: 6c0756dab8e4c914966d836ff24bbb39f1be67bdf263c568919676709991f077
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.0.6/technitium-dnsserver-1.0.6.tgz
+    version: 1.0.6
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -1196,4 +1232,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2023-07-17T15:23:10.228799258Z"
+generated: "2023-08-12T21:47:00.217312745Z"
