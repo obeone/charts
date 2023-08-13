@@ -1,6 +1,6 @@
 # winbox
 
-![Version: 1.3.6](https://img.shields.io/badge/Version-1.3.6-informational?style=flat-square) ![AppVersion: 3.39](https://img.shields.io/badge/AppVersion-3.39-informational?style=flat-square)
+![Version: 1.3.7](https://img.shields.io/badge/Version-1.3.7-informational?style=flat-square) ![AppVersion: 3.39](https://img.shields.io/badge/AppVersion-3.39-informational?style=flat-square)
 
 Mikrotik Winbox in browser
 
@@ -38,7 +38,7 @@ Kubernetes: `>=1.16.0-0`
 | env.TZ | string | `"UTC"` | Set the container timezone |
 | env.VNC_PW | string | `"password"` | HTTP password (user is always `kasm_user`) |
 | image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"obebete/winbox"` | image repository (Same image also available on Github : ghcr.io/obeone/winbox) |
+| image.repository | string | `"obeoneorg/winbox"` | image repository (Same image also available on Github : ghcr.io/obeone/winbox) |
 | image.tag | string | chart.appVersion | image tag |
 | ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Enable and configure ingress settings for the chart under this key. |
 | ingress.main.annotations."nginx.org/ssl-services" | string | `"winbox"` | Specify connect to service using TLS (not sure it's the right configuration for nginx... Tell me if it's ok !) |
