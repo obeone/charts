@@ -8,7 +8,7 @@
 image:
   # -- image repository
   # (Same image also available on Github : ghcr.io/obeone/winbox)
-  repository: obebete/winbox
+  repository: obeoneorg/winbox
   # -- image tag
   # @default -- chart.appVersion
   tag:
