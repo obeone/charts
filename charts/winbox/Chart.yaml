@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: "3.38"
+appVersion: "3.39"
 description: |
   Mikrotik Winbox in browser
 
@@ -8,7 +8,7 @@ description: |
 
   Currently only available for amd64 platforms.
 name: winbox
-version: 1.3.5
+version: 1.3.6
 kubeVersion: ">=1.16.0-0"
 keywords:
 - winbox
