@@ -11,7 +11,7 @@ keywords:
 - adguard
 
 version: 1.0.8
-appVersion: "11.5.1"
+appVersion: "11.5.3"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
 sources:
