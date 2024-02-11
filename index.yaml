@@ -865,6 +865,43 @@ entries:
         fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
         url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
     apiVersion: v2
+    appVersion: 12.0.1
+    created: "2024-02-11T21:16:45.782451594Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: 6ee34db61fe89558409d1101a308120227c40c3322c339617c6601fed54e9110
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.0.11/technitium-dnsserver-1.0.11.tgz
+    version: 1.0.11
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: New version
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
     appVersion: 11.5.3
     created: "2024-01-15T18:37:47.194394174Z"
     dependencies:
@@ -1534,4 +1571,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-01-15T18:38:35.97261383Z"
+generated: "2024-02-11T21:16:45.782557771Z"
