@@ -3,6 +3,34 @@ entries:
   cyberchef:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v10.8.1
+    created: "2024-02-13T04:32:55.425675383Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: 04cf2dd6969e3b018667feb4eb49620819f0ead18ddc4518a8e190a58d4c71f2
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.2.0/cyberchef-1.2.0.tgz
+    version: 1.2.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: GPG public key
       artifacthub.io/maintainers: |
@@ -1571,4 +1599,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-02-11T21:16:45.782557771Z"
+generated: "2024-02-13T04:32:55.425817098Z"
