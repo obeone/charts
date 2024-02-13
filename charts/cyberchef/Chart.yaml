@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v10.5.2
+appVersion: v10.8.1
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 1.1.11
+version: 1.2.0
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
@@ -20,5 +20,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: GPG public key
+    - kind: changed
+      description: Update appVersion
