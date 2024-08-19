@@ -570,6 +570,44 @@ entries:
         url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
     apiVersion: v2
     appVersion: latest
+    created: "2024-08-19T20:49:07.97558168Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Mikrotik (RouterOS) exporter for Prometheus metics
+    digest: 73cc9ce8bd9d9be4020cfb7df27e722fccf8898ceb475735d45ad45aee136b3f
+    home: https://github.com/akpw/mktxp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/mikrotik.png
+    keywords:
+    - mktxp
+    - mikrotik
+    - routeros
+    - prometheus
+    - metrics
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: mktxp
+    sources:
+    - https://github.com/akpw/mktxp
+    - https://github.com/obeone/charts
+    urls:
+    - https://github.com/obeone/charts/releases/download/mktxp-1.1.4/mktxp-1.1.4.tgz
+    version: 1.1.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update to latest common chart
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
     created: "2024-02-13T04:40:16.666625136Z"
     dependencies:
     - name: common
@@ -948,6 +986,43 @@ entries:
     - https://github.com/obeone/charts/releases/download/petio-1.0.1/petio-1.0.1.tgz
     version: 1.0.1
   technitium-dnsserver:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: New version
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 12.2.1
+    created: "2024-08-19T20:49:08.159745489Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: 176b112afddb004aefee3bcf98251e8d126bfc82396e3d6222f137a983c3fa82
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.1.0/technitium-dnsserver-1.1.0.tgz
+    version: 1.1.0
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -1665,4 +1740,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-08-19T20:41:08.531698913Z"
+generated: "2024-08-19T20:49:08.159944813Z"
