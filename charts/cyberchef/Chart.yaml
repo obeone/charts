@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: v10.8.1
+appVersion: v10.19.2
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
 version: 1.2.0
