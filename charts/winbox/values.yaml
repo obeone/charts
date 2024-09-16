@@ -23,7 +23,7 @@ env:
   # -- HTTP password (user is always `kasm_user`)
   VNC_PW: password
   # -- Set debug mode
-  KASM_DEBUG: 1
+  KASM_DEBUG: "true"
 
 # -- Configures service settings for the chart.
 # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
