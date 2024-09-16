@@ -84,4 +84,4 @@ persistence:
   config:
     enabled: true
     type: emptyDir
-    mountPath: /etc/dns/config
+    mountPath: /etc/dns
