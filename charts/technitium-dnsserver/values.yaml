@@ -25,7 +25,7 @@ env:
 # @default -- See values.yaml
 service:
   main:
-    annotations:
+    annotations: {}
     enabled: true
     primary: true
     type: LoadBalancer
