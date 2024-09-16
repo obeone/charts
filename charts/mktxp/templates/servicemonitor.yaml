@@ -1,13 +1,18 @@
 {{- if .Values.metrics.enabled }}
+{{/* Make sure all variables are set properly */}}
+{{- include "common.values.setup" . }}
+{{- $values := .Values.metrics.serviceMonitor -}}
+
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "common.names.fullname" . }}
-  labels:
-    {{- include "common.labels" . | nindent 4 }}
-    {{- with .Values.metrics.serviceMonitor.labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+  {{- with (merge ($values.labels | default dict) (include "common.labels" $ | fromYaml)) }}
+  labels: {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with (merge ($values.annotations | default dict) (include "common.annotations" $ | fromYaml)) }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   selector:
     matchLabels:
