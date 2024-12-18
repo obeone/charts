@@ -1,6 +1,6 @@
 # mktxp
 
-![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 1.1.6](https://img.shields.io/badge/Version-1.1.6-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Mikrotik (RouterOS) exporter for Prometheus metics
 
@@ -33,6 +33,7 @@ Kubernetes: `>=1.16.0-0`
 | configmap.config.enabled | bool | `true` |  |
 | env | object | See below | environment variables. See more environment variables in the [cyberchef documentation](https://cyberchef.org/docs). |
 | env.TZ | string | `"UTC"` | Set the container timezone |
+| global.labels | object | `{}` |  |
 | image.pullPolicy | string | `"Always"` | image pull policy |
 | image.repository | string | `"ghcr.io/akpw/mktxp"` | image repository |
 | image.tag | string | chart.appVersion | image tag |
