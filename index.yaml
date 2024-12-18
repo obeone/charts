@@ -560,6 +560,44 @@ entries:
   mktxp:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: missing default value for global.labels
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
+    created: "2024-12-18T19:33:29.738374412Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Mikrotik (RouterOS) exporter for Prometheus metics
+    digest: e75e178358d9d91655c1a0686400dadaa602bf9fa8a936f697084f51fbfd3d74
+    home: https://github.com/akpw/mktxp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/mikrotik.png
+    keywords:
+    - mktxp
+    - mikrotik
+    - routeros
+    - prometheus
+    - metrics
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: mktxp
+    sources:
+    - https://github.com/akpw/mktxp
+    - https://github.com/obeone/charts
+    urls:
+    - https://github.com/obeone/charts/releases/download/mktxp-1.1.6/mktxp-1.1.6.tgz
+    version: 1.1.6
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update to latest common chart
       artifacthub.io/maintainers: |
@@ -1851,4 +1889,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-10-29T00:35:15.637017574Z"
+generated: "2024-12-18T19:33:29.738561022Z"
