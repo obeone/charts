@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: latest
 description: Mikrotik (RouterOS) exporter for Prometheus metics
 name: mktxp
-version: 1.1.6
+version: 1.1.7
 kubeVersion: ">=1.16.0-0"
 keywords:
 - mktxp
@@ -31,4 +31,6 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: fixed
-      description: missing default value for global.labels
+      description: Missing default value for global.labels
+    - kind: fixed
+      description: Missing _mktxp.conf
