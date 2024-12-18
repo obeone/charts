@@ -4,6 +4,34 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: appVersion
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v10.19.4
+    created: "2024-12-18T19:43:49.909918235Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: 781c8d629187f212b794d63ada8c0583e30c8805e98fbeda7528709f95e0b630
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.3.2/cyberchef-1.3.2.tgz
+    version: 1.3.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update appVersion
       artifacthub.io/maintainers: |
         - name: obeone
@@ -1066,6 +1094,43 @@ entries:
   technitium-dnsserver:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: appVersion
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 13.2.2
+    created: "2024-12-18T19:43:50.030031142Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: 18b9cbec03c3a6fd61be48c754fb8652d946952204c15240b6d6e133fd3751af
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.3.1/technitium-dnsserver-1.3.1.tgz
+    version: 1.3.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Value schema
       artifacthub.io/maintainers: |
@@ -1929,4 +1994,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-12-18T19:38:49.090002192Z"
+generated: "2024-12-18T19:43:50.030202613Z"
