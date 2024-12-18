@@ -5,6 +5,9 @@
 # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
 #
 
+global:
+  labels: {}
+
 image:
   # -- image repository
   repository: ghcr.io/akpw/mktxp
