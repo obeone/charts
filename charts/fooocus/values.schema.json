@@ -157,7 +157,7 @@
       }
     },
     "enableServiceLinks": { "type": "boolean" },
-    "podSecurityContext": { "type": "object", "additionalProperties": { "type": "string" } },
+    "podSecurityContext": { "type": "object", "additionalProperties": { "type": ["string", "integer"] } },
     "securityContext": { "type": "object", "additionalProperties": { "type": "string" } },
     "lifecycle": { "type": "object", "additionalProperties": { "type": "string" } },
     "initContainers": { "type": "object", "additionalProperties": { "type": "object" } },

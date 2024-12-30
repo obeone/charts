@@ -43,8 +43,8 @@ service:
       http:
         port: 7865
 
-securityContext:
-  fsGroup: "1000"
+podSecurityContext:
+  fsGroup: 1000
 
 ingress:
   # -- Enable and configure ingress settings for the chart under this key.
