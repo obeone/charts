@@ -1,0 +1,26 @@
+apiVersion: v2
+appVersion: latest
+description: Fooocus is an image generating software
+name: fooocus
+version: 1.0.0
+kubeVersion: ">=1.16.0-0"
+keywords:
+  - fooocus
+  - ai
+  - image
+  - gpu
+home: https://github.com/lllyasviel/Fooocus
+dependencies:
+  - name: common
+    repository: https://library-charts.k8s-at-home.com
+    version: 4.5.2
+annotations:
+  artifacthub.io/signKey: |
+    fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+    url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: new chart

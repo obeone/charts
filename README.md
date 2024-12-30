@@ -33,7 +33,7 @@ A flexible DNS proxy, with support for encrypted DNS protocols. [[Sources]](http
 Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server
 [[Sources]](https://github.com/TechnitiumSoftware/DnsServer) [[Chart]](charts/technitium-dnsserver)
 
-## NFS Server
+## Fooocus
 
-A lightweight, robust, flexible, and containerized NFS server.
-[[Sources]](https://github.com/obeone/docker-nfs-server) [[Chart]](charts/nfs-server)
+Fooocus is an open-source AI art generation model, based on LCM (Latent Consistency Model). It's designed to be user-friendly and accessible for everyone.
+[[Sources]](https://github.com/lllyasviel/fooocus) [[Chart]](charts/fooocus)
