@@ -1,6 +1,6 @@
 # fooocus
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Fooocus is an image generating software
 
@@ -25,7 +25,7 @@ Kubernetes: `>=1.16.0-0`
 | image.tag | string | chart.appVersion | image tag |
 | ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L312) | Enable and configure ingress settings for the chart under this key. |
 | persistence | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L362) | Configure persistence settings for the chart under this key. |
-| securityContext.fsGroup | string | `"1000"` |  |
+| podSecurityContext.fsGroup | int | `1000` |  |
 | service | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L250) | Configures service settings for the chart. |
 
 ----------------------------------------------

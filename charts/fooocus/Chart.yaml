@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: latest
 description: Fooocus is an image generating software
 name: fooocus
-version: 1.0.0
+version: 1.0.1
 kubeVersion: ">=1.16.0-0"
 keywords:
   - fooocus
@@ -22,5 +22,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: new chart
+    - kind: changed
+      description: Corrected type for securityContext and podSecurityContext fields to match the expected types in Kubernetes.
