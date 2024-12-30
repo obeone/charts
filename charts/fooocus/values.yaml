@@ -1,0 +1,73 @@
+#
+# IMPORTANT NOTE
+#
+# This chart inherits from our common library chart. You can check the default values/options here:
+# https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
+#
+
+image:
+  # -- image repository
+  repository: ghcr.io/lllyasviel/fooocus
+  # -- image tag
+  # @default -- chart.appVersion
+  tag: 
+  # -- image pull policy
+  pullPolicy: Always
+
+# -- environment variables
+# @default -- See below
+env:
+  # -- Set the container timezone
+  TZ: UTC
+  CMDARGS: --listen
+  DATADIR: /content/data
+  HF_HUB_ENABLE_HF_TRANSFER: "true"
+  config_path: /content/data/config.txt
+  config_example_path: /content/data/config_modification_tutorial.txt
+  path_checkpoints: /content/data/models/checkpoints/
+  path_loras: /content/data/models/loras/
+  path_embeddings: /content/data/models/embeddings/
+  path_vae_approx: /content/data/models/vae_approx/
+  path_upscale_models: /content/data/models/upscale_models/
+  path_inpaint: /content/data/models/inpaint/
+  path_controlnet: /content/data/models/controlnet/
+  path_clip_vision: /content/data/models/clip_vision/
+  path_fooocus_expansion: /content/data/models/prompt_expansion/fooocus_expansion/
+  path_outputs: /content/app/outputs/
+
+# -- Configures service settings for the chart.
+# @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L250)
+service:
+  main:
+    ports:
+      http:
+        port: 7865
+
+securityContext:
+  fsGroup: "1000"
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L312)
+  main:
+    enabled: false
+    annotations: {}
+    hosts:
+      - host: my.host.local
+        paths:
+          - path: /
+            pathType: Prefix
+    ingressClassName: ""
+    tls:
+      - hosts:
+          - my.host.local
+        secretName: mycert-tls
+
+# -- Configure persistence settings for the chart under this key.
+# @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L362)
+persistence: 
+  data:
+    enabled: true
+    mountPath: /content/data
+    type: pvc
+    size: 40Gi
