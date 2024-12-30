@@ -585,6 +585,37 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
+  fooocus:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: new chart
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
+    created: "2024-12-30T13:41:43.12329352Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Fooocus is an image generating software
+    digest: 663f5d81cad76e179512ff193fcbb2bd6e7a2cbcdbfdcd11415a9e08cb7e5eef
+    home: https://github.com/lllyasviel/Fooocus
+    keywords:
+    - fooocus
+    - ai
+    - image
+    - gpu
+    kubeVersion: '>=1.16.0-0'
+    name: fooocus
+    urls:
+    - https://github.com/obeone/charts/releases/download/fooocus-1.0.0/fooocus-1.0.0.tgz
+    version: 1.0.0
   mktxp:
   - annotations:
       artifacthub.io/changes: |
@@ -1994,4 +2025,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-12-18T19:43:50.030202613Z"
+generated: "2024-12-30T13:41:43.123455773Z"
