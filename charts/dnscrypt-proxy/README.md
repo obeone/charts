@@ -1,6 +1,6 @@
 # dnscrypt-proxy
 
-![Version: 1.1.4](https://img.shields.io/badge/Version-1.1.4-informational?style=flat-square) ![AppVersion: 2.1.5](https://img.shields.io/badge/AppVersion-2.1.5-informational?style=flat-square)
+![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![AppVersion: 2.1.7](https://img.shields.io/badge/AppVersion-2.1.7-informational?style=flat-square)
 
 A flexible DNS proxy, with support for encrypted DNS protocols.
 
@@ -23,7 +23,7 @@ Kubernetes: `>=1.16.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.3.0 |
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
 
 ## Values
 
@@ -43,6 +43,29 @@ Kubernetes: `>=1.16.0-0`
 | image.tag | string | chart.appVersion | image tag. Use "main" if you want to be able to use DNS probes |
 | ingress.main | object | See values.yaml | Enable and configure ingress settings for the chart under this key. |
 | persistence | object | See values.yaml | Configure persistence settings for the chart under this key. |
+| probes.liveness.custom | bool | `true` |  |
+| probes.liveness.spec.exec.command[0] | string | `"/usr/local/bin/dnsprobe"` |  |
+| probes.liveness.spec.exec.command[1] | string | `"google.com"` |  |
+| probes.liveness.spec.exec.command[2] | string | `"127.0.0.1:5353"` |  |
+| probes.liveness.spec.failureThreshold | int | `3` |  |
+| probes.liveness.spec.initialDelaySeconds | int | `30` |  |
+| probes.liveness.spec.periodSeconds | int | `5` |  |
+| probes.liveness.spec.timeoutSeconds | int | `3` |  |
+| probes.readiness.custom | bool | `true` |  |
+| probes.readiness.spec.exec.command[0] | string | `"/usr/local/bin/dnsprobe"` |  |
+| probes.readiness.spec.exec.command[1] | string | `"google.com"` |  |
+| probes.readiness.spec.exec.command[2] | string | `"127.0.0.1:5353"` |  |
+| probes.readiness.spec.failureThreshold | int | `1` |  |
+| probes.readiness.spec.periodSeconds | int | `5` |  |
+| probes.readiness.spec.timeoutSeconds | int | `1` |  |
+| probes.startup.custom | bool | `true` |  |
+| probes.startup.spec.exec.command[0] | string | `"/usr/local/bin/dnsprobe"` |  |
+| probes.startup.spec.exec.command[1] | string | `"google.com"` |  |
+| probes.startup.spec.exec.command[2] | string | `"127.0.0.1:5353"` |  |
+| probes.startup.spec.failureThreshold | int | `10` |  |
+| probes.startup.spec.initialDelaySeconds | int | `10` |  |
+| probes.startup.spec.periodSeconds | int | `5` |  |
+| probes.startup.spec.timeoutSeconds | int | `3` |  |
 | service | object | See values.yaml | Configures service settings for the chart. |
 
 ----------------------------------------------
