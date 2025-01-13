@@ -341,6 +341,42 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update library version
+        - kind: changed
+          description: Update appVersion
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.7
+    created: "2025-01-13T23:07:41.89777284Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: 0750fe6d3bbe1b0a42cb29aa1e82f7101c5605831a38c85995108efb8ad8460b
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.2.0/dnscrypt-proxy-1.2.0.tgz
+    version: 1.2.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update appVersion
       artifacthub.io/maintainers: |
         - name: obeone
@@ -2092,4 +2128,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2024-12-30T13:58:18.23779553Z"
+generated: "2025-01-13T23:07:41.897980095Z"
