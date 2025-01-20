@@ -1,6 +1,6 @@
 # cyberchef
 
-![Version: 1.3.2](https://img.shields.io/badge/Version-1.3.2-informational?style=flat-square) ![AppVersion: v10.19.4](https://img.shields.io/badge/AppVersion-v10.19.4-informational?style=flat-square)
+![Version: 1.3.3](https://img.shields.io/badge/Version-1.3.3-informational?style=flat-square) ![AppVersion: v10.19.4](https://img.shields.io/badge/AppVersion-v10.19.4-informational?style=flat-square)
 
 GCHQ CyberChef [multi-arch]
 
@@ -21,7 +21,7 @@ Kubernetes: `>=1.16.0-0`
 | env | object | See below | environment variables |
 | env.TZ | string | `"UTC"` | Set the container timezone |
 | image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"obebete/cyberchef"` | image repository |
+| image.repository | string | `"obeoneorg/cyberchef"` | image repository |
 | image.tag | string | chart.appVersion | image tag |
 | ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Enable and configure ingress settings for the chart under this key. |
 | persistence | object | See the [docs](https://docs.k8s-at-home.com/our-helm-charts/common-library-storage/) | Configure persistence settings for the chart under this key. |
