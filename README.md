@@ -38,17 +38,17 @@ Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replac
 Fooocus is an open-source AI art generation model, based on LCM (Latent Consistency Model). It's designed to be user-friendly and accessible for everyone.
 [[Sources]](https://github.com/lllyasviel/fooocus) [[Chart]](charts/fooocus)
 
-### OpenGist
+## OpenGist
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 [[Sources]](https://github.com/thomiceli/opengist) [[Chart]](charts/opengist)
 
-### LibreTranslate
+## LibreTranslate
 
 LibreTranslate is a free and open-source machine translation service that can be used as an alternative to Google Translate. It supports multiple languages, GPU acceleration for faster translations, and offline capabilities. The API allows developers to integrate translation functionality into their own projects.
 [[Sources]](https://github.com/LibreTranslate/LibreTranslate) [[Chart]](charts/libretranslate)
 
-### Transfer.sh
+## Transfer.sh
 
 Transfer.sh is a simple file sharing service that allows users to upload files and share them via a URL. It supports various storage providers like S3, Google Drive, etc., and can be customized using environment variables.
 [[Sources]](https://github.com/dutchcoders/transfer.sh) [[Chart]](charts/transfer.sh)
