@@ -11,8 +11,8 @@ controllers:
           # -- image repository
           repository: libretranslate/libretranslate
           # -- image tag
-          # Use latest-cuda for GPU support. Use latest for CPU only.
-          tag: latest
+          # Use vX.X.X-cuda for GPU support. Use latest for CPU only.
+          tag: v1.6.4
           # -- image pull policy
           pullPolicy: Always
 
