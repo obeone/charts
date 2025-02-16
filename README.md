@@ -42,3 +42,8 @@ Fooocus is an open-source AI art generation model, based on LCM (Latent Consiste
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 [[Sources]](https://github.com/thomiceli/opengist) [[Chart]](charts/opengist)
+
+### LibreTranslate
+
+LibreTranslate is a free and open-source machine translation service that can be used as an alternative to Google Translate. It supports multiple languages, GPU acceleration for faster translations, and offline capabilities. The API allows developers to integrate translation functionality into their own projects.
+[[Sources]](https://github.com/LibreTranslate/LibreTranslate) [[Chart]](charts/libretranslate)
