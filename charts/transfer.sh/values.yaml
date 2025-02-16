@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.1/charts/other/app-template/values.schema.json
+
+controllers:
+  main:
+    strategy: Recreate
+
+    containers:
+      main:
+        image:
+          # -- image repository
+          repository: dutchcoders/transfer.sh
+          # -- image tag
+          tag: v1.6.1-noroot
+          # -- image pull policy
+          pullPolicy: IfNotPresent
+
+        # -- Arguments to pass to the container.
+        # you can change the provider to s3, gdrive, etc. by setting the --provider flag. See https://github.com/dutchcoders/transfer.sh
+        args:
+          - --provider=local
+
+        # -- Environment variables to set in the container.
+        # transfer.sh supports environment variables to customize its behavior.
+        # For more information, see https://github.com/dutchcoders/transfer.sh
+        env:
+          BASEDIR: /storage
+
+        # -- Environment variables from secrets or config maps. This is useful for sensitive information like API keys, passwords, etc.
+        envFrom:
+          []
+          # - secretRef:
+          #     name: transfer-sh
+
+# -- Configures service settings for the chart.
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 80
+        targetPort: 8080
+        protocol: TCP
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  main:
+    enabled: false
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Configure persistence settings for the chart under this key.
+persistence:
+  storage:
+    enabled: false
+    # storageClass: "-"
+    # existingClaim:
+    accessMode: ReadWriteOnce
+    size: 10Gi
+    annotations: {}
+    globalMounts:
+      - path: /storage
