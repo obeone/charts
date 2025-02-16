@@ -710,6 +710,43 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/fooocus-1.0.0/fooocus-1.0.0.tgz
     version: 1.0.0
+  libretranslate:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of libretranslate chart
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.4
+    created: "2025-02-16T10:55:38.719245713Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 3.7.1
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: c1614daebf6f0affb2be1ea886be95c206ac04cccc449c39bf27380b61f54090
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.16.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-1.0.0/libretranslate-1.0.0.tgz
+    version: 1.0.0
   mktxp:
   - annotations:
       artifacthub.io/changes: |
@@ -1148,6 +1185,43 @@ entries:
     type: application
     urls:
     - https://github.com/obeone/charts/releases/download/nfs-server-1.0.0/nfs-server-1.0.0.tgz
+    version: 1.0.0
+  opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of opengist chart
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.9.1
+    created: "2025-02-16T10:55:38.818852171Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and could be self-hosted.
+    digest: 9b66a731e89db8100e748c92b9b61b174337ea79384e4dd2ea9123bf52c29abc
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    name: opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.0.0/opengist-1.0.0.tgz
     version: 1.0.0
   petio:
   - annotations:
@@ -2230,4 +2304,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-02-16T07:38:11.065358591Z"
+generated: "2025-02-16T10:55:38.819064077Z"
