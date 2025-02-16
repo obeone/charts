@@ -1,0 +1,100 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.1/charts/other/app-template/values.schema.json
+
+controllers:
+  main:
+    strategy: Recreate
+
+    containers:
+      main:
+        image:
+          # -- image repository
+          repository: libretranslate/libretranslate
+          # -- image tag
+          # Use latest-cuda for GPU support. Use latest for CPU only.
+          tag: latest
+          # -- image pull policy
+          pullPolicy: Always
+
+        env:
+          # -- Set to "1" to update models on startup.
+          LT_UPDATE_MODELS: "1"
+
+          # -- Set to "1" to enable API keys.
+          LT_API_KEYS: "1"
+
+# -- Configures resource requests and limits for the chart.
+resources:
+  {}
+  # For example, to request and limit GPU resources to use the GPU, uncomment and modify the following lines:
+  # requests:
+  #   nvidia.com/gpu: 1
+  # limits:
+  #   nvidia.com/gpu: 1
+
+# -- Configures service settings for the chart.
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 80
+        targetPort: 5000
+        protocol: TCP
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  main:
+    enabled: false
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Configure persistence settings for the chart under this key.
+persistence:
+  api-keys:
+    enabled: false
+    # storageClass: "-"
+    # existingClaim:
+    accessMode: ReadWriteOnce
+    size: 10Mi
+    annotations: {}
+    globalMounts:
+      - path: /app/db
+  cache:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /home/libretranslate/.local/cache # or /root/.cache/libretranslate for cuda enabled builds
+  db:
+    enabled: false
+    # storageClass: "-"
+    # existingClaim: libretranslate-db
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    annotations: {}
+    globalMounts:
+      - path: /home/libretranslate/.local/db # or /root/.local/db for cuda enabled builds
+  share:
+    enabled: true
+    # storageClass: "-"
+    # existingClaim:
+    accessMode: ReadWriteOnce
+    size: 20Gi
+    annotations: {}
+    globalMounts:
+      - path: /home/libretranslate/.local/share # or /root/.local/share for cuda enabled builds
+  files-translate:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /tmp/libretranslate-files-translate
