@@ -1225,6 +1225,42 @@ entries:
   opengist:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Better documentation.
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.9.1
+    created: "2025-03-08T04:53:49.792134121Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and could be self-hosted.
+    digest: 57e7acf5497ec7edb795ec1281b0f859f742bfc4c8cd7ef86db3bc2a54f05e23
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    name: opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.0.1/opengist-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial release of opengist chart
       artifacthub.io/maintainers: |
@@ -2411,4 +2447,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-02-26T01:10:40.420042758Z"
+generated: "2025-03-08T04:53:49.792286886Z"
