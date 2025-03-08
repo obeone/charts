@@ -10,18 +10,120 @@ controllers:
         image:
           # -- image repository
           repository: ghcr.io/thomiceli/opengist
-          # -- image tag
-          # this example is not automatically updated, so be sure to use the latest image
-          tag: 1.9.1
+          # -- image tag. Default to chart's appVersion
+          tag: ""
           # -- image pull policy
           pullPolicy: IfNotPresent
 
         # -- environment variables.
-        # See [image docs](https://opengist.io/docs/configuration/configure.html) for more details.
+        # -- See [OpenGist documentation for this](https://opengist.io/docs/configuration/configure.html) for more details.
         env:
-          OG_SSH_GIT_ENABLED: "true"
+          # -- Set the log level to one of the following: debug, info, warn, error, fatal.
+          OG_LOG_LEVEL: "warn"
 
-        # -- environment variables from secrets. For example, it can contains OG_DB_URI for your database connection string.
+          # -- Set the log output to one or more of the following: stdout, file.
+          OG_LOG_OUTPUT: "stdout,file"
+
+          # # -- Public URL to access OpenGist.
+          # OG_EXTERNAL_URL: ""
+
+          # # -- Path to the directory where OpenGist stores its data.
+          # OG_OPENGIST_HOME: ""
+
+          # # -- Secret key used for session store & encrypt MFA data on database.
+          # OG_SECRET_KEY: ""
+
+          # # -- URI of the database.
+          # OG_DB_URI: "opengist.db"
+
+          # # -- Enable or disable the code search index (true or false).
+          # OG_INDEX_ENABLED: "true"
+
+          # # -- Name of the directory where the code search index is stored.
+          # OG_INDEX_DIRNAME: "opengist.index"
+
+          # # -- Default branch name used by OpenGist when initializing Git repositories. If not set, uses the Git default branch name.
+          # OG_GIT_DEFAULT_BRANCH: ""
+
+          # # -- Set the journal mode for SQLite.
+          # OG_SQLITE_JOURNAL_MODE: "WAL"
+
+          # # -- The host on which the HTTP server should bind.
+          # OG_HTTP_HOST: "0.0.0.0"
+
+          # # -- The port on which the HTTP server should listen.
+          # OG_HTTP_PORT: "6157"
+
+          # # -- Enable or disable git operations (clone, pull, push) via HTTP (true or false).
+          # OG_HTTP_GIT_ENABLED: "true"
+
+          # # -- Enable or disable git operations (clone, pull, push) via SSH (true or false).
+          # OG_SSH_GIT_ENABLED: "true"
+
+          # # -- The host on which the SSH server should bind.
+          # OG_SSH_HOST: "0.0.0.0"
+
+          # # -- The port on which the SSH server should listen.
+          # OG_SSH_PORT: "2222"
+
+          # # -- Public domain for the Git SSH connection, if it has to be different from the HTTP one. If not set, uses the URL from the request.
+          # OG_SSH_EXTERNAL_DOMAIN: ""
+
+          # # -- Path to the SSH key generation executable.
+          # OG_SSH_KEYGEN_EXECUTABLE: "ssh-keygen"
+
+          # # -- The client key for the GitHub OAuth application.
+          # OG_GITHUB_CLIENT_KEY: ""
+
+          # # -- The secret for the GitHub OAuth application.
+          # OG_GITHUB_SECRET: ""
+
+          # # -- The client key for the GitLab OAuth application.
+          # OG_GITLAB_CLIENT_KEY: ""
+
+          # # -- The secret for the GitLab OAuth application.
+          # OG_GITLAB_SECRET: ""
+
+          # # -- The URL of the GitLab instance.
+          # OG_GITLAB_URL: "https://gitlab.com/"
+
+          # # -- The name of the GitLab instance. It is displayed in the OAuth login button.
+          # OG_GITLAB_NAME: "GitLab"
+
+          # # -- The client key for the Gitea OAuth application.
+          # OG_GITEA_CLIENT_KEY: ""
+
+          # # -- The secret for the Gitea OAuth application.
+          # OG_GITEA_SECRET: ""
+
+          # # -- The URL of the Gitea instance.
+          # OG_GITEA_URL: "https://gitea.com/"
+
+          # # -- The name of the Gitea instance. It is displayed in the OAuth login button.
+          # OG_GITEA_NAME: "Gitea"
+
+          # # -- The client key for the OpenID application.
+          # OG_OIDC_CLIENT_KEY: ""
+
+          # # -- The secret for the OpenID application.
+          # OG_OIDC_SECRET: ""
+
+          # # -- Discovery endpoint of the OpenID provider.
+          # OG_OIDC_DISCOVERY_URL: ""
+
+          # # -- The name of your instance, to be displayed in the tab title.
+          # OG_CUSTOM_NAME: ""
+
+          # # -- Path to an image, relative to $opengist-home/custom.
+          # OG_CUSTOM_LOGO: ""
+
+          # # -- Path to an image, relative to $opengist-home/custom.
+          # OG_CUSTOM_FAVICON: ""
+
+          # # -- Path and name to custom links.
+          # OG_CUSTOM_STATIC_LINK_#_(PATH,NAME): ""
+
+        # -- environment variables from secrets, but from secret. For example, it can contains OG_DB_URI for your database connection string.
         envFrom:
           - secretRef:
               name: opengist-secrets
@@ -65,7 +167,7 @@ persistence:
     type: persistentVolumeClaim
     accessMode: ReadWriteOnce
     storageClass: ""
-    existingClaim: ""
+    # existingClaim: ""
     size: 10Gi
     globalMounts:
       - path: /opengist
