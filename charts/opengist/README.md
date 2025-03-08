@@ -1,6 +1,6 @@
 # opengist
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: v1.9.1](https://img.shields.io/badge/AppVersion-v1.9.1-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: v1.9.1](https://img.shields.io/badge/AppVersion-v1.9.1-informational?style=flat-square)
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 
@@ -18,14 +18,16 @@ Kubernetes: `>=1.16.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| controllers.main.containers.main.env | object | `{"OG_SSH_GIT_ENABLED":"true"}` | environment variables. See [image docs](https://opengist.io/docs/configuration/configure.html) for more details. |
-| controllers.main.containers.main.envFrom | list | `[{"secretRef":{"name":"opengist-secrets","optional":true}}]` | environment variables from secrets. For example, it can contains OG_DB_URI for your database connection string. |
+| controllers.main.containers.main.env | object | `{"OG_LOG_LEVEL":"warn","OG_LOG_OUTPUT":"stdout,file"}` | See [OpenGist documentation for this](https://opengist.io/docs/configuration/configure.html) for more details. |
+| controllers.main.containers.main.env.OG_LOG_LEVEL | string | `"warn"` | Set the log level to one of the following: debug, info, warn, error, fatal. |
+| controllers.main.containers.main.env.OG_LOG_OUTPUT | string | `"stdout,file"` | Set the log output to one or more of the following: stdout, file. |
+| controllers.main.containers.main.envFrom | list | `[{"secretRef":{"name":"opengist-secrets","optional":true}}]` | environment variables from secrets, but from secret. For example, it can contains OG_DB_URI for your database connection string. |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
 | controllers.main.containers.main.image.repository | string | `"ghcr.io/thomiceli/opengist"` | image repository |
-| controllers.main.containers.main.image.tag | string | `"1.9.1"` | image tag this example is not automatically updated, so be sure to use the latest image |
+| controllers.main.containers.main.image.tag | string | `""` | image tag. Default to chart's appVersion |
 | controllers.main.strategy | string | `"Recreate"` |  |
 | ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. |
-| persistence | object | `{"opengist":{"accessMode":"ReadWriteOnce","enabled":true,"existingClaim":"","globalMounts":[{"path":"/opengist"}],"size":"10Gi","storageClass":"","type":"persistentVolumeClaim"}}` | Configure persistence settings for the chart under this key. |
+| persistence | object | `{"opengist":{"accessMode":"ReadWriteOnce","enabled":true,"globalMounts":[{"path":"/opengist"}],"size":"10Gi","storageClass":"","type":"persistentVolumeClaim"}}` | Configure persistence settings for the chart under this key. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":6157},"ssh":{"enabled":true,"port":22,"targetPort":2222}}}}` | Configures service settings for the chart. |
 
 ----------------------------------------------
