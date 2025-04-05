@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v1.6.1
 description: Easy and fast file sharing from the command-line.
 name: transfer.sh
-version: 1.0.0
+version: 1.0.1
 kubeVersion: ">=1.16.0-0"
 keywords:
   - transfer.sh
@@ -25,5 +25,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: appVersion in values
+    - kind: added
+      description: values schema

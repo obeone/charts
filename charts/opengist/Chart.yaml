@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v1.9.1
 description: Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 name: opengist
-version: 1.0.1
+version: 1.0.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - opengist
@@ -25,5 +25,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Better documentation.
+    - kind: added
+      description: values schema
