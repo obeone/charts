@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v1.6.4
+appVersion: v1.6.5
 description: Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 name: libretranslate
-version: 1.0.1
+version: 1.0.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - libretranslate
@@ -28,4 +28,6 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: appVersion in values
+      description: AppVersion updated
+    - kind: added
+      description: values schema

@@ -1,5 +1,11 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.1/charts/other/app-template/values.schema.json
+# yaml-language-server: $schema=./values.schema.json
+
+# -- Global parameters for the chart
+# Used to configure GPU support and other global settings
+global:
+  # -- Enable GPU-specific settings (like CUDA paths and GPU resources)
+  gpuEnabled: false
 
 controllers:
   main:
@@ -8,43 +14,62 @@ controllers:
     containers:
       main:
         image:
-          # -- image repository
+          # -- Image repository to pull
           repository: libretranslate/libretranslate
-          # -- image tag
-          # Use vX.X.X-cuda for GPU support. Use latest for CPU only.
-          tag: v1.6.4
-          # -- image pull policy
+          # -- Image tag to pull (use vX.X.X-cuda for GPU builds)
+          tag: v1.6.5
+          # -- Image pull policy (Always, IfNotPresent, Never)
           pullPolicy: Always
 
         env:
-          # -- Set to "1" to update models on startup.
+          # -- Set to "1" to update language models on startup
           LT_UPDATE_MODELS: "1"
-
-          # -- Set to "1" to enable API keys.
+          # -- Set to "1" to enable API key usage for authentication
           LT_API_KEYS: "1"
 
-# -- Configures resource requests and limits for the chart.
-resources:
-  {}
-  # For example, to request and limit GPU resources to use the GPU, uncomment and modify the following lines:
-  # requests:
-  #   nvidia.com/gpu: 1
-  # limits:
-  #   nvidia.com/gpu: 1
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: http
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /
+                port: http
 
-# -- Configures service settings for the chart.
+        resources:
+          # -- Resource requests for the main container
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          # -- Resource limits for the main container
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+# -- Service configuration to expose the application internally in the cluster
 service:
   main:
     controller: main
     ports:
       http:
+        # -- External service port
         port: 80
+        # -- Internal container target port
         targetPort: 5000
+        # -- Protocol to use (TCP/UDP)
         protocol: TCP
 
+# -- Ingress configuration for external access to the service
 ingress:
-  # -- Enable and configure ingress settings for the chart under this key.
   main:
+    # -- Enable or disable ingress
     enabled: false
     hosts:
       - host: chart-example.local
@@ -57,44 +82,63 @@ ingress:
     tls:
       - hosts:
           - chart-example.local
+        # -- Secret containing TLS certificate for the ingress
         secretName: tls-chart-example-local
 
-# -- Configure persistence settings for the chart under this key.
+# -- Persistence volumes configuration for different data types
+# Paths are statically defined here. Template logic must occur in templates.
 persistence:
   api-keys:
+    # -- Enable persistence for API keys database
     enabled: false
-    # storageClass: "-"
-    # existingClaim:
     accessMode: ReadWriteOnce
     size: 10Mi
     annotations: {}
     globalMounts:
       - path: /app/db
+
   cache:
+    # -- Enable temporary cache storage
     enabled: true
     type: emptyDir
-    globalMounts:
-      - path: /home/libretranslate/.local/cache # or /root/.cache/libretranslate for cuda enabled builds
+    cpuPath: /home/libretranslate/.local/cache
+    gpuPath: /root/.cache/libretranslate
+
   db:
+    # -- Enable database storage for application data
     enabled: false
-    # storageClass: "-"
-    # existingClaim: libretranslate-db
     accessMode: ReadWriteOnce
     size: 1Gi
     annotations: {}
-    globalMounts:
-      - path: /home/libretranslate/.local/db # or /root/.local/db for cuda enabled builds
+    cpuPath: /home/libretranslate/.local/db
+    gpuPath: /root/.local/db
+
   share:
+    # -- Enable persistent shared storage for translation models and shared assets
     enabled: true
-    # storageClass: "-"
-    # existingClaim:
     accessMode: ReadWriteOnce
     size: 20Gi
     annotations: {}
-    globalMounts:
-      - path: /home/libretranslate/.local/share # or /root/.local/share for cuda enabled builds
+    cpuPath: /home/libretranslate/.local/share
+    gpuPath: /root/.local/share
+
   files-translate:
+    # -- Temporary storage for uploaded translation files
     enabled: true
     type: emptyDir
-    globalMounts:
-      - path: /tmp/libretranslate-files-translate
+    path: /tmp/libretranslate-files-translate
+
+# -- Define additional volumes if needed
+additionalVolumes: []
+
+# -- Define additional volumeMounts if needed
+additionalVolumeMounts: []
+
+# -- Node selector for pod assignment
+nodeSelector: {}
+
+# -- Tolerations for pod assignment to specific nodes
+tolerations: []
+
+# -- Affinity rules to control pod assignment based on node labels
+affinity: {}

@@ -1,6 +1,6 @@
 # opengist
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![AppVersion: v1.9.1](https://img.shields.io/badge/AppVersion-v1.9.1-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: v1.9.1](https://img.shields.io/badge/AppVersion-v1.9.1-informational?style=flat-square)
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 
