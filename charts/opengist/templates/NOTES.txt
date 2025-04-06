@@ -1,0 +1,27 @@
+{{- if .Values.ingress.main.enabled }}
+Your OpenGist instance is now accessible!
+
+URL: http{{ if .Values.ingress.main.tls }}s{{ end }}://{{ (index .Values.ingress.main.hosts 0).host }}
+
+{{- else }}
+Your OpenGist instance has been deployed, but Ingress is disabled.
+
+To access it, you can:
+- Use `kubectl port-forward`:
+
+```bash
+kubectl port-forward svc/{{ include "bjw-s.common.lib.chart.names.fullname" . }} 8080:80
+```
+
+Then open http://localhost:8080
+
+- Or expose the service using a LoadBalancer or NodePort.
+{{- end }}
+
+Default credentials / configuration:
+- HTTP port: 80
+- SSH port: 22 (if enabled)
+
+Don't forget to configure your `OG_SECRET_KEY` and check database settings before using it in production.
+
+Thanks for using the OpenGist Helm Chart from [charts.obeone.cloud](https://charts.obeone.cloud) 🚀
