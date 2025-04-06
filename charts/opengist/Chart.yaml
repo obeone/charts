@@ -1,9 +1,14 @@
 apiVersion: v2
-appVersion: v1.9.1
-description: Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and could be self-hosted.
 name: opengist
-version: 1.0.2
+version: 1.0.3
+appVersion: 1.9.1
 kubeVersion: ">=1.16.0-0"
+
+description: >-
+  Opengist is a self-hosted Pastebin powered by Git.
+  All snippets are stored in a Git repository and can be read and/or modified using standard Git commands,
+  or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.
+
 keywords:
   - opengist
   - git
@@ -11,12 +16,23 @@ keywords:
   - gist
   - self-hosted
   - open-source
+
+sources:
+  - https://github.com/thomiceli/opengist
+  - https://github.com/obeone/charts/tree/main/charts/opengist
+
 home: https://github.com/thomiceli/opengist
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
 dependencies:
   - name: common
     repository: https://bjw-s.github.io/helm-charts
     version: 3.7.1
+
 annotations:
   artifacthub.io/signKey: |
     fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
@@ -26,4 +42,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: added
-      description: values schema
+      description: Initial version with values schema and bjw-s library integration
