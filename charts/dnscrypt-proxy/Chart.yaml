@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: 2.1.7
+appVersion: 2.1.8
 description: A flexible DNS proxy, with support for encrypted DNS protocols.
 name: dnscrypt-proxy
-version: 1.2.0
+version: 1.3.0
 kubeVersion: ">=1.16.0-0"
 keywords:
   - dnscrypt-proxy
@@ -26,7 +26,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update library version
     - kind: changed
       description: Update appVersion
