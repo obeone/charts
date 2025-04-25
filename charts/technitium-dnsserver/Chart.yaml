@@ -10,8 +10,8 @@ keywords:
   - pihole
   - adguard
 
-version: 1.5.2
-appVersion: "13.4.3"
+version: 1.5.3
+appVersion: "13.5"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
 sources:
