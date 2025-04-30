@@ -1,1 +1,53 @@
-{{- include "common.notes.defaultNotes" . -}}
+{{- $fullName := include "common.names.fullname" . -}}
+{{- $namespace := include "common.names.namespace" . | quote -}}
+{{- $servicePort := .Values.service.main.ports.http.port -}}
+{{- $serviceType := .Values.service.main.type -}}
+{{- $clusterIP := "" }}
+{{- /* Attempt to get ClusterIP if service type is ClusterIP */ -}}
+{{- if eq $serviceType "ClusterIP" }}
+  {{- /* Note: .Values.service.main.clusterIPs might not be set directly, service might get one assigned. */ -}}
+  {{- /* This part is simplified and might need adjustment based on actual cluster state */ -}}
+{{- end }}
+{{- $loadBalancerIP := "" }}
+{{- /* Get LoadBalancer IP if specified */ -}}
+{{- if eq $serviceType "LoadBalancer" }}
+  {{- $loadBalancerIP = .Values.service.main.loadBalancerIP }}
+{{- end }}
+{{- $nodePort := "" }}
+{{- /* Get NodePort if specified */ -}}
+{{- if eq $serviceType "NodePort" }}
+  {{- $nodePort = .Values.service.main.ports.http.nodePort }}
+{{- end }}
+
+Technitium DNS Server can be accessed as follows:
+
+{{- if eq $serviceType "LoadBalancer" }}
+  {{- if $loadBalancerIP }}
+    NOTE: You specified a LoadBalancer IP: http://{{ $loadBalancerIP }}:{{ $servicePort }}
+  {{- else }}
+    NOTE: Get the LoadBalancer IP for the service '{{ $fullName }}' in namespace '{{ $namespace }}':
+          kubectl get svc --namespace {{ $namespace }} {{ $fullName }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+    Then access: http://<LoadBalancerIP>:{{ $servicePort }}
+  {{- end }}
+{{- else if eq $serviceType "NodePort" }}
+  {{- if $nodePort }}
+    NOTE: Get the IP of any Node in your cluster:
+          kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}'
+    Then access: http://<NodeIP>:{{ $nodePort }}
+  {{- else }}
+    NOTE: Service Type is NodePort, but the nodePort is not explicitly set in values. Check the assigned port:
+          kubectl get svc --namespace {{ $namespace }} {{ $fullName }} -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}'
+    Then access using Node IP and the obtained port.
+  {{- end }}
+{{- else if eq $serviceType "ClusterIP" }}
+  NOTE: Access from within the cluster:
+        http://{{ $fullName }}.{{ $namespace }}.svc.cluster.local:{{ $servicePort }}
+
+  NOTE: Or setup port forwarding:
+        kubectl port-forward --namespace {{ $namespace }} svc/{{ $fullName }} {{ $servicePort }}:{{ $servicePort }}
+  Then access: http://localhost:{{ $servicePort }}
+{{- else }}
+  NOTE: Service type '{{ $serviceType }}' configured. Access method depends on your cluster setup.
+{{- end }}
+
+Check the Technitium DNS Server documentation for initial setup and credentials if needed.
