@@ -33,7 +33,7 @@ controllers:
           # OG_DB_URI: "opengist.db"
 
           # # Enable or disable the code search index (true or false).
-          # OG_INDEX_ENABLED: "true"
+          # OG_INDEX: "true"
 
           # # Name of the directory where the code search index is stored.
           # OG_INDEX_DIRNAME: "opengist.index"
