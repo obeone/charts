@@ -1,6 +1,6 @@
 # libretranslate
 
-![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: v1.6.5](https://img.shields.io/badge/AppVersion-v1.6.5-informational?style=flat-square)
+![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: v1.6.5](https://img.shields.io/badge/AppVersion-v1.6.5-informational?style=flat-square)
 
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 
