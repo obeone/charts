@@ -13,6 +13,34 @@ entries:
         url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
     apiVersion: v2
     appVersion: v10.19.4
+    created: "2025-05-21T02:01:09.952031429Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: 71b1a8f06f99d684b7fba351637c8ad35f4357b4d4cbf9b0823af45e2f2649de
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-1.3.4/cyberchef-1.3.4.tgz
+    version: 1.3.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Image repository
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v10.19.4
     created: "2025-01-20T17:53:12.632880333Z"
     dependencies:
     - name: common
@@ -759,6 +787,44 @@ entries:
         url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
     apiVersion: v2
     appVersion: v1.6.5
+    created: "2025-05-21T02:01:10.142244455Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: 9041c16b6e8eb047640a426fbc0e80a44e50a4db05b1238c98dd4a6bc2e4b2fe
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.16.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-1.0.4/libretranslate-1.0.4.tgz
+    version: 1.0.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: AppVersion updated
+        - kind: added
+          description: values schema
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.5
     created: "2025-04-05T22:51:19.792022145Z"
     dependencies:
     - name: common
@@ -1295,6 +1361,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/nfs-server-1.0.0/nfs-server-1.0.0.tgz
     version: 1.0.0
   opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial version with values schema and bjw-s library integration
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.9.1
+    created: "2025-05-21T02:01:10.269233016Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: ffe488d09dd62b61ef8459dd40d1b73746ae2b91c34968613bf8d014fc811ead
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.0.4/opengist-1.0.4.tgz
+    version: 1.0.4
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -2253,6 +2361,55 @@ entries:
   transfer.sh:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Updated chart for improved metadata, keywords, and documentation.
+        - kind: added
+          description: Added icon and additional source.
+        - kind: added
+          description: Provided more inclusive chart description and updated maintainers list.
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.1
+    created: "2025-05-21T02:01:10.40145488Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.0.1
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: 4af213caa1b6ff7cfcea4825d3e92dea7790c7078ea24cbd1d189dda071bbf90
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-1.0.2/transfer.sh-1.0.2.tgz
+    version: 1.0.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: values schema
       artifacthub.io/maintainers: |
@@ -2741,4 +2898,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-04-30T00:51:02.995650422Z"
+generated: "2025-05-21T02:01:10.401803489Z"
