@@ -1,6 +1,6 @@
 # libretranslate
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: v1.6.5](https://img.shields.io/badge/AppVersion-v1.6.5-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![AppVersion: v1.6.5](https://img.shields.io/badge/AppVersion-v1.6.5-informational?style=flat-square)
 
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 
@@ -12,7 +12,7 @@ Kubernetes: `>=1.16.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s.github.io/helm-charts | common | 3.7.1 |
+| https://bjw-s-labs.github.io/helm-charts | common | 3.7.1 |
 
 ## Values
 
