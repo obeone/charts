@@ -1,5 +1,5 @@
 {{- $fullName := include "common.names.fullname" . -}}
-{{- $namespace := include "common.names.namespace" . | quote -}}
+{{- $namespace := .Release.Namespace | quote -}}
 {{- $servicePort := .Values.service.main.ports.http.port -}}
 {{- $serviceType := .Values.service.main.type -}}
 {{- $clusterIP := "" }}

@@ -10,7 +10,7 @@ keywords:
   - pihole
   - adguard
 
-version: 1.5.5
+version: 1.5.6
 appVersion: "13.5.0"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
@@ -33,4 +33,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Rewrite NOTES.txt to allow non-ingress deployment
+      description: Debugged NOTES.txt
