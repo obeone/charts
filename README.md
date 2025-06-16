@@ -52,3 +52,8 @@ LibreTranslate is a free and open-source machine translation service that can be
 
 Transfer.sh is a simple file sharing service that allows users to upload files and share them via a URL. It supports various storage providers like S3, Google Drive, etc., and can be customized using environment variables.
 [[Sources]](https://github.com/dutchcoders/transfer.sh) [[Chart]](charts/transfer.sh)
+
+## Olvid Bot
+
+Olvid bot-daemon — a bridge service that lets you automate interactions with Olvid secure-messaging groups.
+[[Sources]](https://gitlab.com/olvid/olvid) [[Chart]](charts/olvid-bot)

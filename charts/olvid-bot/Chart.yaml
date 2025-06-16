@@ -1,0 +1,46 @@
+apiVersion: v2
+name: olvid-bot
+version: 0.1.0
+appVersion: "1.4.1"
+kubeVersion: ">=1.22.0-0"
+
+description: >-
+  Olvid bot-daemon — a bridge service that lets you automate interactions with Olvid
+  secure-messaging groups. This Helm chart packages the daemon using the bjw-s common
+  library, so behaviour is driven almost entirely from *values.yaml*.
+
+type: application
+
+keywords:
+  - olvid
+  - secure-messaging
+  - bot
+  - daemon
+  - self-hosted
+
+home: https://doc.bot.olvid.io/en/stable/index.html
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.webp
+sources:
+  - https://gitlab.com/olvid/olvid
+  - https://hub.docker.com/r/olvid/bot-daemon
+  - https://github.com/obeone/charts/charts/olvid-bot
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 4.1.1
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://gitlab.com/olvid/olvid
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial chart release using bjw-s common library.
