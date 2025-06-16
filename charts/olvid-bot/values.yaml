@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/common-4.1.1/charts/library/common/values.schema.json
+
+# Main controller for the Olvid bot-daemon application
+controllers:
+  main:
+    # Uses the default Deployment type with the standard RollingUpdate strategy
+    containers:
+      main:
+        image:
+          # Docker image for Olvid bot-daemon
+          repository: olvid/bot-daemon
+          # Use the chart's appVersion for the image tag so upgrades are automatic
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+        # Environment variables — sensitive value pulled from the Secret defined below
+        envFrom:
+          - secret: admin-credentials
+
+# Service exposing the gRPC interface on port 50051
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      grpc:
+        port: 50051 # Service port exposed inside the cluster
+        targetPort: 50051 # Container port
+        protocol: TCP
+
+# Persistent storage for /daemon/data
+persistence:
+  data:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    # Mount the volume at the same path used in the Docker Compose file
+    globalMounts:
+      - path: /daemon/data
+
+# Secret(s) to create with this chart
+# -----------------------------------------------------------------------------
+# IMPORTANT:
+#   - Replace the placeholder value with a strong random string before deploying.
+#   - If you prefer managing the Secret outside the chart, set `enabled: false`
+#     and ensure a Secret with the same name exists in the namespace.
+
+secrets:
+  admin-credentials:
+    enabled: true
+    stringData:
+      OLVID_ADMIN_CLIENT_KEY_CLI: "eb9uyjbcuiFhmjFCVKdM"
