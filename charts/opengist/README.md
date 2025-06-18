@@ -1,6 +1,6 @@
 # Opengist Helm Chart
 
-![Version](https://img.shields.io/badge/version-1.0.3-informational?style=flat-square)
+![Version](https://img.shields.io/badge/version-1.1.0-informational?style=flat-square)
 
 OpenGist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface.
 
