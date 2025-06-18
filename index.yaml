@@ -1442,6 +1442,48 @@ entries:
   opengist:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: appVersion
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.10.0
+    created: "2025-06-18T16:06:57.132665787Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: 1119f2cbbe38113d12d6ea76e874987a722316a7d16bace404785142cabff6ee
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.1.0/opengist-1.1.0.tgz
+    version: 1.1.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial version with values schema and bjw-s library integration
       artifacthub.io/maintainers: |
@@ -3014,4 +3056,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-06-16T01:34:40.191723597Z"
+generated: "2025-06-18T16:06:57.132880498Z"
