@@ -2556,6 +2556,53 @@ entries:
   transfer.sh:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: NOTES.txt
+        - kind: changed
+          description: Updated bjw-s library chart to v4.1.2
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.1
+    created: "2025-07-20T21:36:21.06803929Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: ff02c11a0f1f226d066b7e839c8ee31a049bd2ec284b2d04d95c068b03e40887
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-1.0.3/transfer.sh-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Updated chart for improved metadata, keywords, and documentation.
         - kind: added
@@ -3093,4 +3140,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-06-23T06:57:13.101764388Z"
+generated: "2025-07-20T21:36:21.068307132Z"
