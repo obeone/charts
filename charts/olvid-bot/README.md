@@ -35,7 +35,7 @@ helm install olvid-bot obeone/olvid-bot \
 kubectl create secret generic admin-credentials \
   --from-literal=OLVID_ADMIN_CLIENT_KEY_CLI=<your-key>
 
-helm install olvid-bot myrepo/olvid-bot-daemon \
+helm install olvid-bot obeone/olvid-bot \
   --set secrets.admin-credentials.enabled=false
 ```
 
@@ -62,14 +62,15 @@ Launch a one-off interactive pod **in the same namespace** as the daemon:
 kubectl run -it --rm olvid-cli \
   --image=olvid/bot-python-runner:1.4.1 \
   --restart=Never \
-  --env=OLVID_DAEMON_TARGET=olvid-bot:50051 \
-  --env=OLVID_ADMIN_CLIENT_KEY=$(kubectl get secret admin-credentials -o jsonpath='{.data.OLVID_ADMIN_CLIENT_KEY_CLI}' | base64 -d) \
+  --env=OLVID_DAEMON_TARGET=olvid-bot-main:50051 \
+  --env=OLVID_ADMIN_CLIENT_KEY=$(kubectl get secret olvid-bot-admin-credentials -o jsonpath='{.data.OLVID_ADMIN_CLIENT_KEY_CLI}' | base64 -d) \
   --command -- olvid-cli
 ```
 
 * `-it --rm` gives you an interactive shell and removes the pod when you exit.
-* The short DNS name `olvid-bot:50051` works because the pod runs in the same namespace as the service.
-* If you disabled the chart-managed Secret, replace the `$(kubectl …)` substitution with your own key.
+* The DNS name `olvid-bot-main:50051` works because the pod runs in the same namespace as the service. It assumes a release name of `olvid-bot`.
+* The secret name `olvid-bot-admin-credentials` also assumes a release name of `olvid-bot`.
+* If you manage the secret yourself (see above), use that secret's name instead (e.g. `admin-credentials`).
 
 ---
 
