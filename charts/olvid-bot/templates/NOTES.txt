@@ -16,19 +16,11 @@ kubectl run -it --rm olvid-cli \
   --namespace={{ .Release.Namespace }} \
   --restart=Never \
   --env=OLVID_DAEMON_TARGET={{ include "bjw-s.common.lib.chart.names.fullname" . }}:50051 \
-  --env=OLVID_ADMIN_CLIENT_KEY=<your-admin-key> \
+  --env=OLVID_ADMIN_CLIENT_KEY=$(kubectl get secret admin-credentials -n {{ .Release.Namespace }} -o jsonpath='{.data.OLVID_ADMIN_CLIENT_KEY_CLI}' | base64 -d) \
   --command -- olvid-cli
 ```
 
-Retrieve the key from the chart‑managed Secret:
-
-```bash
-kubectl get secret admin-credentials -n {{ .Release.Namespace }} \
-  --namespace={{ .Release.Namespace }} \
-  -o jsonpath='{.data.admin-client-key}' | base64 -d
-```
-
-> If you disabled the chart-managed Secret, simply replace `<your-admin-key>` with your own value.
+> If you manage the secret yourself (i.e. `secrets.admin-credentials.enabled=false`), replace the `$(kubectl ...)` substitution with your own key.
 
 ---------------------------------------------------------------------
 
