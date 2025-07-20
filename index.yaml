@@ -1400,6 +1400,54 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Add ingress values
+        - kind: added
+          description: Add values schema
+        - kind: changed
+          description: Update bjw-s library to v4.1.2
+        - kind: changed
+          description: Update olvid-bot image to v1.5.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://gitlab.com/olvid/olvid
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.5.0
+    created: "2025-07-20T22:35:29.079832898Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: Olvid bot-daemon — a bridge service that lets you automate interactions
+      with Olvid secure-messaging groups. This Helm chart packages the daemon using
+      the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
+    digest: b829863c00c7edbc4c5e048b17303ecc588ba99a765ef44d539a4e0153e4dc96
+    home: https://doc.bot.olvid.io/en/stable/index.html
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.webp
+    keywords:
+    - olvid
+    - secure-messaging
+    - bot
+    - daemon
+    - self-hosted
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: olvid-bot
+    sources:
+    - https://gitlab.com/olvid/olvid
+    - https://hub.docker.com/r/olvid/bot-daemon
+    - https://github.com/obeone/charts/charts/olvid-bot
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/olvid-bot-0.2.0/olvid-bot-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: Initial chart release using bjw-s common library.
       artifacthub.io/links: |
         - name: Upstream Project
@@ -3140,4 +3188,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2025-07-20T21:36:21.068307132Z"
+generated: "2025-07-20T22:35:29.08002147Z"
