@@ -1,0 +1,90 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+
+transfer.sh has been deployed in namespace **{{ .Release.Namespace }}**.
+
+---------------------------------------------------------------------
+
+## Next step — upload a file
+
+To upload a file, you can use curl. You need to find the URL of your transfer.sh instance.
+
+{{- $ingress := .Values.ingress.main -}}
+{{- $service := .Values.service.main -}}
+{{- $fullName := include "bjw-s.common.lib.chart.names.fullname" . -}}
+{{- $servicePort := .Values.service.main.ports.http.port -}}
+
+{{- if and $ingress.enabled $ingress.hosts }}
+### Using Ingress
+You have an Ingress configured. You can use one of the following hosts:
+{{- range $host := $ingress.hosts }}
+  - {{ $host.host }}
+{{- end }}
+
+Example with the first host:
+```bash
+# Upload a file named 'hello.txt'
+echo "Hello World" > hello.txt
+curl --upload-file ./hello.txt https://{{ (first $ingress.hosts).host }}/hello.txt
+```
+
+{{- else }}
+### Using the Service
+
+There is no Ingress configured. You can access transfer.sh using the service.
+
+{{- if eq $service.type "LoadBalancer" }}
+#### LoadBalancer Service
+Your service is of type LoadBalancer. You can get the external IP by running:
+
+```bash
+kubectl get svc --namespace {{ .Release.Namespace }} {{ $fullName }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
+
+Once you have the IP, you can upload files like this:
+```bash
+EXTERNAL_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ $fullName }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Hello World" > hello.txt
+curl --upload-file ./hello.txt http://${EXTERNAL_IP}:{{ $servicePort }}/hello.txt
+```
+
+{{- else if eq $service.type "NodePort" }}
+#### NodePort Service
+Your service is of type NodePort. You need to get the IP of one of your cluster nodes and the NodePort for the service.
+
+Get the NodePort by running:
+```bash
+NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ $fullName }})
+```
+
+Get the IP of a node (replace `<node-name>` with one of your nodes):
+```bash
+NODE_IP=$(kubectl get nodes <node-name> -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
+```
+
+Then you can upload files:
+```bash
+echo "Hello World" > hello.txt
+curl --upload-file ./hello.txt http://${NODE_IP}:${NODE_PORT}/hello.txt
+```
+
+{{- else }}
+#### ClusterIP Service (default)
+Your service is of type ClusterIP. To access it from your local machine, you can use `kubectl port-forward`:
+
+```bash
+kubectl port-forward --namespace {{ .Release.Namespace }} svc/{{ $fullName }} {{ $servicePort }}:{{ $servicePort }}
+```
+
+Then, in another terminal, you can upload files:
+```bash
+echo "Hello World" > hello.txt
+curl --upload-file ./hello.txt http://localhost:{{ $servicePort }}/hello.txt
+```
+{{- end }}
+{{- end }}
+
+---------------------------------------------------------------------
+
+Happy file sharing! 🎉
