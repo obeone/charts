@@ -1,6 +1,6 @@
 apiVersion: v2
 name: transfer.sh
-version: 1.0.2
+version: 1.0.3
 appVersion: v1.6.1
 description: |
   High-performance, secure and user-friendly command-line file sharing tool.
@@ -27,7 +27,7 @@ kubeVersion: ">=1.16.0-0"
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.0.1
+    version: 4.1.2
 annotations:
   artifacthub.io/signKey: |
     fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
@@ -37,9 +37,7 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
+    - kind: added
+      description: NOTES.txt
     - kind: changed
-      description: Updated chart for improved metadata, keywords, and documentation.
-    - kind: added
-      description: Added icon and additional source.
-    - kind: added
-      description: Provided more inclusive chart description and updated maintainers list.
+      description: Updated bjw-s library chart to v4.1.2
