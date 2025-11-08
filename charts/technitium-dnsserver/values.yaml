@@ -14,14 +14,14 @@ image:
   # -- image pull policy
   pullPolicy: Always
 
-# -- environment variables. See more environment variables in the [petio documentation](https://petio.org/docs).
+# -- Environment variables for the container. Refer to Technitium DNS Server documentation for available variables.
 # @default -- See below
 env:
   # -- Set the container timezone
   TZ: UTC
 
 # -- Configures service settings for the chart.
-#  Depending of your k8s version, you'll be able, or not, to mix UDP and TCP services
+# Depending on your Kubernetes version, you may or may not be able to mix UDP and TCP services.
 # @default -- See values.yaml
 service:
   main:
@@ -31,39 +31,46 @@ service:
     type: LoadBalancer
     externalTrafficPolicy: Local
     ports:
+      # -- HTTP port for the web interface
       http:
         enabled: true
         port: 80
         targetPort: 5380
         protocol: TCP
+      # -- HTTPS port for the web interface
       https:
         enabled: true
         port: 443
         targetPort: 53443
+      # -- UDP port for standard DNS queries
       dns-udp:
         enabled: true
         port: 53
         protocol: UDP
+      # -- TCP port for standard DNS queries and zone transfers
       dns-tcp:
         enabled: true
         port: 53
         protocol: TCP
+      # -- UDP port for DHCP services
       dhcp:
         enabled: true
         port: 67
         protocol: UDP
+      # -- TCP port for DNS-over-TLS (DoT)
       dot:
         enabled: true
         port: 853
         protocol: TCP
+      # -- TCP port for DNS-over-HTTPS (DoH) reverse proxy
       doh-reverse:
         enabled: true
         port: 8053
         protocol: TCP
 
 ingress:
-  # -- Enable and configure ingress settings for the chart under this key.
-  # @default -- See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md)
+  # -- Enable and configure ingress settings for the chart.
+  # For more details, see the [common library chart documentation](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md).
   main:
     enabled: false
     annotations: {}
@@ -78,7 +85,7 @@ ingress:
           - my.host.local
         secretName: mycert-tls
 
-# -- Configure persistence settings for the chart under this key.
+# -- Configure persistence settings for the chart.
 # @default -- See values.yaml
 persistence:
   config:
