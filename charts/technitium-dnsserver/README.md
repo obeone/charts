@@ -1,17 +1,17 @@
 # Technitium DNS Server Helm Chart
 
-![Version: 1.7.0](https://img.shields.io/badge/Version-1.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 14.1](https://img.shields.io/badge/AppVersion-14.1-informational?style=flat-square)
+![Version: 1.7.2](https://img.shields.io/badge/Version-1.7.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 14.2](https://img.shields.io/badge/AppVersion-14.2-informational?style=flat-square)
 
 Technitium DNS Server is a powerful and versatile DNS solution that can serve multiple purposes, from enhancing your network security by blocking ads and trackers (similar to Pi-hole or AdGuardHome) to acting as a robust authoritative DNS server for your domains. This Helm chart simplifies its deployment on Kubernetes, allowing you to leverage its advanced features with ease.
 
 ## Features
 
-*   **Ad-blocking & Privacy**: Block unwanted ads, malware, and tracking domains across your network.
-*   **Authoritative DNS**: Host your own DNS zones and manage records for your domains.
-*   **DNS-over-TLS (DoT)**: Secure your DNS queries with encryption.
-*   **DNS-over-HTTPS (DoH)**: Provide encrypted DNS resolution over HTTPS.
-*   **DHCP Server**: Integrate DHCP services for dynamic IP address assignment.
-*   **Web Interface**: Manage all settings and monitor DNS activity through an intuitive web UI.
+* **Ad-blocking & Privacy**: Block unwanted ads, malware, and tracking domains across your network.
+* **Authoritative DNS**: Host your own DNS zones and manage records for your domains.
+* **DNS-over-TLS (DoT)**: Secure your DNS queries with encryption.
+* **DNS-over-HTTPS (DoH)**: Provide encrypted DNS resolution over HTTPS.
+* **DHCP Server**: Integrate DHCP services for dynamic IP address assignment.
+* **Web Interface**: Manage all settings and monitor DNS activity through an intuitive web UI.
 
 ## Maintainers
 
@@ -27,7 +27,7 @@ Technitium DNS Server is a powerful and versatile DNS solution that can serve mu
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.5.2 |
+| <https://library-charts.k8s-at-home.com> | common | 4.5.2 |
 
 ## Values
 
