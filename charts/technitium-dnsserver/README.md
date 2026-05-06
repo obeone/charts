@@ -1,6 +1,6 @@
 # Technitium DNS Server Helm Chart
 
-![Version: 1.9.0](https://img.shields.io/badge/Version-1.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 15.0.1](https://img.shields.io/badge/AppVersion-15.0.1-informational?style=flat-square)
+![Version: 1.10.0](https://img.shields.io/badge/Version-1.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 15.1.0](https://img.shields.io/badge/AppVersion-15.1.0-informational?style=flat-square)
 
 Technitium DNS Server is a powerful and versatile DNS solution that can serve multiple purposes, from enhancing your network security by blocking ads and trackers (similar to Pi-hole or AdGuardHome) to acting as a robust authoritative DNS server for your domains. This Helm chart simplifies its deployment on Kubernetes, allowing you to leverage its advanced features with ease.
 
