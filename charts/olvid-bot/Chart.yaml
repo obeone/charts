@@ -1,7 +1,7 @@
 apiVersion: v2
 name: olvid-bot
-version: 0.2.0
-appVersion: 1.5.0
+version: 0.3.0
+appVersion: 2.0.1
 kubeVersion: ">=1.22.0-0"
 
 description: >-
@@ -42,11 +42,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: Add ingress values
-    - kind: added
-      description: Add values schema
     - kind: changed
-      description: Update bjw-s library to v4.1.2
-    - kind: changed
-      description: Update olvid-bot image to v1.5.0
+      description: Update olvid-bot image to v2.0.1
