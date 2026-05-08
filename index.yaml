@@ -1427,6 +1427,48 @@ entries:
   olvid-bot:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update olvid-bot image to v2.0.1
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://gitlab.com/olvid/olvid
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.0.1
+    created: "2026-05-08T03:28:26.713389597Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: Olvid bot-daemon — a bridge service that lets you automate interactions
+      with Olvid secure-messaging groups. This Helm chart packages the daemon using
+      the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
+    digest: 1f8d479178f979ff17a90a45d13158df82039882ad9660a69231681d66daf21c
+    home: https://doc.bot.olvid.io/en/stable/index.html
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.webp
+    keywords:
+    - olvid
+    - secure-messaging
+    - bot
+    - daemon
+    - self-hosted
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: olvid-bot
+    sources:
+    - https://gitlab.com/olvid/olvid
+    - https://hub.docker.com/r/olvid/bot-daemon
+    - https://github.com/obeone/charts/charts/olvid-bot
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/olvid-bot-0.3.0/olvid-bot-0.3.0.tgz
+    version: 0.3.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add ingress values
         - kind: added
@@ -3438,4 +3480,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-05-08T03:24:35.487247193Z"
+generated: "2026-05-08T03:28:26.713704757Z"
