@@ -989,6 +989,48 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
+          description: Run the pod as uid/gid 1000 (matching the upstream image) and drop the hardcoded chown 100:101 in the init-container that broke writes after upstream switched the user
+        - kind: added
+          description: compact_default_conf_values setting in the default _mktxp.conf so the migration step on first boot does not crash with KeyError
+        - kind: changed
+          description: Pin appVersion to v1.2.17 and default image tag to v1.2.17 instead of latest; switch pullPolicy to IfNotPresent so upstream surprises do not silently land at restart
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.2.17
+    created: "2026-05-17T08:27:19.344469292Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Mikrotik (RouterOS) exporter for Prometheus metics
+    digest: 05cec2f280112d305efb50f493bfcac3ab89564bce2492bb9c5acd495e1652b5
+    home: https://github.com/akpw/mktxp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/mikrotik.png
+    keywords:
+    - mktxp
+    - mikrotik
+    - routeros
+    - prometheus
+    - metrics
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: mktxp
+    sources:
+    - https://github.com/akpw/mktxp
+    - https://github.com/obeone/charts
+    urls:
+    - https://github.com/obeone/charts/releases/download/mktxp-1.1.8/mktxp-1.1.8.tgz
+    version: 1.1.8
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
           description: Missing default value for global.labels
         - kind: fixed
           description: Missing _mktxp.conf
@@ -3480,4 +3522,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-05-08T03:28:26.713704757Z"
+generated: "2026-05-17T08:27:19.344739343Z"
