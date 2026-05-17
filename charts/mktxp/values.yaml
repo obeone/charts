@@ -10,9 +10,9 @@ image:
   repository: ghcr.io/akpw/mktxp
   # -- image tag
   # @default -- chart.appVersion
-  tag: latest
+  tag: v1.2.17
   # -- image pull policy
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
 
 # -- environment variables. See more environment variables in the [cyberchef documentation](https://cyberchef.org/docs).
 # @default -- See below
@@ -122,6 +122,12 @@ configmap:
           max_worker_threads = 5              # Max number of worker threads that can fetch routers (parallel fetch only)
           max_scrape_duration = 10            # Max duration of individual routers' metrics collection (parallel fetch only)
           total_max_scrape_duration = 30      # Max overall duration of all metrics collection (parallel fetch only)
+
+          # Required since mktxp 1.2.x: the auto-migration on first boot
+          # writes this key; if the running user cannot write _mktxp.conf
+          # the migration silently fails and mktxp then crashes with
+          # KeyError: 'compact_default_conf_values' at startup.
+          compact_default_conf_values = False
 
 # -- ServiceMonitor to tell to prometheus to scrape metrics
 metrics:
