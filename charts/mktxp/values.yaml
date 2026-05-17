@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/akpw/mktxp
   # -- image tag
   # @default -- chart.appVersion
-  tag: v1.2.17
+  tag: latest
   # -- image pull policy
   pullPolicy: IfNotPresent
 
