@@ -20,6 +20,16 @@
         type: emptyDir
         mountPath: /home/mktxp/mktxp/
 
+    {{/* Run the pod as the mktxp user that ships in the upstream image
+         (uid=1000, gid=1000). fsGroup makes the emptyDir group-owned by
+         that gid so the cp init-container can produce files writable by
+         the main container. Override via .Values.podSecurityContext if
+         the upstream image ever changes its uid/gid again. */}}
+    podSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
     initContainers:
       cp:
         image: alpine
@@ -30,7 +40,10 @@
           set -e
           cp /tmp/cm/mktxp.conf /home/mktxp/mktxp/mktxp.conf
           cp /tmp/cm/_mktxp.conf /home/mktxp/mktxp/_mktxp.conf
-          chown -R 100:101 /home/mktxp/mktxp
+          chmod u+w /home/mktxp/mktxp/mktxp.conf /home/mktxp/mktxp/_mktxp.conf
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
         volumeMounts:
         - name: config
           mountPath: /tmp/cm
