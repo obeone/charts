@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v1.2.17
+appVersion: latest
 description: Mikrotik (RouterOS) exporter for Prometheus metics
 name: mktxp
-version: 1.1.8
+version: 1.1.9
 kubeVersion: ">=1.16.0-0"
 keywords:
 - mktxp
@@ -35,4 +35,4 @@ annotations:
     - kind: added
       description: compact_default_conf_values setting in the default _mktxp.conf so the migration step on first boot does not crash with KeyError
     - kind: changed
-      description: Pin appVersion to v1.2.17 and default image tag to v1.2.17 instead of latest; switch pullPolicy to IfNotPresent so upstream surprises do not silently land at restart
+      description: Switch image.pullPolicy default to IfNotPresent so upstream surprises do not silently land at restart. Keep image.tag at `latest` because akpw/mktxp on ghcr.io only publishes :latest and stable-YYYYMMDD tags — there is no semver tag to pin to.
