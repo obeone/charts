@@ -37,7 +37,7 @@ helm install my-release obeone/<chart> --verify
 | 📂 | [**nfs-server**](charts/nfs-server) | `2.2.2` | Lightweight, multi-arch [containerized NFS server](https://github.com/obeone/docker-nfs-server). |
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `1.5.0` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
 | 📝 | [**opengist**](charts/opengist) | `1.10.0` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
-| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.1.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
+| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.2.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
 | 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
 | 🪟 | [**winbox**](charts/winbox) | `3.40` | [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. |
 

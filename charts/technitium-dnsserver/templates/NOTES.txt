@@ -1,53 +1,63 @@
 {{- $fullName := include "common.names.fullname" . -}}
-{{- $namespace := .Release.Namespace | quote -}}
-{{- $servicePort := .Values.service.main.ports.http.port -}}
-{{- $serviceType := .Values.service.main.type -}}
-{{- $clusterIP := "" }}
-{{- /* Attempt to get ClusterIP if service type is ClusterIP */ -}}
-{{- if eq $serviceType "ClusterIP" }}
-  {{- /* Note: .Values.service.main.clusterIPs might not be set directly, service might get one assigned. */ -}}
-  {{- /* This part is simplified and might need adjustment based on actual cluster state */ -}}
-{{- end }}
-{{- $loadBalancerIP := "" }}
-{{- /* Get LoadBalancer IP if specified */ -}}
-{{- if eq $serviceType "LoadBalancer" }}
-  {{- $loadBalancerIP = .Values.service.main.loadBalancerIP }}
-{{- end }}
-{{- $nodePort := "" }}
-{{- /* Get NodePort if specified */ -}}
-{{- if eq $serviceType "NodePort" }}
-  {{- $nodePort = .Values.service.main.ports.http.nodePort }}
-{{- end }}
+{{- $namespace := .Release.Namespace -}}
+{{- $svc := .Values.service.main -}}
+{{- $httpPort := $svc.ports.http.port -}}
+{{- $httpsPort := $svc.ports.https.port -}}
+{{- $dnsPort := (index $svc.ports "dns-udp").port -}}
+{{- $dohPort := (index $svc.ports "doh-reverse").port -}}
 
-Technitium DNS Server can be accessed as follows:
+Technitium DNS Server is deploying.
 
-{{- if eq $serviceType "LoadBalancer" }}
-  {{- if $loadBalancerIP }}
-    NOTE: You specified a LoadBalancer IP: http://{{ $loadBalancerIP }}:{{ $servicePort }}
-  {{- else }}
-    NOTE: Get the LoadBalancer IP for the service '{{ $fullName }}' in namespace '{{ $namespace }}':
-          kubectl get svc --namespace {{ $namespace }} {{ $fullName }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
-    Then access: http://<LoadBalancerIP>:{{ $servicePort }}
-  {{- end }}
-{{- else if eq $serviceType "NodePort" }}
-  {{- if $nodePort }}
-    NOTE: Get the IP of any Node in your cluster:
-          kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}'
-    Then access: http://<NodeIP>:{{ $nodePort }}
-  {{- else }}
-    NOTE: Service Type is NodePort, but the nodePort is not explicitly set in values. Check the assigned port:
-          kubectl get svc --namespace {{ $namespace }} {{ $fullName }} -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}'
-    Then access using Node IP and the obtained port.
-  {{- end }}
-{{- else if eq $serviceType "ClusterIP" }}
-  NOTE: Access from within the cluster:
-        http://{{ $fullName }}.{{ $namespace }}.svc.cluster.local:{{ $servicePort }}
-
-  NOTE: Or setup port forwarding:
-        kubectl port-forward --namespace {{ $namespace }} svc/{{ $fullName }} {{ $servicePort }}:{{ $servicePort }}
-  Then access: http://localhost:{{ $servicePort }}
+== Admin web UI ==
+{{- if and .Values.ingress.main.enabled (gt (len .Values.ingress.main.hosts) 0) }}
+{{- $hasTLS := gt (len (default (list) .Values.ingress.main.tls)) 0 }}
+{{- $scheme := ternary "https" "http" $hasTLS }}
+{{- range .Values.ingress.main.hosts }}
+{{- $host := .host }}
+{{- range .paths }}
+  {{ $scheme }}://{{ $host }}{{ .path }}
+{{- end }}
+{{- end }}
+{{- else if eq $svc.type "LoadBalancer" }}
+{{- if $svc.loadBalancerIP }}
+  http://{{ $svc.loadBalancerIP }}:{{ $httpPort }}
 {{- else }}
-  NOTE: Service type '{{ $serviceType }}' configured. Access method depends on your cluster setup.
+  Wait for the LoadBalancer to be assigned:
+    kubectl get svc -n {{ $namespace }} {{ $fullName }} -w
+  Then browse: http://<EXTERNAL-IP>:{{ $httpPort }}
+{{- end }}
+{{- else if eq $svc.type "NodePort" }}
+{{- $nodePort := $svc.ports.http.nodePort }}
+  Get any node IP:
+    kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="ExternalIP")].address}'
+{{- if $nodePort }}
+  Then browse: http://<NODE-IP>:{{ $nodePort }}
+{{- else }}
+  Get the assigned NodePort:
+    kubectl get svc -n {{ $namespace }} {{ $fullName }} -o jsonpath='{.spec.ports[?(@.name=="http")].nodePort}'
+{{- end }}
+{{- else }}
+  In-cluster:  http://{{ $fullName }}.{{ $namespace }}.svc.cluster.local:{{ $httpPort }}
+  Port-forward from your laptop:
+    kubectl port-forward -n {{ $namespace }} svc/{{ $fullName }} {{ $httpPort }}:{{ $httpPort }}
+  Then browse: http://localhost:{{ $httpPort }}
 {{- end }}
 
-Check the Technitium DNS Server documentation for initial setup and credentials if needed.
+Default credentials: admin / admin  -- change them on first login.
+
+== DNS endpoint ==
+  In-cluster: {{ $fullName }}.{{ $namespace }}.svc.cluster.local:{{ $dnsPort }}
+{{- if eq $svc.type "LoadBalancer" }}
+  External:   point your resolver / clients at the Service external IP on port {{ $dnsPort }} (UDP + TCP).
+{{- else if eq $svc.type "NodePort" }}
+  External:   the DNS port is exposed as a NodePort -- check it with:
+    kubectl get svc -n {{ $namespace }} {{ $fullName }}
+{{- end }}
+
+Additional protocols exposed by the Service (when enabled):
+  HTTPS UI : {{ $httpsPort }}
+  DoT      : {{ $svc.ports.dot.port }}
+  DoH proxy: {{ $dohPort }}
+  DHCP     : {{ $svc.ports.dhcp.port }}/udp
+
+See https://technitium.com/dns/ for setup and configuration.
