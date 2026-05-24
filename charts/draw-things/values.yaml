@@ -1,0 +1,80 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# Default pod-level options applied to every controller unless overridden.
+# Set `runtimeClassName: nvidia` here if your cluster requires an explicit
+# RuntimeClass to schedule on GPU nodes (e.g. containerd + nvidia toolkit
+# without auto-injection).
+defaultPodOptions: {}
+
+# Main controller running the Draw Things gRPC server.
+controllers:
+  main:
+    # A GPU is a singleton resource — only one replica makes sense.
+    replicas: 1
+    # Recreate avoids ever scheduling two pods that fight over the same GPU.
+    strategy: Recreate
+    containers:
+      main:
+        image:
+          # Docker image for Draw Things gRPC server CLI
+          repository: drawthingsai/draw-things-grpc-server-cli
+          # Use the chart's appVersion for the image tag
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+        # The image has no default CMD; we mirror the upstream docker example:
+        #   gRPCServerCLI /grpc-models
+        command: ["gRPCServerCLI"]
+        args:
+          - /grpc-models
+        # Request one NVIDIA GPU. For `nvidia.com/gpu`, limits must equal
+        # requests — Kubernetes will reject anything else.
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+          requests:
+            nvidia.com/gpu: 1
+
+# Service exposing the gRPC interface on the upstream default port 7859.
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      grpc:
+        port: 7859
+        targetPort: 7859
+        protocol: TCP
+
+# Persistent storage for the model library mounted at /grpc-models.
+# 50 GiB is enough for a handful of SD 1.5 / SDXL checkpoints + LoRAs;
+# bump it before installing if you plan to host more.
+persistence:
+  models:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 50Gi
+    globalMounts:
+      - path: /grpc-models
+
+# Ingress is disabled by default — gRPC clients typically connect in-cluster
+# or via `kubectl port-forward`. If you front the server with an
+# ingress controller, make sure it supports gRPC (h2c) end-to-end.
+ingress:
+  main:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: draw-things.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: grpc
+    tls:
+      - hosts:
+          - draw-things.local
+        secretName: draw-things-tls

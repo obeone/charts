@@ -1,0 +1,52 @@
+apiVersion: v2
+name: draw-things
+version: 0.1.0
+appVersion: latest
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  Draw Things gRPC server — the official CLI image that exposes a gRPC API for
+  Stable Diffusion image generation, intended to be paired with the macOS/iOS
+  Draw Things app for remote inference on a beefier GPU than your phone.
+  This chart packages it with the bjw-s common library so behaviour is driven
+  almost entirely from values.yaml.
+
+type: application
+
+keywords:
+  - draw-things
+  - stable-diffusion
+  - image-generation
+  - grpc
+  - gpu
+  - nvidia
+  - ai
+  - self-hosted
+
+home: https://drawthings.ai
+sources:
+  - https://github.com/drawthingsai/draw-things-community
+  - https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli
+  - https://github.com/obeone/charts/tree/main/charts/draw-things
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.0.1
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/drawthingsai/draw-things-community
+    - name: Draw Things App
+      url: https://drawthings.ai
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release packaging the Draw Things gRPC server CLI with NVIDIA GPU support.
