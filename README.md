@@ -31,6 +31,7 @@ helm install my-release obeone/<chart> --verify
 | :-: | --- | --- | --- |
 | 🔪 | [**cyberchef**](charts/cyberchef) | `v10.19.4` | GCHQ's [Cyber Swiss Army Knife](https://github.com/gchq/CyberChef) — encode, decode, encrypt, analyze. Multi-arch. |
 | 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.14` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
+| 🖌️ | [**draw-things**](charts/draw-things) | `latest` | [Draw Things](https://drawthings.ai) gRPC server — Stable Diffusion inference backend for the macOS/iOS app, GPU-accelerated. |
 | 🎨 | [**fooocus**](charts/fooocus) | `latest` | [Fooocus](https://github.com/lllyasviel/Fooocus) — open-source image-generation UI on top of Stable Diffusion. |
 | 🌍 | [**libretranslate**](charts/libretranslate) | `v1.6.5` | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) — free, offline-capable machine-translation API. |
 | 📡 | [**mktxp**](charts/mktxp) | `latest` | [MKTXP](https://github.com/akpw/mktxp) — Prometheus exporter for MikroTik RouterOS metrics. |
@@ -77,3 +78,4 @@ Releases are cut automatically by
 ---
 
 Made with ❤️ and a healthy dose of YAML by [**@obeone**](https://github.com/obeone).
+x
