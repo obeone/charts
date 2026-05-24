@@ -1,0 +1,37 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+
+Draw Things gRPC server has been deployed in namespace **{{ .Release.Namespace }}**.
+
+---------------------------------------------------------------------
+
+## In-cluster gRPC endpoint
+
+  {{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.main.ports.grpc.port }}
+
+## Connecting from the Draw Things app
+
+The Draw Things macOS / iOS app expects a reachable gRPC host. From a workstation
+outside the cluster, the easiest path is `kubectl port-forward`:
+
+  kubectl port-forward -n {{ .Release.Namespace }} \
+    svc/{{ .Release.Name }} {{ .Values.service.main.ports.grpc.port }}:{{ .Values.service.main.ports.grpc.port }}
+
+Then in the app, add a remote server pointing to:
+
+  host: 127.0.0.1
+  port: {{ .Values.service.main.ports.grpc.port }}
+
+## Adding models
+
+The server reads checkpoints from `/grpc-models`. Copy your `.ckpt` /
+`.safetensors` files into the PVC, e.g. via a one-off pod or:
+
+  POD=$(kubectl get pod -n {{ .Release.Namespace }} \
+    -l app.kubernetes.io/name={{ .Release.Name }} -o name | head -n1)
+  kubectl cp ./my-model.safetensors {{ .Release.Namespace }}/${POD#pod/}:/grpc-models/
+
+---------------------------------------------------------------------
+
+Happy drawing! 🎨
