@@ -1,8 +1,10 @@
 apiVersion: v2
 name: draw-things
-version: 0.1.0
+version: 0.1.1
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
+
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/draw-things.jpg
 
 description: >-
   Draw Things gRPC server — the official CLI image that exposes a gRPC API for
@@ -50,3 +52,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Initial release packaging the Draw Things gRPC server CLI with NVIDIA GPU support.
+    - kind: added
+      description: Chart icon (Draw Things logo).
