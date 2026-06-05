@@ -1,0 +1,203 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# -- Options applied to every pod created by this chart.
+defaultPodOptions:
+  # -- RuntimeClass exposing the GPU to the pod (e.g. "nvidia"). Leave empty
+  #    for CPU-only clusters. When set, the NVIDIA_* env vars on the ollama
+  #    container enable GPU acceleration.
+  runtimeClassName: ""
+  # Ollama does not call the Kubernetes API (5.x default).
+  automountServiceAccountToken: false
+  # -- Pin the workload to specific node(s), typically a GPU host.
+  nodeSelector: {}
+    # kubernetes.io/hostname: gpu-worker
+
+controllers:
+  main:
+    type: deployment
+    # Single RWO PVC: recreate the pod on upgrade so the new one can mount
+    # the volume only after the old one has released it.
+    strategy: Recreate
+    pod:
+      # -- Extra pod labels. Example for Sablier scale-to-zero on a GPU group:
+      labels: {}
+        # sablier.enable: "true"
+        # sablier.group: gpu
+    containers:
+      ollama:
+        image:
+          # -- Ollama server image.
+          repository: ollama/ollama
+          # -- Image tag. Pin to a release (e.g. "0.6.0") for reproducibility.
+          tag: latest
+          pullPolicy: Always
+        env:
+          # -- Bind on all interfaces so the Service and the exporter sidecar
+          #    can reach Ollama. Never set this to 127.0.0.1 in-cluster.
+          OLLAMA_HOST: "0.0.0.0"
+          # -- Allowed CORS origins.
+          OLLAMA_ORIGINS: "*"
+          # -- How long a model stays loaded in memory after the last request.
+          OLLAMA_KEEP_ALIVE: 30m
+          # -- Number of parallel requests handled per model.
+          OLLAMA_NUM_PARALLEL: "2"
+          # -- Maximum number of models kept loaded simultaneously.
+          OLLAMA_MAX_LOADED_MODELS: "4"
+          # -- Spread work across all GPUs.
+          OLLAMA_SCHED_SPREAD: "1"
+          # -- Enable Flash Attention.
+          OLLAMA_FLASH_ATTENTION: "true"
+          # -- Disable prompt history persistence.
+          OLLAMA_NOHISTORY: "true"
+          # -- Default context window size.
+          OLLAMA_CONTEXT_LENGTH: "64000"
+          # -- Scratch directory (mounted as an emptyDir below).
+          OLLAMA_TMPDIR: /tmp/ollama
+          # GPU exposure — effective only when defaultPodOptions.runtimeClassName
+          # is set to an NVIDIA RuntimeClass.
+          NVIDIA_VISIBLE_DEVICES: all
+          NVIDIA_DRIVER_CAPABILITIES: compute,utility
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 11434
+              initialDelaySeconds: 30
+              periodSeconds: 15
+              timeoutSeconds: 5
+              failureThreshold: 6
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 11434
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 6
+          startup:
+            enabled: false
+        resources:
+          requests:
+            cpu: 100m
+            # -- Bump to match the models you intend to serve (e.g. 10Gi).
+            memory: 2Gi
+          # limits:
+          #   memory: 16Gi
+
+      # -- Optional Prometheus exporter / transparent proxy sidecar. Listens on
+      #    :8000, exposes /metrics, and forwards requests to the Ollama server
+      #    in the same pod. Build it from https://github.com/frcooper/ollama-exporter
+      exporter:
+        dependsOn: ollama
+        image:
+          # -- Exporter image. Set to your own build, e.g.
+          #    registry.example.com/ollama-exporter
+          repository: ollama-exporter
+          tag: latest
+          pullPolicy: Always
+        env:
+          # -- Upstream Ollama URL the exporter proxies to (same pod, localhost).
+          OLLAMA_HOST: http://localhost:11434
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /metrics
+                port: 8000
+              initialDelaySeconds: 15
+              periodSeconds: 30
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /metrics
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 15
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    # -- Prefer dual-stack; degrades gracefully to single-stack clusters.
+    ipFamilyPolicy: PreferDualStack
+    ipFamilies:
+      - IPv4
+      - IPv6
+    ports:
+      http:
+        primary: true
+        port: 11434
+        protocol: HTTP
+      metrics:
+        port: 8000
+        protocol: HTTP
+
+ingress:
+  main:
+    enabled: false
+    className: ""
+    # -- Ingress annotations. Example Traefik whitelist middleware:
+    annotations: {}
+      # traefik.ingress.kubernetes.io/router.middlewares: traefik-localnet-whitelist@kubernetescrd
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              # Route the ingress to the Ollama API, not the exporter.
+              port: http
+    tls: []
+      # - secretName: chart-example-tls
+      #   hosts:
+      #     - chart-example.local
+
+persistence:
+  # Ollama model/blob store. Mounted only into the ollama container.
+  data:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 100Gi
+    # storageClass: ""
+    # -- Reuse a pre-created PVC instead of provisioning a new one.
+    # existingClaim: ollama
+    advancedMounts:
+      main:
+        ollama:
+          - path: /root/.ollama
+  # Scratch space for OLLAMA_TMPDIR. Mounted only into the ollama container.
+  tmp:
+    enabled: true
+    type: emptyDir
+    advancedMounts:
+      main:
+        ollama:
+          - path: /tmp/ollama
+
+# -- Prometheus Operator ServiceMonitor scraping the exporter's /metrics.
+#    Disabled by default; enable it (or set it in your override) when a
+#    Prometheus Operator stack is present.
+serviceMonitor:
+  metrics:
+    enabled: false
+    serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
+    endpoints:
+      - port: metrics
+        path: /metrics
+        interval: 30s
+        scrapeTimeout: 10s
