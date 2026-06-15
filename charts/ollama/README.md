@@ -28,7 +28,15 @@ helm install ollama obeone/ollama
 
 This is the headline feature of the chart, so it gets its own section.
 
-The `exporter` sidecar is a **transparent proxy** that sits in front of Ollama: it listens on `:8000`, forwards every API request to the Ollama server in the same pod (`http://localhost:11434`), and exposes Prometheus metrics on `/metrics` for the traffic it sees. Build it from [frcooper/ollama-exporter](https://github.com/frcooper/ollama-exporter) and point `controllers.main.containers.exporter.image.repository` at your registry.
+The `exporter` sidecar is a **transparent proxy** that sits in front of Ollama: it listens on `:8000`, forwards every API request to the Ollama server in the same pod (`http://localhost:11434`), and exposes Prometheus metrics on `/metrics` for the traffic it sees. It has instrumented routes for `/api/chat` and `/api/generate` and transparently passes through every other endpoint (including `/v1/*`), so nothing breaks by routing the API through it.
+
+The chart defaults to a multi-arch image published on GHCR (`ghcr.io/obeone/ollama-exporter`), built from [frcooper/ollama-exporter](https://github.com/frcooper/ollama-exporter) (Unlicense) and **signed with cosign** (keyless). Verify it before trusting it:
+
+```bash
+cosign verify ghcr.io/obeone/ollama-exporter:latest \
+  --certificate-identity-regexp='^https://github.com/[^/]+/ollama-exporter/.github/workflows/build-exporter.yml@.*' \
+  --certificate-oidc-issuer=https://token.actions.githubusercontent.com
+```
 
 Because the proxy is **in the API path**, the chart wires the `http` Service port (`11434`) to the sidecar's `:8000` rather than straight to Ollama. All client traffic therefore flows through the proxy and gets accounted for.
 
@@ -58,7 +66,7 @@ So when you disable it, the API keeps working — traffic just goes straight to 
 - Kubernetes 1.31+
 - Helm 3.18+
 - For GPU acceleration: an NVIDIA GPU node with the [NVIDIA device plugin](https://github.com/NVIDIA/k8s-device-plugin) and, depending on your runtime, `defaultPodOptions.runtimeClassName: nvidia`. CPU-only clusters work with the defaults.
-- For the proxy/metrics sidecar (default on): a reachable image built from [frcooper/ollama-exporter](https://github.com/frcooper/ollama-exporter). If you don't have one, set `controllers.main.containers.exporter.enabled: false`.
+- For the proxy/metrics sidecar (default on): the chart pulls `ghcr.io/obeone/ollama-exporter` (public, cosign-signed). To opt out entirely, set `controllers.main.containers.exporter.enabled: false`.
 
 ## Installing the chart
 
@@ -117,7 +125,7 @@ controllers:
       exporter:
         enabled: true               # transparent proxy + /metrics (see above)
         image:
-          repository: registry.example.com/ollama-exporter
+          repository: ghcr.io/obeone/ollama-exporter
 
 persistence:
   data:
@@ -155,7 +163,7 @@ serviceMonitor:
 | Key                                                    | Type   | Default                   | Description                                                          |
 |--------------------------------------------------------|--------|---------------------------|---------------------------------------------------------------------|
 | controllers.main.containers.exporter.enabled           | bool   | `true`                    | **Single switch** for the proxy + metrics path (see section above)  |
-| controllers.main.containers.exporter.image.repository  | string | `ollama-exporter`         | Proxy/exporter image — set to your own build                        |
+| controllers.main.containers.exporter.image.repository  | string | `ghcr.io/obeone/ollama-exporter` | Proxy/exporter image (cosign-signed multi-arch build)        |
 | controllers.main.containers.exporter.image.tag         | string | `latest`                  | Image tag                                                           |
 | controllers.main.containers.exporter.env.OLLAMA_HOST   | string | `http://localhost:11434`  | Upstream Ollama URL the proxy forwards to                           |
 
