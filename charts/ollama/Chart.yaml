@@ -25,7 +25,7 @@ keywords:
   - self-hosted
 
 home: https://ollama.com
-icon: https://ollama.com/public/ollama.png
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
 sources:
   - https://github.com/ollama/ollama
   - https://hub.docker.com/r/ollama/ollama
