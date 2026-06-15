@@ -141,6 +141,7 @@ service:
         primary: true
         port: 11434
         protocol: HTTP
+        targetPort: 8000
       metrics:
         port: 8000
         protocol: HTTP
