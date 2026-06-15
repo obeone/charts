@@ -5,11 +5,13 @@ appVersion: "latest"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
-  Ollama — run large language models locally. This Helm chart packages the
-  Ollama server with an optional transparent Prometheus exporter/proxy
-  sidecar, built on the bjw-s common library so behaviour is driven almost
-  entirely from values.yaml. Supports GPU acceleration via RuntimeClass and
-  dual-stack Services out of the box.
+  Ollama — run large language models locally, with an optional transparent
+  Prometheus exporter/proxy sidecar you toggle with a single switch
+  (exporter.enabled): on, it fronts the API and exports /metrics; off, the
+  API is served directly. This Helm chart packages the Ollama server on the
+  bjw-s common library so behaviour is driven almost entirely from
+  values.yaml. Supports GPU acceleration via RuntimeClass and dual-stack
+  Services out of the box.
 
 type: application
 
