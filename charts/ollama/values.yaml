@@ -91,10 +91,14 @@ controllers:
 
       # -- Prometheus exporter / transparent proxy sidecar. Listens on :8000,
       #    exposes /metrics, and forwards API requests to the Ollama server in
-      #    the same pod. Load-bearing, not optional: the http service port
-      #    targets :8000, so removing this sidecar leaves the API unreachable.
-      #    Build it from https://github.com/frcooper/ollama-exporter
+      #    the same pod, so the http Service port targets :8000 (see service
+      #    below). Build it from https://github.com/frcooper/ollama-exporter
       exporter:
+        # -- Single switch for the whole metrics/proxy path. Set to false to
+        #    drop the sidecar: the chart then routes the http Service port
+        #    straight to Ollama (11434) and disables the metrics port. No
+        #    other value needs changing (handled in templates/common.yaml).
+        enabled: true
         dependsOn: ollama
         image:
           # -- Exporter image. Set to your own build, e.g.
