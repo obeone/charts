@@ -89,9 +89,11 @@ controllers:
           # limits:
           #   memory: 16Gi
 
-      # -- Optional Prometheus exporter / transparent proxy sidecar. Listens on
-      #    :8000, exposes /metrics, and forwards requests to the Ollama server
-      #    in the same pod. Build it from https://github.com/frcooper/ollama-exporter
+      # -- Prometheus exporter / transparent proxy sidecar. Listens on :8000,
+      #    exposes /metrics, and forwards API requests to the Ollama server in
+      #    the same pod. Load-bearing, not optional: the http service port
+      #    targets :8000, so removing this sidecar leaves the API unreachable.
+      #    Build it from https://github.com/frcooper/ollama-exporter
       exporter:
         dependsOn: ollama
         image:
@@ -160,7 +162,8 @@ ingress:
             pathType: Prefix
             service:
               identifier: main
-              # Route the ingress to the Ollama API, not the exporter.
+              # Route the ingress to the proxied API port (11434 -> exporter
+              # :8000 -> Ollama), not the raw /metrics scrape port.
               port: http
     tls: []
       # - secretName: chart-example-tls
