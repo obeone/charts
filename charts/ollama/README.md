@@ -30,13 +30,7 @@ This is the headline feature of the chart, so it gets its own section.
 
 The `exporter` sidecar is a **transparent proxy** that sits in front of Ollama: it listens on `:8000`, forwards every API request to the Ollama server in the same pod (`http://localhost:11434`), and exposes Prometheus metrics on `/metrics` for the traffic it sees. It has instrumented routes for `/api/chat` and `/api/generate` and transparently passes through every other endpoint (including `/v1/*`), so nothing breaks by routing the API through it.
 
-The chart defaults to a multi-arch image published on GHCR (`ghcr.io/obeone/ollama-exporter`), built from [frcooper/ollama-exporter](https://github.com/frcooper/ollama-exporter) (Unlicense) and **signed with cosign** (keyless). Verify it before trusting it:
-
-```bash
-cosign verify ghcr.io/obeone/ollama-exporter:latest \
-  --certificate-identity-regexp='^https://github.com/[^/]+/ollama-exporter/.github/workflows/build-exporter.yml@.*' \
-  --certificate-oidc-issuer=https://token.actions.githubusercontent.com
-```
+The chart defaults to a multi-arch image published on GHCR (`ghcr.io/obeone/ollama-exporter`), built from [frcooper/ollama-exporter](https://github.com/frcooper/ollama-exporter) (Unlicense) and signed with cosign (keyless).
 
 Because the proxy is **in the API path**, the chart wires the `http` Service port (`11434`) to the sidecar's `:8000` rather than straight to Ollama. All client traffic therefore flows through the proxy and gets accounted for.
 
