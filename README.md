@@ -36,6 +36,7 @@ helm install my-release obeone/<chart> --verify
 | 🌍 | [**libretranslate**](charts/libretranslate) | `v1.6.5` | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) — free, offline-capable machine-translation API. |
 | 📡 | [**mktxp**](charts/mktxp) | `latest` | [MKTXP](https://github.com/akpw/mktxp) — Prometheus exporter for MikroTik RouterOS metrics. |
 | 📂 | [**nfs-server**](charts/nfs-server) | `2.2.2` | Lightweight, multi-arch [containerized NFS server](https://github.com/obeone/docker-nfs-server). |
+| 🦙 | [**ollama**](charts/ollama) | `latest` | [Ollama](https://ollama.com) — run LLMs locally, with an optional single-switch transparent Prometheus exporter/proxy sidecar (cosign-signed). GPU-accelerated, multi-arch. |
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `1.5.0` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
 | 📝 | [**opengist**](charts/opengist) | `1.10.0` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
 | 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.2.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
