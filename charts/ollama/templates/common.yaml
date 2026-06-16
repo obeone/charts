@@ -1,0 +1,25 @@
+---
+{{- include "bjw-s.common.loader.init" . }}
+
+{{- define "app-template.hardcodedValues" -}}
+# Set the nameOverride based on the release name if no override has been set
+{{ if not .Values.global.nameOverride }}
+global:
+  nameOverride: "{{ .Release.Name }}"
+{{ end }}
+{{- end -}}
+{{- $_ := mergeOverwrite .Values (include "app-template.hardcodedValues" . | fromYaml) -}}
+
+{{- /* Single switch for the metrics/proxy sidecar: the exporter container's
+       own `enabled`. The exporter is a transparent proxy sitting in the API
+       path, so when it is disabled we must also send the http Service port
+       straight to Ollama (11434) and drop the now-backendless metrics port.
+       Default (no `enabled` key) keeps the exporter on and http -> :8000. */ -}}
+{{- $exporter := dig "controllers" "main" "containers" "exporter" dict .Values -}}
+{{- if and (hasKey $exporter "enabled") (not $exporter.enabled) -}}
+  {{- $_ := set (dig "service" "main" "ports" "http" dict .Values) "targetPort" 11434 -}}
+  {{- $_ := set (dig "service" "main" "ports" "metrics" dict .Values) "enabled" false -}}
+{{- end -}}
+
+{{/* Render the templates */}}
+{{ include "bjw-s.common.loader.generate" . }}

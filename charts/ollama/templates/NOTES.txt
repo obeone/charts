@@ -1,0 +1,46 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+
+Ollama has been deployed in namespace **{{ .Release.Namespace }}**.
+
+---------------------------------------------------------------------
+
+## Access the API
+
+Port-forward the Ollama API (port 11434) to your machine:
+
+```bash
+kubectl port-forward -n {{ .Release.Namespace }} \
+  svc/{{ include "bjw-s.common.lib.chart.names.fullname" . }} 11434:11434
+curl http://localhost:11434/api/version
+```
+
+Pull and run a model:
+
+```bash
+curl http://localhost:11434/api/pull -d '{"name":"llama3.2"}'
+```
+
+## Metrics
+
+The exporter sidecar exposes Prometheus metrics on port 8000 at `/metrics`.
+{{- if not .Values.serviceMonitor.metrics.enabled }}
+Enable scraping with a Prometheus Operator by setting
+`serviceMonitor.metrics.enabled=true`.
+{{- else }}
+A ServiceMonitor is active and scraping `/metrics`.
+{{- end }}
+
+{{- if not .Values.defaultPodOptions.runtimeClassName }}
+
+## GPU
+
+No RuntimeClass is set — Ollama runs CPU-only. For GPU acceleration set
+`defaultPodOptions.runtimeClassName=nvidia` (and pin the pod to a GPU node
+via `defaultPodOptions.nodeSelector`).
+{{- end }}
+
+---------------------------------------------------------------------
+
+Happy inferencing ! 🦙

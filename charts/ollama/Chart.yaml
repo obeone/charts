@@ -1,0 +1,52 @@
+apiVersion: v2
+name: ollama
+version: 0.1.0
+appVersion: "latest"
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  Ollama — run large language models locally, with an optional transparent
+  Prometheus exporter/proxy sidecar you toggle with a single switch
+  (exporter.enabled): on, it fronts the API and exports /metrics; off, the
+  API is served directly. This Helm chart packages the Ollama server on the
+  bjw-s common library so behaviour is driven almost entirely from
+  values.yaml. Supports GPU acceleration via RuntimeClass and dual-stack
+  Services out of the box.
+
+type: application
+
+keywords:
+  - ollama
+  - llm
+  - ai
+  - inference
+  - gpu
+  - prometheus
+  - self-hosted
+
+home: https://ollama.com
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+sources:
+  - https://github.com/ollama/ollama
+  - https://hub.docker.com/r/ollama/ollama
+  - https://github.com/obeone/charts/tree/main/charts/ollama
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.0.1
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/ollama/ollama
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release — Ollama server with optional Prometheus exporter sidecar, GPU and dual-stack support
