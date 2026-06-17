@@ -1,0 +1,40 @@
+{{- $fullname := include "bjw-s.common.lib.chart.names.fullname" . -}}
+{{- $extractWorker := index .Values.controllers "extract-worker" -}}
+{{- $nuqWorker := index .Values.controllers "nuq-worker" -}}
+{{- $nuqPrefetch := index .Values.controllers "nuq-prefetch-worker" -}}
+{{- $nuqPostgres := index .Values.controllers "nuq-postgres" -}}
+{{- $pgData := index .Values.persistence "nuq-postgres-data" -}}
+Firecrawl has been deployed in namespace **{{ .Release.Namespace }}**.
+
+{{ if .Values.ingress.api.enabled -}}
+API URL: http{{ if .Values.ingress.api.tls }}s{{ end }}://{{ (index .Values.ingress.api.hosts 0).host }}
+{{- else -}}
+Ingress is disabled. Reach the API with a port-forward:
+
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ $fullname }}-api 3002:3002
+
+Then the API is available at http://localhost:3002
+{{- end }}
+
+Quick test (self-hosted instances need no API key):
+
+  curl -X POST http://localhost:3002/v1/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{"url": "https://firecrawl.dev"}'
+
+Admin queue panel: /admin/<BULL_AUTH_KEY>/queues
+  Default BULL_AUTH_KEY is "CHANGEME" — override secrets.secrets.stringData.BULL_AUTH_KEY
+  before exposing this instance to untrusted networks.
+
+Topology deployed:
+- api ............... HTTP API (svc {{ $fullname }}-api:3002)
+- worker ............ legacy BullMQ queue worker
+- extract-worker .... AI /extract pipeline{{ if not $extractWorker.enabled }} (disabled){{ end }}
+- nuq-worker ........ primary NuQ queue worker (replicas: {{ $nuqWorker.replicas | default 1 }})
+- nuq-prefetch-worker NuQ prefetch worker{{ if not $nuqPrefetch.enabled }} (disabled){{ end }}
+- playwright ........ headless-browser renderer
+- redis ............. {{ if .Values.controllers.redis.enabled }}bundled{{ else }}external ({{ .Values.firecrawl.redis.url }}){{ end }}
+- rabbitmq .......... {{ if .Values.controllers.rabbitmq.enabled }}bundled{{ else }}external{{ end }}
+- nuq-postgres ...... {{ if $nuqPostgres.enabled }}bundled (PVC {{ $pgData.size }}){{ else }}external{{ end }}
+
+Docs: https://docs.firecrawl.dev — chart: https://charts.obeone.cloud 🔥
