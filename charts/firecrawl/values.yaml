@@ -578,6 +578,11 @@ controllers:
           POSTGRES_USER: "{{ .Values.nuqPostgres.auth.username }}"
           POSTGRES_PASSWORD: "{{ .Values.nuqPostgres.auth.password }}"
           POSTGRES_DB: "{{ .Values.nuqPostgres.auth.database }}"
+          # -- Postgres data dir. MUST be a subdirectory of the mounted volume,
+          # not the mount root: a real PVC (any ext4/xfs CSI volume, e.g.
+          # Longhorn) ships a `lost+found`, and initdb refuses a non-empty data
+          # dir → CrashLoopBackOff. Pointing PGDATA at a subdir sidesteps it.
+          PGDATA: /var/lib/postgresql/data/pgdata
         probes:
           liveness:
             enabled: true
