@@ -1,0 +1,815 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# =============================================================================
+# Firecrawl — self-hosted web crawler / scraper that turns sites into
+# LLM-ready data (markdown, HTML, structured JSON).
+#
+# This chart follows the upstream Kubernetes topology
+# (examples/kubernetes/firecrawl-helm), driven entirely from this file through
+# the bjw-s common library: one API deployment, four worker deployments, the
+# Playwright renderer, and three bundled data backends (Redis, RabbitMQ, NuQ
+# Postgres).
+#
+# GLOSSARY
+#   NuQ ......... Firecrawl's current Postgres + RabbitMQ-backed job queue (the
+#                 default engine). Driven by nuq-worker / nuq-prefetch-worker;
+#                 the NUQ_* env vars and the nuq-postgres backend belong to it.
+#   BullMQ ...... the older Redis-backed queue Firecrawl still runs alongside
+#                 NuQ. Served by the `worker` controller + the bundled Redis.
+#                 Both engines run by default during the NuQ migration; leave
+#                 the legacy worker enabled unless upstream says otherwise.
+#   Fire-engine . Firecrawl's proprietary cloud rendering backend. Self-hosted
+#                 instances cannot use it; rendering is done locally by the
+#                 bundled Playwright service.
+#
+# QUICK START
+#   `helm install firecrawl obeone/firecrawl` deploys with bundled backends and
+#   works out of the box for testing.
+#
+# SECURITY — before exposing beyond localhost:
+#   With USE_DB_AUTHENTICATION=false (the default, and the only mode self-hosted
+#   supports) the API performs NO request authentication: anyone who can reach
+#   the Service/Ingress can drive it. Set BULL_AUTH_KEY and the bundled
+#   RabbitMQ/Postgres passwords (all ship as placeholders) and protect the API
+#   at the network/ingress layer.
+#
+# SWAPPING A BACKEND (Redis / Playwright / NuQ Postgres / RabbitMQ)
+#   Always a TWO-STEP swap: set the matching `firecrawl.<backend>.url` override
+#   AND disable the bundled one (`controllers.<backend>.enabled: false` +
+#   `service.<backend>.enabled: false`). Doing only one half breaks silently —
+#   see the per-field comments below.
+#
+# COMMENT CONVENTION
+#   `# --` (two dashes, directly above a key) documents a user-facing tunable
+#   (helm-docs style). A bare `#` is internal rationale and is not a knob.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Shared connection env (YAML anchors)
+# -----------------------------------------------------------------------------
+# The three `x-firecrawl-*` keys below are anchor SOURCES, not configurable
+# values: Helm ignores top-level `x-*` keys, so they never render on their own.
+# They are merged into every Firecrawl app container's env via
+# `env: { <<: [*firecrawl-connection-env, *firecrawl-pod-env], ... }`.
+#
+# Editing an anchor here changes ALL FIVE Firecrawl containers at once (api,
+# worker, extract-worker, nuq-worker, nuq-prefetch-worker). The Playwright
+# service is configured separately and does NOT receive these. To repoint a
+# backend, set `firecrawl.<backend>.url` below — do not edit these templates.
+#
+# The values are rendered through the common library's `tpl` pass, so the
+# printf fallbacks resolve to the in-cluster Service DNS names
+# (<release>-redis, -playwright, -nuq-postgres, -rabbitmq) and ports. Those
+# must stay in lockstep with the `controllers.*` / `service.*` names and the
+# port values in `configMaps.config`; rename a service or change a port and you
+# must update the matching printf here too (or use a `firecrawl.*.url` override).
+x-firecrawl-connection-env: &firecrawl-connection-env
+  REDIS_URL: &redis-url '{{ .Values.firecrawl.redis.url | default (printf "redis://%s-redis:6379" (include "bjw-s.common.lib.chart.names.fullname" .)) }}'
+  # Reuses the REDIS_URL anchor on purpose; point it at its own URL/template to
+  # give rate-limiting a dedicated Redis.
+  REDIS_RATE_LIMIT_URL: *redis-url
+  PLAYWRIGHT_MICROSERVICE_URL: '{{ .Values.firecrawl.playwright.url | default (printf "http://%s-playwright:3000/scrape" (include "bjw-s.common.lib.chart.names.fullname" .)) }}'
+  NUQ_DATABASE_URL: &nuq-db-url '{{ .Values.firecrawl.database.url | default (printf "postgresql://%s:%s@%s-nuq-postgres:5432/%s" .Values.nuqPostgres.auth.username .Values.nuqPostgres.auth.password (include "bjw-s.common.lib.chart.names.fullname" .) .Values.nuqPostgres.auth.database) }}'
+  # Shares the NUQ_DATABASE_URL anchor: the LISTEN connection points at the same
+  # DB by design.
+  NUQ_DATABASE_URL_LISTEN: *nuq-db-url
+  NUQ_RABBITMQ_URL: '{{ .Values.firecrawl.rabbitmq.url | default (printf "amqp://%s:%s@%s-rabbitmq:5672" .Values.rabbitmq.auth.username .Values.rabbitmq.auth.password (include "bjw-s.common.lib.chart.names.fullname" .)) }}'
+
+# Downward-API env shared by every Firecrawl container; NuQ uses the pod name to
+# coordinate workers.
+x-firecrawl-pod-env: &firecrawl-pod-env
+  NUQ_POD_NAME:
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+
+# envFrom shared by every Firecrawl container: static config + secrets.
+x-firecrawl-env-from: &firecrawl-env-from
+  - configMap: config
+  - secret: secrets
+
+# -----------------------------------------------------------------------------
+# Backend overrides — point Firecrawl at an external service instead of a
+# bundled one. Remember the two-step swap (set the URL AND disable the bundled
+# controller + service).
+# -----------------------------------------------------------------------------
+firecrawl:
+  redis:
+    # -- External Redis URL (e.g. redis://user:pass@host:6379). To use it, set
+    # this AND `controllers.redis.enabled: false` + `service.redis.enabled:
+    # false`. Disabling the bundled Redis without setting this breaks every
+    # worker (the fallback URL points at the now-missing Service). Empty = use
+    # the bundled Redis.
+    url: ""
+  playwright:
+    # -- External Playwright URL. MUST include the `/scrape` path, e.g.
+    # http://playwright.example.com:3000/scrape. Same two-step swap. Empty = use
+    # the bundled Playwright.
+    url: ""
+  database:
+    # -- External NuQ Postgres URL
+    # (postgresql://user:pass@host:5432/db). MUST be the upstream nuq-postgres
+    # image (custom schema). Same two-step swap. Empty = use the bundled DB.
+    url: ""
+  rabbitmq:
+    # -- External RabbitMQ AMQP URL (amqp://user:pass@host:5672). Same two-step
+    # swap. Empty = use the bundled broker.
+    url: ""
+
+# -----------------------------------------------------------------------------
+# Bundled RabbitMQ credentials (NuQ broker)
+# -----------------------------------------------------------------------------
+# Interpolated into NUQ_RABBITMQ_URL, so these end up visible in plaintext in
+# the rendered manifest (`helm get manifest` / `kubectl get pod -o yaml`). For
+# real secrecy, use an external broker via `firecrawl.rabbitmq.url`.
+rabbitmq:
+  auth:
+    # -- RabbitMQ username; must NOT be `guest` (RabbitMQ rejects `guest` over
+    # non-loopback connections), hence a named user.
+    username: firecrawl
+    # -- Set a strong password before deploying to anything reachable.
+    password: firecrawl
+
+# -----------------------------------------------------------------------------
+# Bundled NuQ Postgres credentials (queue database)
+# -----------------------------------------------------------------------------
+# These feed BOTH the Postgres container env (POSTGRES_USER/PASSWORD/DB) AND the
+# NUQ_DATABASE_URL connection string — keep them consistent. Avoid URL-special
+# characters (@ : / %) in the password: it is embedded unescaped into the
+# postgresql:// URL. The DB is never exposed outside the cluster; for production
+# prefer an external managed Postgres via `firecrawl.database.url`.
+nuqPostgres:
+  auth:
+    # -- Postgres superuser name (also feeds NUQ_DATABASE_URL).
+    username: postgres
+    # -- Set a strong password before deploying (plaintext in the manifest, as
+    # above).
+    password: postgres
+    # -- Database name (also feeds NUQ_DATABASE_URL).
+    database: postgres
+
+# -----------------------------------------------------------------------------
+# Pod defaults
+# -----------------------------------------------------------------------------
+defaultPodOptions:
+  # Firecrawl never calls the Kubernetes API, so the token is not mounted.
+  # Per-pod default; override on a controller if a future sidecar needs it.
+  automountServiceAccountToken: false
+
+# -----------------------------------------------------------------------------
+# Controllers
+# -----------------------------------------------------------------------------
+# Each controller's probe port/path is specific to its own HTTP health server
+# and is NOT interchangeable. Every numeric probe port must match the matching
+# *_PORT in configMaps.config below — change one without the other and the pod
+# crash-loops on failing health checks.
+controllers:
+  # ===== API =================================================================
+  api:
+    enabled: true
+    strategy: RollingUpdate
+    containers:
+      api:
+        image:
+          repository: ghcr.io/firecrawl/firecrawl
+          tag: "2.10.19"
+          pullPolicy: IfNotPresent
+        command: ["node"]
+        # -- V8 old-space heap ceiling (MiB). Keep it safely below the memory
+        # limit (2048 heap vs 2560Mi limit); the gap absorbs non-heap usage.
+        # For heavy crawls raise this AND limits.memory together — raising only
+        # one risks OOMKill or premature GC.
+        args: ["--max-old-space-size=2048", "dist/src/index.js"]
+        env:
+          <<: [*firecrawl-connection-env, *firecrawl-pod-env]
+          # Selects which role the shared firecrawl image runs as; must match
+          # this controller. The FLY_ prefix is upstream Fly.io legacy and has
+          # nothing to do with running on Kubernetes. Do not change.
+          FLY_PROCESS_GROUP: app
+        envFrom: *firecrawl-env-from
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /v0/health/liveness
+                port: 3002
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /v0/health/readiness
+                port: 3002
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "2"
+            memory: 2560Mi
+
+  # ===== Legacy BullMQ worker ================================================
+  worker:
+    enabled: true
+    strategy: RollingUpdate
+    containers:
+      worker:
+        image:
+          repository: ghcr.io/firecrawl/firecrawl
+          tag: "2.10.19"
+          pullPolicy: IfNotPresent
+        command: ["node"]
+        # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
+        args: ["--max-old-space-size=1536", "dist/src/services/queue-worker.js"]
+        env:
+          <<: [*firecrawl-connection-env, *firecrawl-pod-env]
+          # See FLY_PROCESS_GROUP note on the api controller. Do not change.
+          FLY_PROCESS_GROUP: worker
+        envFrom: *firecrawl-env-from
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /liveness
+                port: 3005
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          # Disabled: the legacy BullMQ worker exposes only /liveness, no
+          # readiness endpoint.
+          readiness:
+            enabled: false
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 2Gi
+
+  # ===== Extract worker (AI /extract pipeline) ===============================
+  extract-worker:
+    enabled: true
+    strategy: RollingUpdate
+    containers:
+      extract-worker:
+        image:
+          repository: ghcr.io/firecrawl/firecrawl
+          tag: "2.10.19"
+          pullPolicy: IfNotPresent
+        command: ["node"]
+        # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
+        args: ["--max-old-space-size=1536", "dist/src/services/extract-worker.js"]
+        env:
+          <<: [*firecrawl-connection-env, *firecrawl-pod-env]
+          # See FLY_PROCESS_GROUP note on the api controller. Do not change.
+          FLY_PROCESS_GROUP: extract-worker
+        envFrom: *firecrawl-env-from
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /liveness
+                port: 3004
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3004
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 2Gi
+
+  # ===== NuQ worker (primary queue worker) ===================================
+  nuq-worker:
+    enabled: true
+    strategy: RollingUpdate
+    # -- Number of nuq-worker pods. Total NuQ concurrency =
+    # replicas x configMaps.config.NUQ_WORKER_COUNT (per-pod loops): scale pods
+    # for throughput, raise NUQ_WORKER_COUNT for per-pod concurrency. Keep
+    # NUQ_WORKER_COUNT sensible relative to the pods you run.
+    replicas: 1
+    containers:
+      nuq-worker:
+        image:
+          repository: ghcr.io/firecrawl/firecrawl
+          tag: "2.10.19"
+          pullPolicy: IfNotPresent
+        command: ["node"]
+        # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
+        args: ["--max-old-space-size=1536", "dist/src/services/worker/nuq-worker.js"]
+        env:
+          <<: [*firecrawl-connection-env, *firecrawl-pod-env]
+          # See FLY_PROCESS_GROUP note on the api controller. Do not change.
+          FLY_PROCESS_GROUP: nuq-worker
+        envFrom: *firecrawl-env-from
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3006
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3006
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "1"
+            memory: 2Gi
+
+  # ===== NuQ prefetch worker =================================================
+  nuq-prefetch-worker:
+    enabled: true
+    strategy: RollingUpdate
+    containers:
+      nuq-prefetch-worker:
+        image:
+          repository: ghcr.io/firecrawl/firecrawl
+          tag: "2.10.19"
+          pullPolicy: IfNotPresent
+        command: ["node"]
+        # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
+        args: ["--max-old-space-size=1024", "dist/src/services/worker/nuq-prefetch-worker.js"]
+        env:
+          <<: [*firecrawl-connection-env, *firecrawl-pod-env]
+          # See FLY_PROCESS_GROUP note on the api controller. Do not change.
+          FLY_PROCESS_GROUP: nuq-prefetch-worker
+          # -- Total number of prefetch-worker pods; MUST equal this
+          # controller's `replicas` (unset above, so it defaults to 1). Prefetch
+          # workers shard the queue by replica index, so a mismatch drops or
+          # double-processes jobs. To scale, raise BOTH together.
+          NUQ_PREFETCH_REPLICAS: "1"
+        envFrom: *firecrawl-env-from
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3011
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3011
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 1536Mi
+
+  # ===== Playwright rendering service ========================================
+  playwright:
+    enabled: true
+    strategy: RollingUpdate
+    containers:
+      playwright:
+        image:
+          repository: ghcr.io/firecrawl/playwright-service
+          # -- Upstream only publishes a floating `latest`; pinned by digest for
+          # reproducibility. The digest takes precedence over the tag, so bump
+          # BOTH together (changing only the tag has no effect). Current digests:
+          # ghcr.io/firecrawl/playwright-service.
+          tag: latest
+          digest: "sha256:1f6eba6403207d501a63d9b1d4685b6316b4fc7968fe64a5839ab1bfec9d1c14"
+          pullPolicy: IfNotPresent
+        envFrom:
+          - configMap: playwright-config
+          - secret: secrets
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3000
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3000
+              initialDelaySeconds: 30
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: "2"
+            memory: 2Gi
+
+  # ===== Bundled Redis (queue + rate limiting) ===============================
+  # To use an external Redis: set firecrawl.redis.url AND set both
+  # controllers.redis.enabled and service.redis.enabled to false.
+  redis:
+    enabled: true
+    containers:
+      redis:
+        image:
+          repository: docker.io/library/redis
+          tag: "7.4-alpine"
+          pullPolicy: IfNotPresent
+        command: ["redis-server"]
+        # -- Binds 0.0.0.0 with no password; reachable by any in-cluster client
+        # (ClusterIP only). Rely on NetworkPolicy / namespace isolation, or use
+        # an external authenticated Redis via firecrawl.redis.url.
+        args: ["--bind", "0.0.0.0"]
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 6379
+              initialDelaySeconds: 15
+              periodSeconds: 20
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 6379
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 3
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+
+  # ===== Bundled RabbitMQ (NuQ broker) =======================================
+  # To use an external broker: set firecrawl.rabbitmq.url AND set both
+  # controllers.rabbitmq.enabled and service.rabbitmq.enabled to false.
+  rabbitmq:
+    enabled: true
+    containers:
+      rabbitmq:
+        image:
+          repository: docker.io/library/rabbitmq
+          tag: "3.13-management-alpine"
+          pullPolicy: IfNotPresent
+        env:
+          RABBITMQ_DEFAULT_USER: "{{ .Values.rabbitmq.auth.username }}"
+          RABBITMQ_DEFAULT_PASS: "{{ .Values.rabbitmq.auth.password }}"
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5672
+              initialDelaySeconds: 20
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 6
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5672
+              initialDelaySeconds: 10
+              periodSeconds: 5
+              timeoutSeconds: 3
+              failureThreshold: 6
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+  # ===== Bundled NuQ Postgres (queue backend) ================================
+  # NOTE: this MUST be the firecrawl/nuq-postgres image (custom schema); a
+  # vanilla Postgres will not work.
+  # To use an external Postgres: set firecrawl.database.url AND set both
+  # controllers.nuq-postgres.enabled and service.nuq-postgres.enabled to false.
+  nuq-postgres:
+    enabled: true
+    # Recreate avoids two pods racing for the single RWO data volume.
+    strategy: Recreate
+    containers:
+      postgres:
+        image:
+          repository: ghcr.io/firecrawl/nuq-postgres
+          # -- Upstream only publishes a floating `latest`; pinned by digest.
+          # The digest takes precedence over the tag, so bump BOTH together.
+          # Current digests: ghcr.io/firecrawl/nuq-postgres.
+          tag: latest
+          digest: "sha256:f9388bd25ae2e1f1d034518236f993ce236173c1d8800ce24092ea6643a95a33"
+          pullPolicy: IfNotPresent
+        env:
+          POSTGRES_USER: "{{ .Values.nuqPostgres.auth.username }}"
+          POSTGRES_PASSWORD: "{{ .Values.nuqPostgres.auth.password }}"
+          POSTGRES_DB: "{{ .Values.nuqPostgres.auth.database }}"
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5432
+              initialDelaySeconds: 20
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 6
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 5432
+              initialDelaySeconds: 10
+              periodSeconds: 5
+              timeoutSeconds: 3
+              failureThreshold: 6
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+
+# -----------------------------------------------------------------------------
+# Services
+# -----------------------------------------------------------------------------
+# Only `api` (and optionally `playwright`) is meant to be consumed; redis,
+# rabbitmq and nuq-postgres are internal cluster wiring. Workers expose health
+# ports probed directly by the kubelet, so they need no Service of their own.
+# The RabbitMQ management UI on 15672 is for debugging via port-forward.
+service:
+  api:
+    enabled: true
+    controller: api
+    ports:
+      http:
+        port: 3002
+  playwright:
+    enabled: true
+    controller: playwright
+    ports:
+      http:
+        port: 3000
+  redis:
+    enabled: true
+    controller: redis
+    ports:
+      redis:
+        port: 6379
+  rabbitmq:
+    enabled: true
+    controller: rabbitmq
+    ports:
+      amqp:
+        port: 5672
+      management:
+        port: 15672
+  nuq-postgres:
+    enabled: true
+    controller: nuq-postgres
+    ports:
+      postgres:
+        port: 5432
+
+# -----------------------------------------------------------------------------
+# Persistence
+# -----------------------------------------------------------------------------
+# Only the NuQ Postgres data volume is stateful. Losing the bundled Redis /
+# RabbitMQ pods drops in-flight queue state and rate-limit counters (acceptable
+# for transient jobs — resubmit if needed). The size below sizes the NuQ queue
+# DB, not scraped output (which is returned to the client, never stored).
+persistence:
+  nuq-postgres-data:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    # -- PVC size for the NuQ Postgres data volume.
+    size: 10Gi
+    # -- StorageClass for the PVC (omit / empty = cluster default).
+    # storageClass: ""
+    # advancedMounts targets a controller/container by name: the `nuq-postgres`
+    # key MUST match controllers.nuq-postgres and `postgres` MUST match its
+    # container. Rename either and the volume silently mounts nowhere — Postgres
+    # writes to ephemeral storage and loses all data on restart, no error.
+    advancedMounts:
+      nuq-postgres:
+        postgres:
+          - path: /var/lib/postgresql/data
+
+# -----------------------------------------------------------------------------
+# Static configuration (ConfigMaps)
+# -----------------------------------------------------------------------------
+# Shared by the API and worker containers. Connection URLs are NOT here — they
+# need template rendering and live in env (see the anchors at the top).
+configMaps:
+  config:
+    enabled: true
+    data:
+      HOST: "0.0.0.0"
+      # These *_PORT values must match the httpGet ports in the controller
+      # probes above.
+      PORT: "3002"
+      WORKER_PORT: "3005"
+      EXTRACT_WORKER_PORT: "3004"
+      NUQ_WORKER_PORT: "3006"
+      NUQ_PREFETCH_WORKER_PORT: "3011"
+      # -- NuQ worker loops per pod (intra-pod concurrency). Total concurrency =
+      # controllers.nuq-worker.replicas x this value.
+      NUQ_WORKER_COUNT: "1"
+      # -- Concurrent jobs each worker pulls per queue. Raise for per-pod
+      # throughput, or add replicas to scale across pods.
+      NUM_WORKERS_PER_QUEUE: "8"
+      # -- DB-backed auth needs Supabase, which self-hosted cannot configure;
+      # leave false (this deliberately differs from upstream .env.example, which
+      # ships true). With false the API performs NO request authentication —
+      # protect it at the network/ingress layer.
+      USE_DB_AUTHENTICATION: "false"
+      IS_KUBERNETES: "true"
+      # -- Runtime environment (production | development).
+      ENV: "production"
+      # -- Log verbosity (e.g. INFO, DEBUG, WARN, ERROR).
+      LOGGING_LEVEL: "INFO"
+      # -- URL scheme the app advertises for its own public URLs (http | https).
+      # Set to https when serving the API over TLS.
+      FIRECRAWL_APP_SCHEME: "http"
+      # ==  Optional: AI features (JSON mode, /extract)  ==
+      # -- OpenAI-compatible base URL (leave empty for OpenAI itself; set
+      # OPENAI_API_KEY in the secret).
+      OPENAI_BASE_URL: ""
+      # -- Local Ollama base URL — must include /api, e.g.
+      # http://ollama:11434/api. For Ollama set this + MODEL_NAME +
+      # MODEL_EMBEDDING_NAME and leave OPENAI_* empty.
+      OLLAMA_BASE_URL: ""
+      # -- LLM model name used for JSON mode / extract.
+      MODEL_NAME: ""
+      # -- Embedding model name.
+      MODEL_EMBEDDING_NAME: ""
+      # ==  Optional: outbound proxy (HTTP fetch path)  ==
+      # Password is PROXY_PASSWORD in the secret. The headless-browser proxy is
+      # set separately in playwright-config — set both for full coverage.
+      # -- Proxy server URL or IP:PORT.
+      PROXY_SERVER: ""
+      # -- Proxy username (leave blank if unauthenticated).
+      PROXY_USERNAME: ""
+      # ==  Optional: /search via SearXNG  ==
+      # -- URL of an external SearXNG metasearch instance (required for /search).
+      SEARXNG_ENDPOINT: ""
+      # -- Optional comma-separated engines, e.g. google,bing.
+      SEARXNG_ENGINES: ""
+      # -- Optional comma-separated categories.
+      SEARXNG_CATEGORIES: ""
+      # ==  Optional: completion webhook  ==
+      # -- Receives crawl/scrape completion callbacks; signed by
+      # SELF_HOSTED_WEBHOOK_HMAC_SECRET (in the secret) when set.
+      SELF_HOSTED_WEBHOOK_URL: ""
+  # Playwright runs on its own port and only needs proxy/media/webhook settings.
+  # Its proxy applies to the headless browser (shared password PROXY_PASSWORD in
+  # the secret).
+  playwright-config:
+    enabled: true
+    data:
+      PORT: "3000"
+      # -- Let the renderer POST to RFC1918/localhost targets. Off by default
+      # for SSRF safety; use with care.
+      ALLOW_LOCAL_WEBHOOKS: ""
+      # -- Block images/video/fonts in the headless browser (faster scrapes).
+      BLOCK_MEDIA: "true"
+      # -- Max concurrent browser pages.
+      MAX_CONCURRENT_PAGES: "10"
+      # -- Headless-browser proxy server URL or IP:PORT.
+      PROXY_SERVER: ""
+      # -- Headless-browser proxy username (leave blank if unauthenticated).
+      PROXY_USERNAME: ""
+
+# -----------------------------------------------------------------------------
+# Secrets
+# -----------------------------------------------------------------------------
+# To manage these outside the chart, set `enabled: false` and create a Secret
+# named `<release-fullname>-secrets` (the `secret: secrets` reference is
+# fullname-prefixed by the common library) with the same keys. That Secret is
+# also mounted into the Playwright container (for PROXY_PASSWORD), not only the
+# Firecrawl workers.
+secrets:
+  secrets:
+    enabled: true
+    stringData:
+      # -- Protects the admin queue dashboard at /admin/<key>/queues (the URL
+      # embeds this key verbatim; the dashboard shows the legacy BullMQ queues).
+      # The API itself is unauthenticated — this only guards /admin. CHANGE THIS
+      # on any deployment reachable from untrusted networks.
+      BULL_AUTH_KEY: "CHANGEME"
+      # -- OpenAI (or compatible) API key to enable AI features.
+      OPENAI_API_KEY: ""
+      # -- Slack webhook for server health notifications.
+      SLACK_WEBHOOK_URL: ""
+      # -- LlamaParse key for PDF parsing.
+      LLAMAPARSE_API_KEY: ""
+      # -- API key used by Firecrawl's own integration/e2e tests against this
+      # instance. Not needed for normal operation; leave empty.
+      TEST_API_KEY: ""
+      # -- Password for the outbound proxy (used by both the HTTP-fetch and
+      # Playwright proxies, if PROXY_SERVER is set).
+      PROXY_PASSWORD: ""
+      # -- HMAC secret signing self-hosted webhook payloads (optional).
+      SELF_HOSTED_WEBHOOK_HMAC_SECRET: ""
+
+# -----------------------------------------------------------------------------
+# Ingress (API only) — disabled by default.
+# -----------------------------------------------------------------------------
+ingress:
+  api:
+    # -- Expose the API via Ingress. The API is unauthenticated — protect it
+    # before exposing (see USE_DB_AUTHENTICATION and BULL_AUTH_KEY). When
+    # serving over TLS, also set configMaps.config FIRECRAWL_APP_SCHEME=https.
+    enabled: false
+    # className: nginx
+    # -- Ingress hostnames for the API.
+    hosts:
+      - host: firecrawl.example.com
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: api
+              port: http
+    # tls:
+    #   - hosts:
+    #       - firecrawl.example.com
+    #     secretName: tls-firecrawl-example-com
