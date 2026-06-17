@@ -1,0 +1,53 @@
+apiVersion: v2
+name: firecrawl
+version: 0.1.0
+appVersion: "2.10.19"
+kubeVersion: ">=1.25.0-0"
+
+description: >-
+  Firecrawl is an open-source API that crawls websites and turns them into
+  LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+  self-hosted topology — API, workers, Playwright renderer and the bundled
+  Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library,
+  with official ghcr.io images.
+
+type: application
+
+keywords:
+  - firecrawl
+  - web-scraping
+  - crawling
+  - llm
+  - markdown
+  - ai
+  - self-hosted
+
+home: https://www.firecrawl.dev
+icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+sources:
+  - https://github.com/firecrawl/firecrawl
+  - https://docs.firecrawl.dev
+  - https://github.com/obeone/charts/tree/main/charts/firecrawl
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 4.6.2
+
+annotations:
+  artifacthub.io/license: AGPL-3.0
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/firecrawl/firecrawl
+    - name: Documentation
+      url: https://docs.firecrawl.dev
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release — rebuilt on the bjw-s common library with the current self-hosted topology (NuQ queue, RabbitMQ, multi-worker split) and official ghcr.io images.
