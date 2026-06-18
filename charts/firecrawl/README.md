@@ -1,6 +1,6 @@
 # Firecrawl
 
-![Version](https://img.shields.io/badge/version-2.0.0-informational?style=flat-square)
+![Version](https://img.shields.io/badge/version-2.0.1-informational?style=flat-square)
 ![AppVersion](https://img.shields.io/badge/appVersion-2.10.19-informational?style=flat-square)
 ![Type](https://img.shields.io/badge/type-application-informational?style=flat-square)
 ![License](https://img.shields.io/badge/license-AGPL--3.0-blue?style=flat-square)
