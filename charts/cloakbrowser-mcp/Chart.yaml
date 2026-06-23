@@ -1,0 +1,48 @@
+apiVersion: v2
+name: cloakbrowser-mcp
+version: 0.1.0
+appVersion: "1.4.0"
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  CloakBrowser MCP — a Model Context Protocol browser-automation server that runs
+  upstream @playwright/mcp with the CloakBrowser Chromium binary. This Helm chart
+  packages the bridge in its streamable-http transport so it can be reached over the
+  network, driven entirely from values.yaml via the bjw-s common library.
+
+type: application
+
+keywords:
+  - mcp
+  - model-context-protocol
+  - playwright
+  - browser-automation
+  - chromium
+  - cloakbrowser
+  - self-hosted
+
+home: https://github.com/swimmwatch/cloakbrowser-mcp
+sources:
+  - https://github.com/swimmwatch/cloakbrowser-mcp
+  - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+  - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.0.1
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/swimmwatch/cloakbrowser-mcp
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release of the cloakbrowser-mcp chart (appVersion 1.4.0)
