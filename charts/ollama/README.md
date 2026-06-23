@@ -1,6 +1,6 @@
 # Ollama Helm Chart
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/ollama)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/ollama)
 
 ## What is Ollama?
 
@@ -46,12 +46,12 @@ controllers:
         enabled: false   # <-- the only line you touch
 ```
 
-| `exporter.enabled` | `http` Service port → targetPort | `metrics` port (`:8000`) | Sidecar container |
-|--------------------|----------------------------------|--------------------------|-------------------|
-| `true` (default)   | `11434 → 8000` (through proxy)    | present                  | present           |
-| `false`            | `11434 → 11434` (direct to Ollama)| dropped                  | dropped           |
+| `exporter.enabled` | `http` Service port → targetPort | `/metrics` | Sidecar container |
+|--------------------|----------------------------------|------------|-------------------|
+| `true` (default)   | `11434 → 8000` (through proxy)    | scraped on the `http` port | present           |
+| `false`            | `11434 → 11434` (direct to Ollama)| none       | dropped           |
 
-So when you disable it, the API keeps working — traffic just goes straight to Ollama and there is no dangling `:8000` Service port left pointing at a container that no longer exists. No other value needs changing.
+So when you disable it, the API keeps working — traffic just goes straight to Ollama, the `http` Service port simply retargets to `11434`, and there is nothing left pointing at a container that no longer exists. No other value needs changing.
 
 > ℹ️ The default ships the proxy **on**. If you have no metrics/proxy image to run, set `exporter.enabled: false` and Ollama is served directly.
 
@@ -111,8 +111,8 @@ controllers:
           repository: ollama/ollama
           tag: "0.6.0"              # pin for reproducibility
         env:
+          # Optional tuning overrides; unset by default (Ollama's own defaults apply)
           OLLAMA_KEEP_ALIVE: 30m
-          OLLAMA_CONTEXT_LENGTH: "64000"
         resources:
           requests:
             memory: 10Gi            # bump to fit your models
@@ -146,11 +146,11 @@ serviceMonitor:
 |----------------------------------------------------------------|--------|------------------|---------------------------------------------------|
 | controllers.main.containers.ollama.image.repository            | string | `ollama/ollama`  | Ollama server image                               |
 | controllers.main.containers.ollama.image.tag                  | string | `latest`         | Image tag — pin to a release for reproducibility  |
-| controllers.main.containers.ollama.env.OLLAMA_KEEP_ALIVE       | string | `30m`            | How long a model stays loaded after the last call |
-| controllers.main.containers.ollama.env.OLLAMA_NUM_PARALLEL     | string | `"2"`            | Parallel requests per model                       |
-| controllers.main.containers.ollama.env.OLLAMA_MAX_LOADED_MODELS| string | `"4"`            | Max models kept loaded simultaneously             |
-| controllers.main.containers.ollama.env.OLLAMA_CONTEXT_LENGTH   | string | `"64000"`        | Default context window size                       |
-| controllers.main.containers.ollama.env.OLLAMA_FLASH_ATTENTION  | string | `"true"`         | Enable Flash Attention                            |
+| controllers.main.containers.ollama.env.OLLAMA_HOST            | string | `"0.0.0.0"`      | Bind address; must stay reachable in-cluster      |
+| controllers.main.containers.ollama.env.OLLAMA_ORIGINS         | string | `"*"`            | Allowed CORS origins                              |
+| controllers.main.containers.ollama.env.OLLAMA_NOHISTORY       | string | `"true"`         | Disable prompt history persistence                |
+
+Performance/tuning knobs (`OLLAMA_KEEP_ALIVE`, `OLLAMA_NUM_PARALLEL`, `OLLAMA_MAX_LOADED_MODELS`, `OLLAMA_SCHED_SPREAD`, `OLLAMA_FLASH_ATTENTION`) ship **commented out** in `values.yaml`, so Ollama's own upstream defaults apply. Uncomment and adjust them to your hardware and workload.
 
 ### Exporter / proxy sidecar
 
@@ -166,9 +166,7 @@ serviceMonitor:
 | Key                                          | Type   | Default          | Description                                                  |
 |----------------------------------------------|--------|------------------|-------------------------------------------------------------|
 | service.main.type                            | string | `ClusterIP`      | Service type                                                |
-| service.main.ipFamilyPolicy                  | string | `PreferDualStack`| Dual-stack, degrades to single-stack                        |
-| service.main.ports.http.port                 | int    | `11434`          | API port; `targetPort` is managed by `exporter.enabled`     |
-| service.main.ports.metrics.port              | int    | `8000`           | Exporter `/metrics` port (dropped when the exporter is off) |
+| service.main.ports.http.port                 | int    | `11434`          | API port; `targetPort` is managed by `exporter.enabled` (`/metrics` is scraped on this port via the ServiceMonitor) |
 
 ### Persistence
 
@@ -202,11 +200,11 @@ helm upgrade ollama obeone/ollama --reuse-values \
   --set serviceMonitor.metrics.enabled=true
 ```
 
-Disabling the exporter (`exporter.enabled=false`) removes both the sidecar and the `metrics` port, so leave the `ServiceMonitor` off in that case.
+Disabling the exporter (`exporter.enabled=false`) removes the sidecar, and with it `/metrics`, so leave the `ServiceMonitor` off in that case.
 
 ## GPU notes
 
-GPU exposure is effective only when `defaultPodOptions.runtimeClassName` points at an NVIDIA RuntimeClass. The `ollama` container already carries `NVIDIA_VISIBLE_DEVICES=all` and `NVIDIA_DRIVER_CAPABILITIES=compute,utility`, plus `OLLAMA_SCHED_SPREAD=1` to spread work across all GPUs. For [Sablier](https://acouvreur.github.io/sablier/) scale-to-zero on a GPU group, set pod labels under `controllers.main.pod.labels`.
+GPU exposure is effective only when `defaultPodOptions.runtimeClassName` points at an NVIDIA RuntimeClass. The `ollama` container already carries `NVIDIA_VISIBLE_DEVICES=all` and `NVIDIA_DRIVER_CAPABILITIES=compute,utility`. To spread work across all GPUs, uncomment `OLLAMA_SCHED_SPREAD=1` in `values.yaml` (it ships commented out alongside the other tuning knobs). For [Sablier](https://acouvreur.github.io/sablier/) scale-to-zero on a GPU group, set pod labels under `controllers.main.pod.labels`.
 
 ## Upgrading
 

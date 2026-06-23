@@ -38,20 +38,20 @@ controllers:
           OLLAMA_HOST: "0.0.0.0"
           # -- Allowed CORS origins.
           OLLAMA_ORIGINS: "*"
+          # Performance/tuning knobs left to Ollama's own upstream defaults.
+          # Uncomment and adjust to your hardware and workload:
           # -- How long a model stays loaded in memory after the last request.
-          OLLAMA_KEEP_ALIVE: 30m
+          # OLLAMA_KEEP_ALIVE: 30m
           # -- Number of parallel requests handled per model.
-          OLLAMA_NUM_PARALLEL: "2"
+          # OLLAMA_NUM_PARALLEL: "2"
           # -- Maximum number of models kept loaded simultaneously.
-          OLLAMA_MAX_LOADED_MODELS: "4"
+          # OLLAMA_MAX_LOADED_MODELS: "4"
           # -- Spread work across all GPUs.
-          OLLAMA_SCHED_SPREAD: "1"
+          # OLLAMA_SCHED_SPREAD: "1"
           # -- Enable Flash Attention.
-          OLLAMA_FLASH_ATTENTION: "true"
+          # OLLAMA_FLASH_ATTENTION: "true"
           # -- Disable prompt history persistence.
           OLLAMA_NOHISTORY: "true"
-          # -- Default context window size.
-          OLLAMA_CONTEXT_LENGTH: "64000"
           # -- Scratch directory (mounted as an emptyDir below).
           OLLAMA_TMPDIR: /tmp/ollama
           # GPU exposure — effective only when defaultPodOptions.runtimeClassName
@@ -63,7 +63,8 @@ controllers:
             enabled: true
             custom: true
             spec:
-              tcpSocket:
+              httpGet:
+                path: /
                 port: 11434
               initialDelaySeconds: 30
               periodSeconds: 15
@@ -73,7 +74,8 @@ controllers:
             enabled: true
             custom: true
             spec:
-              tcpSocket:
+              httpGet:
+                path: /
                 port: 11434
               initialDelaySeconds: 10
               periodSeconds: 10
@@ -111,6 +113,9 @@ controllers:
         env:
           # -- Upstream Ollama URL the exporter proxies to (same pod, localhost).
           OLLAMA_HOST: http://localhost:11434
+        ports:
+          - name: proxy
+            containerPort: 8000
         probes:
           liveness:
             enabled: true
@@ -139,20 +144,12 @@ service:
   main:
     controller: main
     type: ClusterIP
-    # -- Prefer dual-stack; degrades gracefully to single-stack clusters.
-    ipFamilyPolicy: PreferDualStack
-    ipFamilies:
-      - IPv4
-      - IPv6
     ports:
       http:
         primary: true
         port: 11434
         protocol: HTTP
-        targetPort: 8000
-      metrics:
-        port: 8000
-        protocol: HTTP
+        targetPort: proxy
 
 ingress:
   main:
@@ -207,7 +204,7 @@ serviceMonitor:
     enabled: false
     serviceName: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}'
     endpoints:
-      - port: metrics
+      - port: http
         path: /metrics
         interval: 30s
         scrapeTimeout: 10s

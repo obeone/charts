@@ -1,6 +1,6 @@
 apiVersion: v2
 name: ollama
-version: 0.1.0
+version: 0.2.0
 appVersion: "latest"
 kubeVersion: ">=1.31.0-0"
 
@@ -10,8 +10,7 @@ description: >-
   (exporter.enabled): on, it fronts the API and exports /metrics; off, the
   API is served directly. This Helm chart packages the Ollama server on the
   bjw-s common library so behaviour is driven almost entirely from
-  values.yaml. Supports GPU acceleration via RuntimeClass and dual-stack
-  Services out of the box.
+  values.yaml. Supports GPU acceleration via RuntimeClass.
 
 type: application
 
@@ -48,5 +47,11 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: Initial release — Ollama server with optional Prometheus exporter sidecar, GPU and dual-stack support
+    - kind: removed
+      description: Drop cluster-specific Service defaults (dual-stack ipFamilyPolicy/ipFamilies) so the chart ships portable defaults
+    - kind: changed
+      description: Stop hard-coding personal tuning constants (context length, keep-alive, parallelism, flash-attention); they are now commented examples and Ollama's own defaults apply
+    - kind: changed
+      description: Collapse the separate metrics Service port into the http port; metrics are scraped on http /metrics via the ServiceMonitor
+    - kind: changed
+      description: Switch liveness/readiness probes from tcpSocket to httpGet on /
