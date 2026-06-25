@@ -9,6 +9,17 @@ reachable inside the cluster at:
 
   http://{{ include "bjw-s.common.lib.chart.names.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:3000
 
+{{- $env := .Values.controllers.main.containers.main.env }}
+{{- if not (hasKey $env "CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN") }}
+
+!!  SECURITY WARNING  !!
+This endpoint is UNAUTHENTICATED. It exposes a real, scriptable browser over the
+cluster network: anyone who can reach the Service can drive it to read internal URLs,
+hit metadata endpoints and exfiltrate data (SSRF / lateral movement).
+Set CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN (from a Secret) before exposing it. See the
+chart README "Security" section, and remember the probes need the same Bearer header.
+{{- end }}
+
 ---------------------------------------------------------------------
 
 ## Quick check
