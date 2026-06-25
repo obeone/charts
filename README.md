@@ -29,7 +29,7 @@ helm install my-release obeone/<chart> --verify
 
 | | Chart | App | Description |
 | :-: | --- | --- | --- |
-| 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.4.0` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp): Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
+| 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.4.0` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) — Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
 | 🔪 | [**cyberchef**](charts/cyberchef) | `v10.19.4` | GCHQ's [Cyber Swiss Army Knife](https://github.com/gchq/CyberChef) — encode, decode, encrypt, analyze. Multi-arch. |
 | 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.16` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
 | 🖌️ | [**draw-things**](charts/draw-things) | `latest` | [Draw Things](https://drawthings.ai) gRPC server — Stable Diffusion inference backend for the macOS/iOS app, GPU-accelerated. |
@@ -81,4 +81,3 @@ Releases are cut automatically by
 ---
 
 Made with ❤️ and a healthy dose of YAML by [**@obeone**](https://github.com/obeone).
-x
