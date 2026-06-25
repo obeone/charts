@@ -49,10 +49,23 @@ takes no arguments), exposed under
 | `CLOAK_PLAYWRIGHT_MCP_LOG_LEVEL`  | `info`             | `trace`, `debug`, `info`, `warn`, `error`, `fatal`, `silent`. |
 | `PLAYWRIGHT_MCP_HEADLESS`         | `true`             | Headless Chromium.                                   |
 | `PLAYWRIGHT_MCP_OUTPUT_DIR`       | `/data`            | Where artifacts (screenshots, traces) are written.   |
+| `CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN` | _unset_       | Bearer token guarding the endpoint. Unset means no auth. See the security section, you almost certainly want this. |
 
-Add or override any other upstream variable by extending the same `env` map. See the
-project's configuration reference for the full list (HTTPS listener, TLS certs, extra
-Chromium args, and so on).
+A few more knobs the chart leaves at their upstream defaults, overridable through the same
+`env` map:
+
+| Variable                                    | Default     | Purpose                                              |
+| ------------------------------------------- | ----------- | ---------------------------------------------------- |
+| `CLOAK_PLAYWRIGHT_MCP_HTTP_ENDPOINT`        | `/mcp`      | Path the MCP server is served on.                    |
+| `CLOAK_PLAYWRIGHT_MCP_HTTP_PROTOCOL`        | `http`      | Set to `https` (with mounted certs) to terminate TLS in the pod. |
+| `CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_MAX`     | `32`        | Max concurrent browser sessions.                     |
+| `CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_IDLE_TTL_MS` | `3600000` | Idle session timeout.                              |
+| `CLOAK_PLAYWRIGHT_MCP_STEALTH_ARGS`         | `true`      | CloakBrowser stealth flags.                          |
+| `CLOAK_PLAYWRIGHT_MCP_NO_SANDBOX`           | `true`      | Disable the Chromium sandbox (usually required in containers). |
+| `PLAYWRIGHT_MCP_BROWSER_ENGINE`             | `cloak`     | Engine: `cloak`, `chromium`, `firefox`, `webkit`.    |
+
+See the project's [docker configuration reference](https://github.com/swimmwatch/cloakbrowser-mcp/blob/main/docs/docker.md)
+for the complete list (HTTPS listener, TLS certs, session backend, extra Chromium args).
 
 ### Common values
 
@@ -105,6 +118,50 @@ ingress:
 ```
 
 ## Security
+
+### This endpoint is unauthenticated by default, and it is powerful
+
+Upstream, the server binds `127.0.0.1` and is meant to be a local child process. This chart
+deliberately flips that: it binds `0.0.0.0` and publishes the bridge through a Kubernetes
+Service (and, if you enable it, an Ingress) so MCP clients can reach it over the network.
+
+That means the endpoint hands anyone who can reach it a fully scriptable, real browser:
+navigate anywhere, follow redirects, read internal-only URLs, hit cloud metadata endpoints,
+exfiltrate responses. It is an SSRF and lateral-movement primitive on a plate. A ClusterIP
+Service is reachable by every pod in the cluster, and an Ingress can expose it to the whole
+internet.
+
+So, unless the server sits on a trusted, isolated network you fully control:
+
+- **Set an auth token.** Provide `CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN` so every request
+  (and every probe) must carry `Authorization: Bearer <token>`. Source it from a Secret you
+  create, never inline it in `values.yaml`:
+
+  ```yaml
+  # kubectl create secret generic cloakbrowser-mcp-auth --from-literal=token='<a-long-random-token>'
+  controllers:
+    main:
+      containers:
+        main:
+          env:
+            CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN:
+              valueFrom:
+                secretKeyRef:
+                  name: cloakbrowser-mcp-auth
+                  key: token
+  ```
+
+- **Mind the probes.** Once a token is set, `/healthz` and `/readyz` also require it, so the
+  default probes will return 401 and the pod never becomes Ready. Add the same Bearer header
+  to each probe spec (it lands in the pod manifest in clear text, which is the upstream
+  tradeoff), or terminate auth in front of the pod. The shipped `values.yaml` carries a
+  ready-to-uncomment example next to the probes.
+
+- **Terminate TLS** at the Ingress (the bridge speaks plain HTTP), or set
+  `CLOAK_PLAYWRIGHT_MCP_HTTP_PROTOCOL=https` with mounted certs, and restrict who can reach
+  the Service with NetworkPolicies.
+
+### Pod hardening (shipped defaults)
 
 - Runs as the non-root `node` user (uid 1000) from the upstream image.
 - Drops all Linux capabilities and disallows privilege escalation.

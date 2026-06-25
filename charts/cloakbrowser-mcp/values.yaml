@@ -41,6 +41,28 @@ controllers:
           PLAYWRIGHT_MCP_HEADLESS: "true"
           # Where the bridge writes artifacts (screenshots, traces). Mounted below.
           PLAYWRIGHT_MCP_OUTPUT_DIR: /data
+          # -- Bearer token protecting the HTTP endpoint. UNSET by default, which means
+          # the MCP server is UNAUTHENTICATED. This chart binds 0.0.0.0 and publishes the
+          # bridge through a Service (and optionally Ingress), unlike the upstream
+          # loopback-only default, so anyone able to reach it can drive a real browser
+          # (think SSRF and access to your internal network). On any shared, multi-tenant
+          # or internet-reachable cluster, SET THIS. Create a Secret and reference it:
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: cloakbrowser-mcp-auth
+          #       key: token
+          # Heads-up: once this is set, the health endpoints below also demand the same
+          # Bearer header, so the probes need it too (see the probes block).
+          #
+          # Extra knobs (upstream defaults shown; uncomment to override):
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_ENDPOINT: /mcp                  # MCP path on the HTTP listener
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_PROTOCOL: http                 # set to https (+ mount certs) to terminate TLS in-pod
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_MAX: "32"              # max concurrent browser sessions
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_IDLE_TTL_MS: "3600000" # idle session timeout
+          # CLOAK_PLAYWRIGHT_MCP_STEALTH_ARGS: "true"               # CloakBrowser stealth flags
+          # CLOAK_PLAYWRIGHT_MCP_NO_SANDBOX: "true"                 # Chromium sandbox off (usually required in containers)
+          # PLAYWRIGHT_MCP_BROWSER_ENGINE: cloak                    # cloak (default) | chromium | firefox | webkit
 
         # Container-level hardening. readOnlyRootFilesystem is intentionally left off:
         # Chromium needs to write to several paths outside the mounted volumes.
@@ -58,7 +80,16 @@ controllers:
           limits:
             memory: 2Gi
 
-        # Health probes hit the bridge's built-in HTTP endpoints.
+        # Health probes hit the bridge's built-in HTTP endpoints. NOTE: if you enable
+        # CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN above, /healthz and /readyz start requiring
+        # the same Bearer header, so these probes 401 and the pod never goes Ready. Add the
+        # header to each probe spec (it ends up in the pod spec in clear text):
+        #   httpGet:
+        #     path: /healthz
+        #     port: 3000
+        #     httpHeaders:
+        #       - name: Authorization
+        #         value: "Bearer <same-token>"
         probes:
           liveness:
             enabled: true
