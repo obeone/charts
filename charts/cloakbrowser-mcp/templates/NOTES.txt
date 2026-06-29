@@ -1,0 +1,50 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+
+CloakBrowser MCP has been deployed in namespace **{{ .Release.Namespace }}**.
+
+The bridge runs the @playwright/mcp server over the streamable-http transport,
+reachable inside the cluster at:
+
+  http://{{ include "bjw-s.common.lib.chart.names.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:3000
+
+{{- $env := .Values.controllers.main.containers.main.env }}
+{{- if not (hasKey $env "CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN") }}
+
+!!  SECURITY WARNING  !!
+This endpoint is UNAUTHENTICATED. It exposes a real, scriptable browser over the
+cluster network: anyone who can reach the Service can drive it to read internal URLs,
+hit metadata endpoints and exfiltrate data (SSRF / lateral movement).
+Set CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN (from a Secret) before exposing it. See the
+chart README "Security" section, and remember the probes need the same Bearer header.
+{{- end }}
+
+---------------------------------------------------------------------
+
+## Quick check
+
+Port-forward and probe the health endpoint:
+
+```bash
+kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "bjw-s.common.lib.chart.names.fullname" . }} 3000:3000
+curl -fsS http://127.0.0.1:3000/healthz && echo " ok"
+```
+
+## Point an MCP client at it
+
+Configure your MCP client to use the streamable-http endpoint:
+
+```
+http://127.0.0.1:3000/mcp
+```
+
+{{- if not .Values.ingress.main.enabled }}
+
+> Ingress is disabled. Enable `ingress.main` (and terminate TLS there — the bridge
+> speaks plain HTTP) to expose the endpoint outside the cluster.
+{{- end }}
+
+---------------------------------------------------------------------
+
+Happy automating with CloakBrowser ! 🕵️

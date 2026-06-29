@@ -1,0 +1,171 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# -- Pod-wide options applied to every controller in this chart.
+defaultPodOptions:
+  # The bridge never talks to the Kubernetes API, so keep the SA token out of the pod.
+  automountServiceAccountToken: false
+  # Run as the unprivileged "node" user baked into the upstream Playwright MCP image.
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+    seccompProfile:
+      type: RuntimeDefault
+
+# Main controller running the CloakBrowser MCP bridge.
+controllers:
+  main:
+    # Plain Deployment with the default RollingUpdate strategy.
+    containers:
+      main:
+        image:
+          # -- Container image. The same tag is published on Docker Hub and ghcr.io.
+          repository: swimmwatch/cloakbrowser-mcp
+          # Track the chart's appVersion so an upgrade pulls the matching bridge build.
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+
+        # -- Environment driving the bridge. The image entrypoint takes no args, so the
+        # whole configuration is expressed through these CLOAK_*/PLAYWRIGHT_* variables.
+        env:
+          # Expose the MCP server over the network instead of stdio.
+          CLOAK_PLAYWRIGHT_MCP_TRANSPORT: streamable-http
+          # Bind on all interfaces so the Service can reach it; the Service stays ClusterIP.
+          CLOAK_PLAYWRIGHT_MCP_HTTP_HOST: 0.0.0.0
+          CLOAK_PLAYWRIGHT_MCP_HTTP_PORT: "3000"
+          # Operational log level: trace|debug|info|warn|error|fatal|silent.
+          CLOAK_PLAYWRIGHT_MCP_LOG_LEVEL: info
+          # Chromium runs headless inside the container.
+          PLAYWRIGHT_MCP_HEADLESS: "true"
+          # Where the bridge writes artifacts (screenshots, traces). Mounted below.
+          PLAYWRIGHT_MCP_OUTPUT_DIR: /data
+          # -- Bearer token protecting the HTTP endpoint. UNSET by default, which means
+          # the MCP server is UNAUTHENTICATED. This chart binds 0.0.0.0 and publishes the
+          # bridge through a Service (and optionally Ingress), unlike the upstream
+          # loopback-only default, so anyone able to reach it can drive a real browser
+          # (think SSRF and access to your internal network). On any shared, multi-tenant
+          # or internet-reachable cluster, SET THIS. Create a Secret and reference it:
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: cloakbrowser-mcp-auth
+          #       key: token
+          # Heads-up: once this is set, the health endpoints below also demand the same
+          # Bearer header, so the probes need it too (see the probes block).
+          #
+          # Extra knobs (upstream defaults shown; uncomment to override):
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_ENDPOINT: /mcp                  # MCP path on the HTTP listener
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_PROTOCOL: http                 # set to https (+ mount certs) to terminate TLS in-pod
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_MAX: "32"              # max concurrent browser sessions
+          # CLOAK_PLAYWRIGHT_MCP_HTTP_SESSION_IDLE_TTL_MS: "3600000" # idle session timeout
+          # CLOAK_PLAYWRIGHT_MCP_STEALTH_ARGS: "true"               # CloakBrowser stealth flags
+          # CLOAK_PLAYWRIGHT_MCP_NO_SANDBOX: "true"                 # Chromium sandbox off (usually required in containers)
+          # PLAYWRIGHT_MCP_BROWSER_ENGINE: cloak                    # cloak (default) | chromium | firefox | webkit
+
+        # Container-level hardening. readOnlyRootFilesystem is intentionally left off:
+        # Chromium needs to write to several paths outside the mounted volumes.
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+
+        # Resource envelope. Chromium is memory-hungry; no CPU limit so it can burst.
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            memory: 2Gi
+
+        # Health probes hit the bridge's built-in HTTP endpoints. NOTE: if you enable
+        # CLOAK_PLAYWRIGHT_MCP_HTTP_AUTH_TOKEN above, /healthz and /readyz start requiring
+        # the same Bearer header, so these probes 401 and the pod never goes Ready. Add the
+        # header to each probe spec (it ends up in the pod spec in clear text):
+        #   httpGet:
+        #     path: /healthz
+        #     port: 3000
+        #     httpHeaders:
+        #       - name: Authorization
+        #         value: "Bearer <same-token>"
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /healthz
+                port: 3000
+              initialDelaySeconds: 10
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 5
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /readyz
+                port: 3000
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          # Give Chromium time to come up before liveness starts counting.
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /healthz
+                port: 3000
+              periodSeconds: 5
+              failureThreshold: 30
+
+# -- Service exposing the streamable-http MCP endpoint inside the cluster.
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 3000
+        targetPort: 3000
+        protocol: TCP
+
+# -- Ingress. Disabled by default; flip enabled and set a real host to expose the
+# MCP endpoint. The bridge speaks plain HTTP, so terminate TLS at the ingress.
+ingress:
+  main:
+    enabled: false
+    className: ""
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Storage. Artifacts under /data are transient by default (emptyDir). Switch the
+# "data" volume to a persistentVolumeClaim if you need to keep them across restarts.
+persistence:
+  data:
+    type: emptyDir
+    globalMounts:
+      - path: /data
+  # Chromium stores temp files in shared memory; the default 64Mi /dev/shm makes it
+  # crash on heavy pages. Back it with a tmpfs-style emptyDir instead.
+  dshm:
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 1Gi
+    globalMounts:
+      - path: /dev/shm
