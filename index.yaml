@@ -1,5 +1,51 @@
 apiVersion: v1
 entries:
+  cloakbrowser-mcp:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Initial release of the cloakbrowser-mcp chart (appVersion 1.5.0)
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.5.0
+    created: "2026-06-29T16:44:59.921867074Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 081ac3cf7e2613d39acbb674b8d8b0d99f0575e03c4f34d757d7b96e7c2d694f
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.1.0/cloakbrowser-mcp-0.1.0.tgz
+    version: 0.1.0
   cyberchef:
   - annotations:
       artifacthub.io/changes: |
@@ -3887,4 +3933,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-06-23T02:54:41.461006853Z"
+generated: "2026-06-29T16:44:59.922031708Z"
