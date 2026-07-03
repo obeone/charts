@@ -1,0 +1,16 @@
+{{- define "custom.app" -}}
+CloakBrowser MCP is a [Model Context Protocol](https://modelcontextprotocol.io)
+browser-automation server: it runs the upstream `@playwright/mcp` bridge on top
+of the CloakBrowser stealth Chromium build, so AI agents can drive a real
+browser that keeps a low fingerprint. This chart packages the bridge with its
+streamable-http transport, making the MCP endpoint reachable over the network
+from inside (or outside) the cluster.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/swimmwatch/cloakbrowser-mcp](https://github.com/swimmwatch/cloakbrowser-mcp){{- end -}}
+
+{{- define "custom.link.image" -}}[`swimmwatch/cloakbrowser-mcp`](https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}
