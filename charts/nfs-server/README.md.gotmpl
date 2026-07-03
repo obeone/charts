@@ -1,0 +1,23 @@
+{{- define "custom.app" -}}
+A lightweight, containerized NFS server based on `ehough/docker-nfs-server`,
+rebuilt as a maintained multi-arch image. It exports any Kubernetes volume
+over NFS, which is handy to share a PVC across nodes or to serve storage to
+clients living outside the cluster.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/obeone/docker-nfs-server](https://github.com/obeone/docker-nfs-server){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/obeone/nfs-server`](https://github.com/obeone/docker-nfs-server/pkgs/container/nfs-server){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Upstream project:** [github.com/ehough/docker-nfs-server](https://github.com/ehough/docker-nfs-server)
+{{- end }}
+
+{{- define "custom.prerequisites" }}
+- Nodes must provide the `nfs` and `nfsd` kernel modules
+- The workload runs as a privileged container (see `securityContext` in `values.yaml`)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}
