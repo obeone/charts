@@ -1,0 +1,27 @@
+{{- define "custom.app" -}}
+Technitium DNS Server is a full-featured, self-hosted DNS server with a web
+console. It works both as a recursive resolver with ad and tracker blocking (a
+Pi-hole or AdGuard Home replacement) and as an authoritative server for your
+own zones, with DNS-over-HTTPS and DNS-over-TLS support built in.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[technitium.com/dns](https://technitium.com/dns/){{- end -}}
+
+{{- define "custom.link.image" -}}[`technitium/dns-server`](https://hub.docker.com/r/technitium/dns-server){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Source code:** [github.com/TechnitiumSoftware/DnsServer](https://github.com/TechnitiumSoftware/DnsServer)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Exposing DNS
+
+The default Service publishes the web console (HTTP/HTTPS) together with DNS
+on port 53 over both TCP and UDP; DHCP and DNS-over-TLS ports are defined too.
+Adapt `service` in `values.yaml` to what your load balancer supports.
+{{- end }}
+
+{{- template "obeone.readme" . }}
