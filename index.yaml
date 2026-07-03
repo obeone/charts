@@ -3,6 +3,51 @@ entries:
   cloakbrowser-mcp:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion to 1.6.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.6.0
+    created: "2026-07-03T15:20:50.727401945Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 11a64cd49bc959c0abe7a18e1f3deba738cc6c7c56326b4dda6f0f67e6424f72
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.1.1/cloakbrowser-mcp-0.1.1.tgz
+    version: 0.1.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial release of the cloakbrowser-mcp chart (appVersion 1.5.0)
       artifacthub.io/links: |
@@ -47,6 +92,34 @@ entries:
     - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.1.0/cloakbrowser-mcp-0.1.0.tgz
     version: 0.1.0
   cyberchef:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion to v11.2.0
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v11.2.0
+    created: "2026-07-03T15:20:50.868603837Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: 4ef3a7abe526d7bc5bef6e7a9b6ea6c23993f5c2f26367ccc851bb1ec8b3aeb1
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-2.0.1/cyberchef-2.0.1.tgz
+    version: 2.0.1
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -1072,6 +1145,44 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update appVersion to v1.9.6
+        - kind: fixed
+          description: Fix persistence volumes to use bjw-s common globalMounts
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.9.6
+    created: "2026-07-03T15:20:51.015493519Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: 89e5f1d4edc88da74f974ed451e296f4a65f162095dac06f2f9eb5078bce9707
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.16.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-1.0.5/libretranslate-1.0.5.tgz
+    version: 1.0.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: AppVersion updated
         - kind: added
           description: values schema
@@ -1974,6 +2085,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/olvid-bot-0.1.0/olvid-bot-0.1.0.tgz
     version: 0.1.0
   opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update appVersion to 1.13.1
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.13.1
+    created: "2026-07-03T15:20:51.179790765Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: ae9abde2d9805824f4ff1a3d87da615923294f48945294676d85633d2ae85414
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.1.1/opengist-1.1.1.tgz
+    version: 1.1.1
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -3933,4 +4086,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-06-29T16:44:59.922031708Z"
+generated: "2026-07-03T15:20:51.180115993Z"
