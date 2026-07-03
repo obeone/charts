@@ -1,0 +1,42 @@
+{{- define "custom.app" -}}
+MKTXP is a Prometheus exporter for MikroTik RouterOS devices. It collects
+metrics from one or several routers (interfaces, wireless, CAPsMAN, DHCP,
+firewall, system health, ...) and pairs nicely with its companion Grafana
+dashboard.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/akpw/mktxp](https://github.com/akpw/mktxp){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/akpw/mktxp`](https://github.com/akpw/mktxp/pkgs/container/mktxp){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Declaring routers
+
+Routers to monitor are declared in the bundled ConfigMap:
+
+```yaml
+configmap:
+  config:
+    enabled: true
+    data:
+      mktxp.conf: |
+        [my-router]
+            hostname = 192.0.2.1
+            username = mktxp
+            password = change-me
+```
+
+See the [upstream documentation](https://github.com/akpw/mktxp#mikrotik-device-config)
+for the RouterOS side of the setup (dedicated read-only user, API access).
+
+### Prometheus integration
+
+With `metrics.enabled` set (the default), the chart creates a `ServiceMonitor`
+for the Prometheus Operator; scrape interval and labels are tunable under
+`metrics.serviceMonitor`.
+{{- end }}
+
+{{- template "obeone.readme" . }}
