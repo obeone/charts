@@ -22,7 +22,7 @@ helm install cyberchef obeone/cyberchef
 
 ## About
 
-CyberChef is GCHQ's "Cyber Swiss Army Knife": a web app for encryption,
+[CyberChef](https://github.com/gchq/CyberChef) is GCHQ's "Cyber Swiss Army Knife": a web app for encryption,
 encoding, compression and data analysis, with hundreds of operations you chain
 into recipes. Everything runs client-side in your browser, which makes it a
 perfectly self-containable workload. This chart deploys a multi-arch build of

@@ -22,7 +22,7 @@ helm install libretranslate obeone/libretranslate
 
 ## About
 
-LibreTranslate is a free and open source machine translation API powered by
+[LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) is a free and open source machine translation API powered by
 Argos Translate. It is fully self-hosted and offline capable: no API keys, no
 third-party cloud, your text never leaves the cluster. A small web UI ships on
 top of the REST API for interactive use.

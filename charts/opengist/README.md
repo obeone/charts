@@ -22,10 +22,10 @@ helm install opengist obeone/opengist
 
 ## About
 
-OpenGist is a self-hosted pastebin powered by Git: an open-source alternative
-to GitHub Gist. Every snippet is a real Git repository you can clone, pull and
-push, wrapped in a web UI with syntax highlighting, visibility levels and
-OAuth logins.
+[OpenGist](https://github.com/thomiceli/opengist) is a self-hosted pastebin
+powered by Git. All snippets are stored in a Git repository and can be read
+and/or modified using standard Git commands, or with the web interface. It is
+similar to GitHub Gist, but open-source and self-hosted.
 
 - **Application:** [github.com/thomiceli/opengist](https://github.com/thomiceli/opengist)
 - **Container image:** [`ghcr.io/thomiceli/opengist`](https://github.com/thomiceli/opengist/pkgs/container/opengist)

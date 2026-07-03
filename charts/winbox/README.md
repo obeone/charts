@@ -27,7 +27,8 @@ helm install winbox obeone/winbox
 
 ## About
 
-WinBox is MikroTik's administration GUI for RouterOS devices. This chart runs
+[WinBox](https://mikrotik.com/download) is MikroTik's administration GUI for
+RouterOS devices. This chart runs
 the Windows application server-side in a container and streams it to your
 browser, so you can manage your MikroTik gear from anywhere without a Windows
 machine or a local WinBox install.

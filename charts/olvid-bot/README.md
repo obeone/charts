@@ -22,7 +22,7 @@ helm install olvid-bot obeone/olvid-bot
 
 ## About
 
-Olvid is an end-to-end encrypted messenger that relies on no central directory
+[Olvid](https://olvid.io) is an end-to-end encrypted messenger that relies on no central directory
 of users or phone numbers. The bot daemon runs headless Olvid identities so
 you can script them: this chart deploys `olvid/bot-daemon`, whose gRPC API
 lets your own services send and receive messages as full-fledged Olvid
