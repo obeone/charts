@@ -1,7 +1,7 @@
 apiVersion: v2
 name: opengist
-version: 1.1.0
-appVersion: 1.10.0
+version: 1.1.1
+appVersion: 1.13.1
 kubeVersion: ">=1.16.0-0"
 
 description: >-
@@ -42,4 +42,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: appVersion
+      description: Update appVersion to 1.13.1
