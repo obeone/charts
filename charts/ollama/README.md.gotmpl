@@ -1,0 +1,38 @@
+{{- define "custom.app" -}}
+Ollama runs large language models locally (Llama, Mistral, Gemma, and friends)
+behind a simple HTTP API. This chart adds two opt-in extras on top of the
+stock server: GPU access through a RuntimeClass, and a transparent Prometheus
+exporter/proxy sidecar (`exporter.enabled`) that fronts the API and exposes
+`/metrics` without any change on the client side.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[ollama.com](https://ollama.com){{- end -}}
+
+{{- define "custom.link.image" -}}[`ollama/ollama`](https://hub.docker.com/r/ollama/ollama), exporter sidecar [`ghcr.io/obeone/ollama-exporter`](https://github.com/obeone/ollama-exporter/pkgs/container/ollama-exporter){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### GPU acceleration
+
+Point the pod at the RuntimeClass exposing your GPUs (name depends on how the
+GPU operator or device plugin is installed on your cluster):
+
+```yaml
+defaultPodOptions:
+  runtimeClassName: nvidia
+```
+
+### Model storage
+
+Pulled models land on the persistent volume configured under `persistence`.
+Models are big: size it for what you actually plan to serve.
+
+### Prometheus integration
+
+With the exporter sidecar enabled, `serviceMonitor.enabled` creates a
+Prometheus Operator `ServiceMonitor` scraping its `/metrics` endpoint.
+{{- end }}
+
+{{- template "obeone.readme" . }}
