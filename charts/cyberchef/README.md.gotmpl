@@ -1,0 +1,19 @@
+{{- define "custom.app" -}}
+CyberChef is GCHQ's "Cyber Swiss Army Knife": a web app for encryption,
+encoding, compression and data analysis, with hundreds of operations you chain
+into recipes. Everything runs client-side in your browser, which makes it a
+perfectly self-containable workload. This chart deploys a multi-arch build of
+the official application.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/gchq/CyberChef](https://github.com/gchq/CyberChef){{- end -}}
+
+{{- define "custom.link.image" -}}[`obeoneorg/cyberchef`](https://hub.docker.com/r/obeoneorg/cyberchef){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Live demo:** [gchq.github.io/CyberChef](https://gchq.github.io/CyberChef/)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}
