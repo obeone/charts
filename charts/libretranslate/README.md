@@ -1,6 +1,6 @@
 # libretranslate
 
-![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: v1.6.5](https://img.shields.io/badge/AppVersion-v1.6.5-informational?style=flat-square)
+![Version: 1.0.5](https://img.shields.io/badge/Version-1.0.5-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
 
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 
@@ -25,7 +25,7 @@ Kubernetes: `>=1.16.0-0`
 | controllers.main.containers.main.env.LT_UPDATE_MODELS | string | `"1"` | Set to "1" to update language models on startup |
 | controllers.main.containers.main.image.pullPolicy | string | `"Always"` | Image pull policy (Always, IfNotPresent, Never) |
 | controllers.main.containers.main.image.repository | string | `"libretranslate/libretranslate"` | Image repository to pull |
-| controllers.main.containers.main.image.tag | string | `"v1.6.5"` | Image tag to pull (use vX.X.X-cuda for GPU builds) |
+| controllers.main.containers.main.image.tag | string | `"v1.9.6"` | Image tag to pull (use vX.X.X-cuda for GPU builds) |
 | controllers.main.containers.main.probes.liveness.custom | bool | `true` |  |
 | controllers.main.containers.main.probes.liveness.enabled | bool | `true` |  |
 | controllers.main.containers.main.probes.liveness.spec.httpGet.path | string | `"/"` |  |
@@ -43,7 +43,7 @@ Kubernetes: `>=1.16.0-0`
 | ingress.main.enabled | bool | `false` | Enable or disable ingress |
 | ingress.main.tls[0].secretName | string | `"tls-chart-example-local"` | Secret containing TLS certificate for the ingress |
 | nodeSelector | object | `{}` | Node selector for pod assignment |
-| persistence | object | `{"api-keys":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/app/db"}],"size":"10Mi"},"cache":{"cpuPath":"/home/libretranslate/.local/cache","enabled":true,"gpuPath":"/root/.cache/libretranslate","type":"emptyDir"},"db":{"accessMode":"ReadWriteOnce","annotations":{},"cpuPath":"/home/libretranslate/.local/db","enabled":false,"gpuPath":"/root/.local/db","size":"1Gi"},"files-translate":{"enabled":true,"path":"/tmp/libretranslate-files-translate","type":"emptyDir"},"share":{"accessMode":"ReadWriteOnce","annotations":{},"cpuPath":"/home/libretranslate/.local/share","enabled":true,"gpuPath":"/root/.local/share","size":"20Gi"}}` | Persistence volumes configuration for different data types Paths are statically defined here. Template logic must occur in templates. |
+| persistence | object | `{"api-keys":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/app/db"}],"size":"10Mi"},"cache":{"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/cache"}],"type":"emptyDir"},"db":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/home/libretranslate/.local/db"}],"size":"1Gi"},"files-translate":{"enabled":true,"globalMounts":[{"path":"/tmp/libretranslate-files-translate"}],"type":"emptyDir"},"share":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/share"}],"size":"20Gi"}}` | Persistence volumes configuration for different data types |
 | persistence.api-keys.enabled | bool | `false` | Enable persistence for API keys database |
 | persistence.cache.enabled | bool | `true` | Enable temporary cache storage |
 | persistence.db.enabled | bool | `false` | Enable database storage for application data |
