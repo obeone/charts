@@ -17,7 +17,7 @@ controllers:
           # -- Image repository to pull
           repository: libretranslate/libretranslate
           # -- Image tag to pull (use vX.X.X-cuda for GPU builds)
-          tag: v1.6.5
+          tag: v1.9.6
           # -- Image pull policy (Always, IfNotPresent, Never)
           pullPolicy: Always
 
@@ -86,7 +86,6 @@ ingress:
         secretName: tls-chart-example-local
 
 # -- Persistence volumes configuration for different data types
-# Paths are statically defined here. Template logic must occur in templates.
 persistence:
   api-keys:
     # -- Enable persistence for API keys database
@@ -101,8 +100,8 @@ persistence:
     # -- Enable temporary cache storage
     enabled: true
     type: emptyDir
-    cpuPath: /home/libretranslate/.local/cache
-    gpuPath: /root/.cache/libretranslate
+    globalMounts:
+      - path: /home/libretranslate/.local/cache
 
   db:
     # -- Enable database storage for application data
@@ -110,8 +109,8 @@ persistence:
     accessMode: ReadWriteOnce
     size: 1Gi
     annotations: {}
-    cpuPath: /home/libretranslate/.local/db
-    gpuPath: /root/.local/db
+    globalMounts:
+      - path: /home/libretranslate/.local/db
 
   share:
     # -- Enable persistent shared storage for translation models and shared assets
@@ -119,14 +118,15 @@ persistence:
     accessMode: ReadWriteOnce
     size: 20Gi
     annotations: {}
-    cpuPath: /home/libretranslate/.local/share
-    gpuPath: /root/.local/share
+    globalMounts:
+      - path: /home/libretranslate/.local/share
 
   files-translate:
     # -- Temporary storage for uploaded translation files
     enabled: true
     type: emptyDir
-    path: /tmp/libretranslate-files-translate
+    globalMounts:
+      - path: /tmp/libretranslate-files-translate
 
 # -- Define additional volumes if needed
 additionalVolumes: []
