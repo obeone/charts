@@ -22,7 +22,7 @@ helm install fooocus obeone/fooocus
 
 ## About
 
-Fooocus is an image-generation UI by lllyasviel built on Stable Diffusion XL.
+[Fooocus](https://github.com/lllyasviel/Fooocus) is an image-generation UI by lllyasviel built on Stable Diffusion XL.
 Its whole philosophy is to hide the knobs: you type a prompt and it handles
 the rest (styles, refiner, upscaling) behind a simple Gradio web interface,
 in the spirit of Midjourney rather than of a node graph.

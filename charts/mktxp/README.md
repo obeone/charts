@@ -22,7 +22,7 @@ helm install mktxp obeone/mktxp
 
 ## About
 
-MKTXP is a Prometheus exporter for MikroTik RouterOS devices. It collects
+[MKTXP](https://github.com/akpw/mktxp) is a Prometheus exporter for MikroTik RouterOS devices. It collects
 metrics from one or several routers (interfaces, wireless, CAPsMAN, DHCP,
 firewall, system health, ...) and pairs nicely with its companion Grafana
 dashboard.

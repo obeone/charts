@@ -22,7 +22,7 @@ helm install firecrawl obeone/firecrawl
 
 ## About
 
-Firecrawl is a web scraping and crawling API that turns websites into
+[Firecrawl](https://www.firecrawl.dev) is a web scraping and crawling API that turns websites into
 LLM-ready data: clean markdown, structured extraction, screenshots, search.
 This chart deploys the complete self-hosted stack: the API and its workers,
 the Playwright service used for browser rendering, plus the Redis, RabbitMQ

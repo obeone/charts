@@ -23,7 +23,7 @@ helm install transfer.sh obeone/transfer.sh
 
 ## About
 
-transfer.sh is quick file sharing from the command line: `curl --upload-file`
+[transfer.sh](https://github.com/dutchcoders/transfer.sh) is quick file sharing from the command line: `curl --upload-file`
 a file and get a share link back. It supports several storage backends (local
 disk, S3, Google Drive, Storj), optional encryption, and previews for common
 file types.

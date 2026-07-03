@@ -22,7 +22,7 @@ helm install draw-things obeone/draw-things
 
 ## About
 
-Draw Things is an image-generation app for Apple devices (macOS, iOS, iPadOS).
+[Draw Things](https://drawthings.ai) is an image-generation app for Apple devices (macOS, iOS, iPadOS).
 This chart deploys its gRPC server, the official offload backend: the app
 connects to it and delegates the heavy diffusion work to a machine with a
 proper GPU, so your laptop or phone stays cool while the cluster does the

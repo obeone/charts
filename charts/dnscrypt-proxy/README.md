@@ -22,7 +22,7 @@ helm install dnscrypt-proxy obeone/dnscrypt-proxy
 
 ## About
 
-dnscrypt-proxy is a flexible DNS proxy with support for modern encrypted DNS
+[dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy) is a flexible DNS proxy with support for modern encrypted DNS
 protocols: DNSCrypt v2, DNS-over-HTTPS, Anonymized DNSCrypt and ODoH. It can
 filter, cache and load-balance queries across multiple upstream resolvers,
 which makes it a solid building block for private DNS inside a cluster or a

@@ -22,7 +22,7 @@ helm install cloakbrowser-mcp obeone/cloakbrowser-mcp
 
 ## About
 
-CloakBrowser MCP is a [Model Context Protocol](https://modelcontextprotocol.io)
+[CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) is a [Model Context Protocol](https://modelcontextprotocol.io)
 browser-automation server: it runs the upstream `@playwright/mcp` bridge on top
 of the CloakBrowser stealth Chromium build, so AI agents can drive a real
 browser that keeps a low fingerprint. This chart packages the bridge with its

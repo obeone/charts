@@ -22,7 +22,9 @@ helm install nfs-server obeone/nfs-server
 
 ## About
 
-A lightweight, containerized NFS server based on `ehough/docker-nfs-server`,
+[nfs-server](https://github.com/obeone/docker-nfs-server) is a lightweight,
+containerized NFS server based on
+[`ehough/docker-nfs-server`](https://github.com/ehough/docker-nfs-server),
 rebuilt as a maintained multi-arch image. It exports any Kubernetes volume
 over NFS, which is handy to share a PVC across nodes or to serve storage to
 clients living outside the cluster.

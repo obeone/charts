@@ -22,8 +22,8 @@ helm install technitium-dnsserver obeone/technitium-dnsserver
 
 ## About
 
-Technitium DNS Server is a full-featured, self-hosted DNS server with a web
-console. It works both as a recursive resolver with ad and tracker blocking (a
+[Technitium DNS Server](https://technitium.com/dns/) is a full-featured,
+self-hosted DNS server with a web console. It works both as a recursive resolver with ad and tracker blocking (a
 Pi-hole or AdGuard Home replacement) and as an authoritative server for your
 own zones, with DNS-over-HTTPS and DNS-over-TLS support built in.
 
