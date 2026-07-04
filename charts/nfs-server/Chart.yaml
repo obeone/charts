@@ -10,7 +10,7 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.1.3
+version: 1.1.4
 appVersion: 2.2.2
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
@@ -33,5 +33,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: Value schema
+    - kind: changed
+      description: Regenerate README from the unified helm-docs template

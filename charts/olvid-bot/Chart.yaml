@@ -1,6 +1,6 @@
 apiVersion: v2
 name: olvid-bot
-version: 0.3.0
+version: 0.3.1
 appVersion: 2.0.1
 kubeVersion: ">=1.22.0-0"
 
@@ -43,4 +43,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update olvid-bot image to v2.0.1
+      description: Regenerate README from the unified helm-docs template

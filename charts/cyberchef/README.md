@@ -7,7 +7,7 @@
 -->
 # cyberchef
 
-![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![AppVersion: v11.2.0](https://img.shields.io/badge/AppVersion-v11.2.0-informational?style=flat-square)
+![Version: 2.0.2](https://img.shields.io/badge/Version-2.0.2-informational?style=flat-square) ![AppVersion: v11.2.0](https://img.shields.io/badge/AppVersion-v11.2.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/cyberchef)
 
 GCHQ CyberChef [multi-arch]

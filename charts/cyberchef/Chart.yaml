@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v11.2.0
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 2.0.1
+version: 2.0.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
@@ -21,4 +21,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update appVersion to v11.2.0
+      description: Regenerate README from the unified helm-docs template
