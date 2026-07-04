@@ -4,6 +4,54 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Regenerate README from the unified helm-docs template
+        - kind: added
+          description: Chart icon
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.6.0
+    created: "2026-07-04T17:38:48.370195262Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: cf6c90b325654134425b74aaae8d5bb58317963ea28aa768d209b047b7b9a299
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.1.2/cloakbrowser-mcp-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update appVersion to 1.6.0
       artifacthub.io/links: |
         - name: Upstream Project
@@ -92,6 +140,34 @@ entries:
     - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.1.0/cloakbrowser-mcp-0.1.0.tgz
     version: 0.1.0
   cyberchef:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v11.2.0
+    created: "2026-07-04T17:38:48.483663902Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: 4f2e6a5c43c27b9cb6d2c3822e93bab02acb78937897e2331264cef9d89cdf1f
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-2.0.2/cyberchef-2.0.2.tgz
+    version: 2.0.2
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -544,6 +620,40 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.16
+    created: "2026-07-04T17:38:48.598805598Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: f39e1721c94c127639776b68797d9307a25e8c223170bb1f3f565aecafcd97c2
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.2/dnscrypt-proxy-1.4.2.tgz
+    version: 1.4.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update appVersion
       artifacthub.io/maintainers: |
         - name: obeone
@@ -896,6 +1006,55 @@ entries:
   draw-things:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/drawthingsai/draw-things-community
+        - name: Draw Things App
+          url: https://drawthings.ai
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-04T17:38:48.730677075Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: Draw Things gRPC server — the official CLI image that exposes a gRPC
+      API for Stable Diffusion image generation, intended to be paired with the macOS/iOS
+      Draw Things app for remote inference on a beefier GPU than your phone. This
+      chart packages it with the bjw-s common library so behaviour is driven almost
+      entirely from values.yaml.
+    digest: 070078541b8bbe07022aaa6a7268aa1f73202199418578761212394c93ac7078
+    home: https://drawthings.ai
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/draw-things.jpg
+    keywords:
+    - draw-things
+    - stable-diffusion
+    - image-generation
+    - grpc
+    - gpu
+    - nvidia
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: draw-things
+    sources:
+    - https://github.com/drawthingsai/draw-things-community
+    - https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli
+    - https://github.com/obeone/charts/tree/main/charts/draw-things
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/draw-things-0.1.2/draw-things-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial release packaging the Draw Things gRPC server CLI with NVIDIA GPU support.
         - kind: added
@@ -1031,6 +1190,55 @@ entries:
   firecrawl:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.10.19
+    created: "2026-07-04T17:38:48.882017829Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: 921a6a11ecdb08de21b14d0cd017b05eb1884e48dcd939d8bc130c9ae812fcd5
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.2/firecrawl-2.0.2.tgz
+    version: 2.0.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Initial release — rebuilt on the bjw-s common library with the current self-hosted topology (NuQ queue, RabbitMQ, multi-worker split) and official ghcr.io images.
         - kind: fixed
@@ -1081,6 +1289,36 @@ entries:
     - https://github.com/obeone/charts/releases/download/firecrawl-2.0.1/firecrawl-2.0.1.tgz
     version: 2.0.1
   fooocus:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-04T17:38:49.050102928Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Fooocus is an image generating software
+    digest: 086c7afd4f36b0a29921933976d35f00654b6b49cf7a97c8a3d07d662823c880
+    home: https://github.com/lllyasviel/Fooocus
+    keywords:
+    - fooocus
+    - ai
+    - image
+    - gpu
+    kubeVersion: '>=1.16.0-0'
+    name: fooocus
+    urls:
+    - https://github.com/obeone/charts/releases/download/fooocus-1.0.2/fooocus-1.0.2.tgz
+    version: 1.0.2
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -1142,6 +1380,42 @@ entries:
     - https://github.com/obeone/charts/releases/download/fooocus-1.0.0/fooocus-1.0.0.tgz
     version: 1.0.0
   libretranslate:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.9.6
+    created: "2026-07-04T17:38:49.170030107Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: ef4f1a06ffd8c1b67bb85b1ccea927c8fd8d2e10e28b55cc5d1781146eb32380
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.16.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-1.0.6/libretranslate-1.0.6.tgz
+    version: 1.0.6
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -1329,6 +1603,44 @@ entries:
     - https://github.com/obeone/charts/releases/download/libretranslate-1.0.0/libretranslate-1.0.0.tgz
     version: 1.0.0
   mktxp:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-04T17:38:49.295532819Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Mikrotik (RouterOS) exporter for Prometheus metics
+    digest: dfcd23aeafe9af106129965d670f78bac1d4606a39a01bfa8a3643eec9989e77
+    home: https://github.com/akpw/mktxp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/mikrotik.png
+    keywords:
+    - mktxp
+    - mikrotik
+    - routeros
+    - prometheus
+    - metrics
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: mktxp
+    sources:
+    - https://github.com/akpw/mktxp
+    - https://github.com/obeone/charts
+    urls:
+    - https://github.com/obeone/charts/releases/download/mktxp-1.1.10/mktxp-1.1.10.tgz
+    version: 1.1.10
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -1706,6 +2018,45 @@ entries:
   nfs-server:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.2.2
+    created: "2026-07-04T17:38:49.425521713Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A lightweight, robust, flexible, and containerized NFS server. This
+      charts support multiarch
+    digest: 1940568e8f6a3e5e2e459d19afb7e5d2e92790a5ae8b0f1240cda476f0580380
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
+    keywords:
+    - nfs
+    - nfs-server
+    - file-sharing
+    - file-server
+    - file-storage
+    - sharing
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: nfs-server
+    sources:
+    - https://github.com/obeone/docker-nfs-server
+    - https://github.com/ehough/docker-nfs-server
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/nfs-server-1.1.4/nfs-server-1.1.4.tgz
+    version: 1.1.4
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Value schema
       artifacthub.io/maintainers: |
@@ -1893,6 +2244,52 @@ entries:
   ollama:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/ollama/ollama
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-04T17:38:49.555882027Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: 'Ollama — run large language models locally, with an optional transparent
+      Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled):
+      on, it fronts the API and exports /metrics; off, the API is served directly.
+      This Helm chart packages the Ollama server on the bjw-s common library so behaviour
+      is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.'
+    digest: ef34d8a005510aad373845c7a9ea57cff1cbf44a8efd39762cf218adee6ddcbf
+    home: https://ollama.com
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+    keywords:
+    - ollama
+    - llm
+    - ai
+    - inference
+    - gpu
+    - prometheus
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://hub.docker.com/r/ollama/ollama
+    - https://github.com/obeone/charts/tree/main/charts/ollama
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/ollama-0.2.1/ollama-0.2.1.tgz
+    version: 0.2.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: removed
           description: Drop cluster-specific Service defaults (dual-stack ipFamilyPolicy/ipFamilies) so the chart ships portable defaults
         - kind: changed
@@ -1991,6 +2388,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/ollama-0.1.0/ollama-0.1.0.tgz
     version: 0.1.0
   olvid-bot:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://gitlab.com/olvid/olvid
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.0.1
+    created: "2026-07-04T17:38:49.692785373Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: Olvid bot-daemon — a bridge service that lets you automate interactions
+      with Olvid secure-messaging groups. This Helm chart packages the daemon using
+      the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
+    digest: 8c88626d2f27c16d174135110735a0e93c41db79b36b519c6115d3e54da593bf
+    home: https://doc.bot.olvid.io/en/stable/index.html
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.webp
+    keywords:
+    - olvid
+    - secure-messaging
+    - bot
+    - daemon
+    - self-hosted
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: olvid-bot
+    sources:
+    - https://gitlab.com/olvid/olvid
+    - https://hub.docker.com/r/olvid/bot-daemon
+    - https://github.com/obeone/charts/charts/olvid-bot
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/olvid-bot-0.3.1/olvid-bot-0.3.1.tgz
+    version: 0.3.1
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -2124,6 +2563,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/olvid-bot-0.1.0/olvid-bot-0.1.0.tgz
     version: 0.1.0
   opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.13.1
+    created: "2026-07-04T17:38:49.824972184Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: f7c322f2417b2110a6e3da0276e5a12d12a3480862012b19c9696aa55abfe745
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.1.2/opengist-1.1.2.tgz
+    version: 1.1.2
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -2468,6 +2949,43 @@ entries:
     - https://github.com/obeone/charts/releases/download/petio-1.0.1/petio-1.0.1.tgz
     version: 1.0.1
   technitium-dnsserver:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 15.2.0
+    created: "2026-07-04T17:38:49.963543208Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: 4063c1ae4c36a9a30744fbe706726f27dbd5b5e24dde24e9c91544b056490e88
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.11.1/technitium-dnsserver-1.11.1.tgz
+    version: 1.11.1
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -3541,6 +4059,51 @@ entries:
   transfer.sh:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.1
+    created: "2026-07-04T17:38:50.084426061Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: 663f0e8740389f24589a338cad52842a8883c4e13428f23aebdc1dbc542fa74f
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-1.0.4/transfer.sh-1.0.4.tgz
+    version: 1.0.4
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: NOTES.txt
         - kind: changed
@@ -4165,4 +4728,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-04T17:25:01.64497022Z"
+generated: "2026-07-04T17:38:50.227668827Z"
