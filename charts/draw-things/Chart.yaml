@@ -1,6 +1,6 @@
 apiVersion: v2
 name: draw-things
-version: 0.1.1
+version: 0.1.2
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
 
@@ -50,7 +50,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: added
-      description: Initial release packaging the Draw Things gRPC server CLI with NVIDIA GPU support.
-    - kind: added
-      description: Chart icon (Draw Things logo).
+    - kind: changed
+      description: Regenerate README from the unified helm-docs template
