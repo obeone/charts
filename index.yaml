@@ -1707,6 +1707,45 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: added
+          description: Value schema
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.2.2
+    created: "2026-07-04T17:25:00.487945588Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A lightweight, robust, flexible, and containerized NFS server. This
+      charts support multiarch
+    digest: 9250b6fafe81e6cc271d0a6ca3dea29309b3cf19d7923d26b87b19ddf5c484a3
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
+    keywords:
+    - nfs
+    - nfs-server
+    - file-sharing
+    - file-server
+    - file-storage
+    - sharing
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: nfs-server
+    sources:
+    - https://github.com/obeone/docker-nfs-server
+    - https://github.com/ehough/docker-nfs-server
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/nfs-server-1.1.3/nfs-server-1.1.3.tgz
+    version: 1.1.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
           description: GPG public key
       artifacthub.io/maintainers: |
         - name: obeone
@@ -3665,6 +3704,46 @@ entries:
   winbox:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Value schema
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: "3.40"
+    created: "2026-07-04T17:25:01.644742543Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    description: 'Mikrotik Winbox in browser  Access to Mikrotik Winbox using your
+      browser. This container start a VNC server and client, with winbox started by
+      Wine.  Currently only available for amd64 platforms. '
+    digest: 2cda6b75e454643aac34b0c04cf8562230d8fbe0c80afca82ea22825c8eed513
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.3.9/winbox-1.3.9.tgz
+    version: 1.3.9
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update Winbox
       artifacthub.io/maintainers: |
@@ -4086,4 +4165,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-03T15:20:51.180115993Z"
+generated: "2026-07-04T17:25:01.64497022Z"
