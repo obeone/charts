@@ -1,0 +1,33 @@
+# Pre-commit hooks for this chart repository.
+#
+# One-time setup:
+#     pre-commit install
+#
+# Requirements (run locally, no network needed at commit time):
+#   - helm-docs on PATH   ->  brew install norwoodj/tap/helm-docs
+#   - python3 on PATH     ->  ships with macOS / most distros
+#
+# The helm-docs hook regenerates every chart's README.md from the shared
+# skeleton (charts/_templates.gotmpl) plus its own README.md.gotmpl. The
+# sync-readme-versions hook keeps the App column of the root README.md aligned
+# with each chart's appVersion. Both rewrite files in place and fail the commit
+# when they change something, so you just re-stage and commit again.
+minimum_pre_commit_version: "3.0.0"
+
+repos:
+  - repo: local
+    hooks:
+      - id: helm-docs
+        name: helm-docs (regenerate chart READMEs)
+        entry: helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
+        language: system
+        pass_filenames: false
+        require_serial: true
+        files: ^charts/(_templates\.gotmpl|[^/]+/(Chart\.yaml|values\.yaml|README\.md\.gotmpl))$
+
+      - id: sync-readme-versions
+        name: sync root README app versions
+        entry: python3 scripts/sync-readme-versions.py
+        language: system
+        pass_filenames: false
+        files: ^(charts/[^/]+/Chart\.yaml|README\.md|scripts/sync-readme-versions\.py)$
