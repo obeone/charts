@@ -10,7 +10,7 @@ keywords:
   - pihole
   - adguard
 
-version: 1.11.0
+version: 1.11.1
 appVersion: "15.2.0"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
@@ -33,4 +33,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update appVersion to 15.2.0
+      description: Regenerate README from the unified helm-docs template

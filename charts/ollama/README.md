@@ -7,7 +7,7 @@
 -->
 # ollama
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/ollama)
 
 Ollama — run large language models locally, with an optional transparent Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled): on, it fronts the API and exports /metrics; off, the API is served directly. This Helm chart packages the Ollama server on the bjw-s common library so behaviour is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.

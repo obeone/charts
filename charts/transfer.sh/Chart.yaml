@@ -1,6 +1,6 @@
 apiVersion: v2
 name: transfer.sh
-version: 1.0.3
+version: 1.0.4
 appVersion: v1.6.1
 description: |
   High-performance, secure and user-friendly command-line file sharing tool.
@@ -37,7 +37,5 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
-    - kind: added
-      description: NOTES.txt
     - kind: changed
-      description: Updated bjw-s library chart to v4.1.2
+      description: Regenerate README from the unified helm-docs template

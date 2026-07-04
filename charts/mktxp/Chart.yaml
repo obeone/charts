@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: latest
 description: Mikrotik (RouterOS) exporter for Prometheus metics
 name: mktxp
-version: 1.1.9
+version: 1.1.10
 kubeVersion: ">=1.16.0-0"
 keywords:
 - mktxp
@@ -30,9 +30,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Run the pod as uid/gid 1000 (matching the upstream image) and drop the hardcoded chown 100:101 in the init-container that broke writes after upstream switched the user
-    - kind: added
-      description: compact_default_conf_values setting in the default _mktxp.conf so the migration step on first boot does not crash with KeyError
     - kind: changed
-      description: Switch image.pullPolicy default to IfNotPresent so upstream surprises do not silently land at restart. Keep image.tag at `latest` because akpw/mktxp on ghcr.io only publishes :latest and stable-YYYYMMDD tags — there is no semver tag to pin to.
+      description: Regenerate README from the unified helm-docs template

@@ -7,7 +7,7 @@
 -->
 # dnscrypt-proxy
 
-![Version: 1.4.1](https://img.shields.io/badge/Version-1.4.1-informational?style=flat-square) ![AppVersion: 2.1.16](https://img.shields.io/badge/AppVersion-2.1.16-informational?style=flat-square)
+![Version: 1.4.2](https://img.shields.io/badge/Version-1.4.2-informational?style=flat-square) ![AppVersion: 2.1.16](https://img.shields.io/badge/AppVersion-2.1.16-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy)
 
 A flexible DNS proxy, with support for encrypted DNS protocols.
