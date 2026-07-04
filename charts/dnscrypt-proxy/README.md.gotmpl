@@ -1,0 +1,39 @@
+{{- define "custom.app" -}}
+[dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy) is a flexible DNS proxy with support for modern encrypted DNS
+protocols: DNSCrypt v2, DNS-over-HTTPS, Anonymized DNSCrypt and ODoH. It can
+filter, cache and load-balance queries across multiple upstream resolvers,
+which makes it a solid building block for private DNS inside a cluster or a
+home network.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy){{- end -}}
+
+{{- define "custom.link.image" -}}[`klutchell/dnscrypt-proxy`](https://hub.docker.com/r/klutchell/dnscrypt-proxy){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Documentation:** [dnscrypt-proxy wiki](https://github.com/DNSCrypt/dnscrypt-proxy/wiki)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Custom configuration
+
+The upstream configuration file can be shipped through the bundled ConfigMap:
+
+```yaml
+configmap:
+  config:
+    enabled: true
+    data:
+      dnscrypt-proxy.toml: |
+        listen_addresses = ['0.0.0.0:5053']
+        server_names = ['cloudflare']
+```
+
+See the [example configuration](https://github.com/DNSCrypt/dnscrypt-proxy/blob/master/dnscrypt-proxy/example-dnscrypt-proxy.toml)
+for every available setting.
+{{- end }}
+
+{{- template "obeone.readme" . }}

@@ -1,0 +1,28 @@
+{{- define "custom.app" -}}
+[Olvid](https://olvid.io) is an end-to-end encrypted messenger that relies on no central directory
+of users or phone numbers. The bot daemon runs headless Olvid identities so
+you can script them: this chart deploys `olvid/bot-daemon`, whose gRPC API
+lets your own services send and receive messages as full-fledged Olvid
+contacts.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[olvid.io](https://olvid.io){{- end -}}
+
+{{- define "custom.link.image" -}}[`olvid/bot-daemon`](https://hub.docker.com/r/olvid/bot-daemon){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Documentation:** [doc.bot.olvid.io](https://doc.bot.olvid.io/en/stable/index.html)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Daemon client keys
+
+Client keys used by your bots to authenticate against the daemon can be
+provisioned declaratively through the `secrets` value; see the comments in
+`values.yaml`.
+{{- end }}
+
+{{- template "obeone.readme" . }}

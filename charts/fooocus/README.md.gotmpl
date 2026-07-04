@@ -1,0 +1,18 @@
+{{- define "custom.app" -}}
+[Fooocus](https://github.com/lllyasviel/Fooocus) is an image-generation UI by lllyasviel built on Stable Diffusion XL.
+Its whole philosophy is to hide the knobs: you type a prompt and it handles
+the rest (styles, refiner, upscaling) behind a simple Gradio web interface,
+in the spirit of Midjourney rather than of a node graph.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/lllyasviel/Fooocus](https://github.com/lllyasviel/Fooocus){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/lllyasviel/fooocus`](https://github.com/lllyasviel/Fooocus/pkgs/container/fooocus){{- end -}}
+
+{{- define "custom.prerequisites" }}
+- An NVIDIA GPU node: Fooocus is not designed for CPU-only inference
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.k8s-at-home" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}

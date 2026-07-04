@@ -1,0 +1,14 @@
+{{- define "custom.app" -}}
+[OpenGist](https://github.com/thomiceli/opengist) is a self-hosted pastebin
+powered by Git. All snippets are stored in a Git repository and can be read
+and/or modified using standard Git commands, or with the web interface. It is
+similar to GitHub Gist, but open-source and self-hosted.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/thomiceli/opengist](https://github.com/thomiceli/opengist){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/thomiceli/opengist`](https://github.com/thomiceli/opengist/pkgs/container/opengist){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}

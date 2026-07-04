@@ -1,0 +1,19 @@
+{{- define "custom.app" -}}
+[Firecrawl](https://www.firecrawl.dev) is a web scraping and crawling API that turns websites into
+LLM-ready data: clean markdown, structured extraction, screenshots, search.
+This chart deploys the complete self-hosted stack: the API and its workers,
+the Playwright service used for browser rendering, plus the Redis, RabbitMQ
+and nuq-postgres backing services.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[firecrawl.dev](https://www.firecrawl.dev){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/firecrawl/firecrawl`](https://github.com/firecrawl/firecrawl/pkgs/container/firecrawl), plus the bundled Playwright, Redis, RabbitMQ and nuq-postgres images (see `values.yaml`){{- end -}}
+
+{{- define "custom.links.extra" }}
+- **Documentation:** [docs.firecrawl.dev](https://docs.firecrawl.dev)
+{{- end }}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- template "obeone.readme" . }}
