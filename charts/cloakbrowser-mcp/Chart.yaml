@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cloakbrowser-mcp
-version: 0.1.1
+version: 0.1.2
 appVersion: "1.6.0"
 kubeVersion: ">=1.31.0-0"
 
@@ -22,6 +22,7 @@ keywords:
   - self-hosted
 
 home: https://github.com/swimmwatch/cloakbrowser-mcp
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
 sources:
   - https://github.com/swimmwatch/cloakbrowser-mcp
   - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
@@ -45,4 +46,6 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update appVersion to 1.6.0
+      description: Regenerate README from the unified helm-docs template
+    - kind: added
+      description: Chart icon
