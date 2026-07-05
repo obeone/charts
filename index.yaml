@@ -2952,6 +2952,45 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update Technitium DNS Server to 15.3.0
+        - kind: security
+          description: Upstream 15.3 fixes multiple RFC compliance issues, stored XSS in the Web Console, and privilege-escalation via default Apps/Settings permissions
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 15.3.0
+    created: "2026-07-05T15:02:37.81523118Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome
+      replacement. It can also be used as authoritative server
+    digest: eae427bdee3284efc8371ca03274c87c7a69afc69c085a821951783d92d30c24
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
+    keywords:
+    - dns
+    - recursive
+    - authoritative
+    - pihole
+    - adguard
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: technitium-dnsserver
+    sources:
+    - https://github.com/TechnitiumSoftware/DnsServer
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/technitium-dnsserver-1.12.0/technitium-dnsserver-1.12.0.tgz
+    version: 1.12.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Regenerate README from the unified helm-docs template
       artifacthub.io/maintainers: |
         - name: obeone
@@ -4728,4 +4767,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-04T17:38:50.227668827Z"
+generated: "2026-07-05T15:02:37.816857776Z"
