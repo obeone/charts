@@ -2,6 +2,9 @@
 # This supports shell glob matching, relative path matching, and
 # negation (prefixed with !). Only one pattern per line.
 .DS_Store
+# macOS AppleDouble resource forks (packaging on macOS injects these; run
+# `helm package` with COPYFILE_DISABLE=1 as an extra safeguard)
+._*
 # Common VCS dirs
 .git/
 .gitignore
