@@ -10,8 +10,8 @@ keywords:
   - pihole
   - adguard
 
-version: 1.11.1
-appVersion: "15.2.0"
+version: 1.12.0
+appVersion: "15.3.0"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
 sources:
@@ -33,4 +33,6 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Regenerate README from the unified helm-docs template
+      description: Update Technitium DNS Server to 15.3.0
+    - kind: security
+      description: Upstream 15.3 fixes multiple RFC compliance issues, stored XSS in the Web Console, and privilege-escalation via default Apps/Settings permissions
