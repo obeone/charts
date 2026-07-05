@@ -1,6 +1,6 @@
 apiVersion: v2
 name: olvid-bot
-version: 0.3.1
+version: 0.3.2
 appVersion: 2.0.1
 kubeVersion: ">=1.22.0-0"
 
@@ -19,7 +19,7 @@ keywords:
   - self-hosted
 
 home: https://doc.bot.olvid.io/en/stable/index.html
-icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.webp
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.png
 sources:
   - https://gitlab.com/olvid/olvid
   - https://hub.docker.com/r/olvid/bot-daemon
@@ -42,5 +42,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Regenerate README from the unified helm-docs template
+    - kind: fixed
+      description: Switch chart icon from WebP to PNG so Artifact Hub can decode the logo
