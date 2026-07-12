@@ -10,8 +10,8 @@ keywords:
   - pihole
   - adguard
 
-version: 1.12.0
-appVersion: "15.3.0"
+version: 1.13.0
+appVersion: "15.4.0"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
 sources:
@@ -33,6 +33,8 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update Technitium DNS Server to 15.3.0
-    - kind: security
-      description: Upstream 15.3 fixes multiple RFC compliance issues, stored XSS in the Web Console, and privilege-escalation via default Apps/Settings permissions
+      description: Update Technitium DNS Server to 15.4.0
+    - kind: fixed
+      description: Upstream 15.4 fixes a UDP socket binding issue affecting response routing and further RFC compliance issues in resolution and zone transfer
+    - kind: added
+      description: Upstream 15.4 adds Unix Domain Socket support for the Web Service over HTTPS and DNS-over-HTTPS
