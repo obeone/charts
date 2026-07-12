@@ -41,7 +41,7 @@ helm install my-release obeone/<chart> --verify
 | 🦙 | [**ollama**](charts/ollama) | `latest` | [Ollama](https://ollama.com) — run LLMs locally, with an optional single-switch transparent Prometheus exporter/proxy sidecar (cosign-signed). GPU-accelerated, multi-arch. |
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `2.0.1` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
 | 📝 | [**opengist**](charts/opengist) | `1.13.1` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
-| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.3.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
+| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.4.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
 | 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
 | 🪟 | [**winbox**](charts/winbox) | `3.40` | [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. |
 
