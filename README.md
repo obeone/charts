@@ -31,7 +31,7 @@ helm install my-release obeone/<chart> --verify
 | :-: | --- | --- | --- |
 | 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.8.0` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) — Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
 | 🔪 | [**cyberchef**](charts/cyberchef) | `v11.2.0` | GCHQ's [Cyber Swiss Army Knife](https://github.com/gchq/CyberChef) — encode, decode, encrypt, analyze. Multi-arch. |
-| 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.16` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
+| 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.17` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
 | 🖌️ | [**draw-things**](charts/draw-things) | `latest` | [Draw Things](https://drawthings.ai) gRPC server — Stable Diffusion inference backend for the macOS/iOS app, GPU-accelerated. |
 | 🔥 | [**firecrawl**](charts/firecrawl) | `2.10.19` | [Firecrawl](https://github.com/firecrawl/firecrawl) — crawl & scrape sites into LLM-ready data (markdown, HTML, JSON). Self-hosted API, workers & Playwright. |
 | 🎨 | [**fooocus**](charts/fooocus) | `latest` | [Fooocus](https://github.com/lllyasviel/Fooocus) — open-source image-generation UI on top of Stable Diffusion. |
