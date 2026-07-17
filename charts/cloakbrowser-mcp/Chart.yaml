@@ -1,7 +1,7 @@
 apiVersion: v2
 name: cloakbrowser-mcp
-version: 0.1.2
-appVersion: "1.6.0"
+version: 0.2.0
+appVersion: "1.8.0"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -46,6 +46,8 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Regenerate README from the unified helm-docs template
+      description: Update CloakBrowser MCP to 1.8.0
     - kind: added
-      description: Chart icon
+      description: Forward the upstream Playwright MCP browser_find tool (Playwright MCP 0.0.78)
+    - kind: changed
+      description: Bump CloakBrowser to 0.4.10 and require Node.js 22.13+ or 24+
