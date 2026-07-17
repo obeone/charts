@@ -669,6 +669,42 @@ entries:
   dnscrypt-proxy:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Pin appVersion back to 2.1.16 because the klutchell/dnscrypt-proxy:2.1.17 image is not published on Docker Hub yet
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.16
+    created: "2026-07-17T14:55:53.092902657Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: 0ed6b30951cb20d6c474bc2551ecb0b67a64e88d10d349551c17ad1ec5483343
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.4/dnscrypt-proxy-1.4.4.tgz
+    version: 1.4.4
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update dnscrypt-proxy to 2.1.17
         - kind: added
@@ -4938,4 +4974,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-17T13:39:44.226669412Z"
+generated: "2026-07-17T14:55:53.09314399Z"
