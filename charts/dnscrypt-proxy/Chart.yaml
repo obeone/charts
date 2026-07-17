@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: 2.1.17
+appVersion: 2.1.16
 description: A flexible DNS proxy, with support for encrypted DNS protocols.
 name: dnscrypt-proxy
-version: 1.4.3
+version: 1.4.2
 kubeVersion: ">=1.16.0-0"
 keywords:
   - dnscrypt-proxy
@@ -27,8 +27,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update dnscrypt-proxy to 2.1.17
-    - kind: added
-      description: Upstream enables PQDNSCrypt post-quantum cryptography by default
-    - kind: fixed
-      description: Upstream caching, netprobe_timeout and truncated-UDP TCP fallback fixes
+      description: Regenerate README from the unified helm-docs template
