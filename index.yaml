@@ -4,6 +4,56 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update CloakBrowser MCP to 1.8.0
+        - kind: added
+          description: Forward the upstream Playwright MCP browser_find tool (Playwright MCP 0.0.78)
+        - kind: changed
+          description: Bump CloakBrowser to 0.4.10 and require Node.js 22.13+ or 24+
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.8.0
+    created: "2026-07-17T13:39:44.065994746Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 42f23e76094bc6af5867c02a6961e1a0114b9c4454744654d457514a20b717fe
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.2.0/cloakbrowser-mcp-0.2.0.tgz
+    version: 0.2.0
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Regenerate README from the unified helm-docs template
         - kind: added
           description: Chart icon
@@ -617,6 +667,44 @@ entries:
     - https://github.com/obeone/charts/releases/download/cyberchef-1.1.0/cyberchef-1.1.0.tgz
     version: 1.1.0
   dnscrypt-proxy:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update dnscrypt-proxy to 2.1.17
+        - kind: added
+          description: Upstream enables PQDNSCrypt post-quantum cryptography by default
+        - kind: fixed
+          description: Upstream caching, netprobe_timeout and truncated-UDP TCP fallback fixes
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.17
+    created: "2026-07-17T13:39:44.226393237Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: b6ea4e39a24c976a37d6f1e89cff17ce39d7ce0075bcc0e6c12a0f46bf1b1cee
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.3/dnscrypt-proxy-1.4.3.tgz
+    version: 1.4.3
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -4850,4 +4938,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-12T23:41:23.038112334Z"
+generated: "2026-07-17T13:39:44.226669412Z"
