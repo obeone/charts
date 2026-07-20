@@ -10,8 +10,8 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.1.4
-appVersion: 2.2.2
+version: 1.1.5
+appVersion: 2.2.3
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
 sources:
@@ -34,4 +34,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Regenerate README from the unified helm-docs template
+      description: Update nfs-server to 2.2.3
