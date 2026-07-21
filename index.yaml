@@ -669,6 +669,40 @@ entries:
   dnscrypt-proxy:
   - annotations:
       artifacthub.io/changes: |
+        - kind: changed
+          description: Update dnscrypt-proxy to 2.1.18
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.18
+    created: "2026-07-21T08:57:05.677783896Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: 61d796db64b55c22c7b3816f0b2ff8a3e13d9315cc6e4f4c5f0cbe9b5e44a2a3
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.5/dnscrypt-proxy-1.4.5.tgz
+    version: 1.4.5
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: Pin appVersion back to 2.1.16 because the klutchell/dnscrypt-proxy:2.1.17 image is not published on Docker Hub yet
         - kind: changed
@@ -1312,6 +1346,55 @@ entries:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update Firecrawl to 2.11.117
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.117
+    created: "2026-07-21T08:57:05.80844376Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: a75569d33f34ddf95b1f5681c47a4b85a55d3242d81161db0f9606692368be00
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.3/firecrawl-2.0.3.tgz
+    version: 2.0.3
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -2143,6 +2226,45 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update nfs-server to 2.2.3
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.2.3
+    created: "2026-07-21T08:57:05.945621254Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A lightweight, robust, flexible, and containerized NFS server. This
+      charts support multiarch
+    digest: 39c799e3e3d8335ffc387b459c00c6da86b2a607d9d9e4fbaf780932c90c466f
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
+    keywords:
+    - nfs
+    - nfs-server
+    - file-sharing
+    - file-server
+    - file-storage
+    - sharing
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: nfs-server
+    sources:
+    - https://github.com/obeone/docker-nfs-server
+    - https://github.com/ehough/docker-nfs-server
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/nfs-server-1.1.5/nfs-server-1.1.5.tgz
+    version: 1.1.5
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Regenerate README from the unified helm-docs template
       artifacthub.io/maintainers: |
         - name: obeone
@@ -2366,6 +2488,56 @@ entries:
     - https://github.com/obeone/charts/releases/download/nfs-server-1.0.0/nfs-server-1.0.0.tgz
     version: 1.0.0
   ollama:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Harden the exporter/proxy sidecar defaults (100m/128Mi requests, 500m/512Mi limits) so the in-data-path proxy no longer starves and OOMKills under streaming load
+        - kind: changed
+          description: Exporter readiness now probes GET /api/version through the proxy (real Ollama pass-through) instead of /metrics, so the pod is Ready only when the whole exporter->Ollama chain answers
+        - kind: added
+          description: Startup probe on the exporter sidecar to give slow cold starts grace before liveness applies
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/ollama/ollama
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-21T08:57:06.080076634Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: 'Ollama — run large language models locally, with an optional transparent
+      Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled):
+      on, it fronts the API and exports /metrics; off, the API is served directly.
+      This Helm chart packages the Ollama server on the bjw-s common library so behaviour
+      is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.'
+    digest: 48cbb8779c0b7f938a5c40190b19be4bab6732d89eccdfc8cc7cc190a77bcdb4
+    home: https://ollama.com
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+    keywords:
+    - ollama
+    - llm
+    - ai
+    - inference
+    - gpu
+    - prometheus
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://hub.docker.com/r/ollama/ollama
+    - https://github.com/obeone/charts/tree/main/charts/ollama
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/ollama-0.3.0/ollama-0.3.0.tgz
+    version: 0.3.0
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -4974,4 +5146,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-17T14:55:53.09314399Z"
+generated: "2026-07-21T08:57:06.080424579Z"
