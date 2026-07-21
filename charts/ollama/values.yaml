@@ -117,6 +117,9 @@ controllers:
           - name: proxy
             containerPort: 8000
         probes:
+          # Liveness stays a cheap "is the process alive" check on /metrics, but
+          # tolerant (5s timeout, 6 failures) so a proxy busy streaming a long
+          # generation is not killed mid-flight.
           liveness:
             enabled: true
             custom: true
@@ -126,19 +129,51 @@ controllers:
                 port: 8000
               initialDelaySeconds: 15
               periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 6
+          # Readiness probes the REAL pass-through: GET /api/version is forwarded
+          # through the proxy to Ollama, so the pod is "Ready" only when the whole
+          # exporter -> Ollama chain answers. A /metrics-only probe went green even
+          # when Ollama behind it was unreachable, silently blackholing the API.
           readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api/version
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+              successThreshold: 1
+          # Startup gate: give a cold start ~60s (12 x 5s) before liveness bites.
+          startup:
             enabled: true
             custom: true
             spec:
               httpGet:
                 path: /metrics
                 port: 8000
-              initialDelaySeconds: 10
-              periodSeconds: 15
+              initialDelaySeconds: 5
+              periodSeconds: 5
+              failureThreshold: 12
+        # This sidecar sits in the DATA PATH (Service http:11434 -> proxy:8000 ->
+        # Ollama:11434), so it is a single point of failure for the whole API.
+        # 10m/32Mi was starvation-grade for a uvicorn reverse proxy carrying every
+        # streamed token: undersizing => OOMKill => API outage. These are sane
+        # baselines; raise them in your own values for heavy concurrent workloads.
+        # Sizing it well lowers the SPOF risk but does not remove it -- disable the
+        # sidecar (exporter.enabled: false) to serve the API straight from Ollama.
         resources:
           requests:
-            cpu: 10m
-            memory: 32Mi
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            # CPU limit is a burst ceiling; drop it if you observe CFS throttling
+            # on the proxy (the memory limit is the real guard against OOM).
+            cpu: 500m
+            memory: 512Mi
 
 service:
   main:
