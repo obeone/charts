@@ -173,7 +173,7 @@ controllers:
       api:
         image:
           repository: ghcr.io/firecrawl/firecrawl
-          tag: "2.10.19"
+          tag: "2.11.117"
           pullPolicy: IfNotPresent
         command: ["node"]
         # -- V8 old-space heap ceiling (MiB). Keep it safely below the memory
@@ -227,7 +227,7 @@ controllers:
       worker:
         image:
           repository: ghcr.io/firecrawl/firecrawl
-          tag: "2.10.19"
+          tag: "2.11.117"
           pullPolicy: IfNotPresent
         command: ["node"]
         # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
@@ -269,7 +269,7 @@ controllers:
       extract-worker:
         image:
           repository: ghcr.io/firecrawl/firecrawl
-          tag: "2.10.19"
+          tag: "2.11.117"
           pullPolicy: IfNotPresent
         command: ["node"]
         # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
@@ -323,7 +323,7 @@ controllers:
       nuq-worker:
         image:
           repository: ghcr.io/firecrawl/firecrawl
-          tag: "2.10.19"
+          tag: "2.11.117"
           pullPolicy: IfNotPresent
         command: ["node"]
         # -- V8 old-space heap ceiling (MiB); keep below this container's limit.
@@ -372,7 +372,7 @@ controllers:
       nuq-prefetch-worker:
         image:
           repository: ghcr.io/firecrawl/firecrawl
-          tag: "2.10.19"
+          tag: "2.11.117"
           pullPolicy: IfNotPresent
         command: ["node"]
         # -- V8 old-space heap ceiling (MiB); keep below this container's limit.

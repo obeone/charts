@@ -1,6 +1,6 @@
 apiVersion: v2
 name: ollama
-version: 0.2.1
+version: 0.3.0
 appVersion: "latest"
 kubeVersion: ">=1.31.0-0"
 
@@ -48,4 +48,8 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Regenerate README from the unified helm-docs template
+      description: Harden the exporter/proxy sidecar defaults (100m/128Mi requests, 500m/512Mi limits) so the in-data-path proxy no longer starves and OOMKills under streaming load
+    - kind: changed
+      description: Exporter readiness now probes GET /api/version through the proxy (real Ollama pass-through) instead of /metrics, so the pod is Ready only when the whole exporter->Ollama chain answers
+    - kind: added
+      description: Startup probe on the exporter sidecar to give slow cold starts grace before liveness applies
