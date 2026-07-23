@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 2.0.4
-appVersion: "2.11.120"
+version: 2.0.5
+appVersion: "2.11.125"
 kubeVersion: ">=1.25.0-0"
 
 description: >-
@@ -50,6 +50,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: Update Firecrawl to 2.11.120
-    - kind: fixed
-      description: Firecrawl image tags now track appVersion instead of a stale pin
+      description: "2026-07-23: Update Firecrawl to 2.11.125"
