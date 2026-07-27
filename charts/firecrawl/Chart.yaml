@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 2.0.8
-appVersion: "2.11.135"
+version: 2.0.9
+appVersion: "2.11.137"
 kubeVersion: ">=1.25.0-0"
 
 description: >-
@@ -50,4 +50,4 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/changes: |
     - kind: changed
-      description: "2026-07-26: Update Firecrawl to 2.11.135"
+      description: "2026-07-27: Update Firecrawl to 2.11.137"
