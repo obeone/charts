@@ -4,6 +4,52 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update CloakBrowser MCP to 1.9.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.9.0
+    created: "2026-07-28T22:41:00.82645649Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: ec4d3c9d4029fce5a1121a58d275c6e17de3203ebce6e05b3b927d983e3b5c63
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.2.1/cloakbrowser-mcp-0.2.1.tgz
+    version: 0.2.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update CloakBrowser MCP to 1.8.0
         - kind: added
           description: Forward the upstream Playwright MCP browser_find tool (Playwright MCP 0.0.78)
@@ -1346,6 +1392,55 @@ entries:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: "2026-07-28: Update Firecrawl to 2.11.146"
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.146
+    created: "2026-07-28T22:41:01.1925602Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: 5cfbbb59913b5b375aac4ed7e7bb901c081b23b4c5874310e5290d5c14df71be
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.10/firecrawl-2.0.10.tgz
+    version: 2.0.10
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -2901,6 +2996,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/olvid-bot-0.1.0/olvid-bot-0.1.0.tgz
     version: 0.1.0
   opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update Opengist to 1.14.0
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.14.0
+    created: "2026-07-28T22:41:01.405607306Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: 4b907d15ffac884543efce9c20a77198088b176efe12fbebe04ea4b46870d88e
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.1.3/opengist-1.1.3.tgz
+    version: 1.1.3
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -5146,4 +5283,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-21T08:57:06.080424579Z"
+generated: "2026-07-28T22:41:01.405799015Z"
