@@ -1395,6 +1395,55 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: "2026-07-29: Update Firecrawl to 2.11.152"
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.152
+    created: "2026-07-29T09:13:26.408174322Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: 18451f569b8a4a0cb5b45eaba0ee51e567f32afd719d5ac8febb67cc01e9afec
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.12/firecrawl-2.0.12.tgz
+    version: 2.0.12
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: "2026-07-29: Update Firecrawl to 2.11.150"
       artifacthub.io/license: AGPL-3.0
       artifacthub.io/links: |
@@ -5332,4 +5381,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-28T22:53:51.951047004Z"
+generated: "2026-07-29T09:13:26.408442291Z"
