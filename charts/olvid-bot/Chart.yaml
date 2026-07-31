@@ -1,6 +1,6 @@
 apiVersion: v2
 name: olvid-bot
-version: 0.3.2
+version: 0.3.3
 appVersion: 2.0.1
 kubeVersion: ">=1.22.0-0"
 
@@ -42,5 +42,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: fixed
-      description: Switch chart icon from WebP to PNG so Artifact Hub can decode the logo
+    - kind: added
+      description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
