@@ -7,7 +7,7 @@
 -->
 # ollama
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 0.3.1](https://img.shields.io/badge/Version-0.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/ollama)
 
 Ollama — run large language models locally, with an optional transparent Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled): on, it fronts the API and exports /metrics; off, the API is served directly. This Helm chart packages the Ollama server on the bjw-s common library so behaviour is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.
@@ -161,6 +161,12 @@ Kubernetes: `>=1.31.0-0`
 | persistence.tmp.advancedMounts.main.ollama[0].path | string | `"/tmp/ollama"` |  |
 | persistence.tmp.enabled | bool | `true` |  |
 | persistence.tmp.type | string | `"emptyDir"` |  |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system"}],"rules":[{"backendRefs":[{"identifier":"main","port":"http"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default: pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and an existing Gateway in the cluster. |
+| route.main.enabled | bool | `false` | Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`. |
+| route.main.hostnames | list | `["chart-example.local"]` | Hostnames served by this route. |
+| route.main.kind | string | `"HTTPRoute"` | Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute. |
+| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. |
+| route.main.rules | list | `[{"backendRefs":[{"identifier":"main","port":"http"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `identifier` refers to a Service defined above. |
 | service.main.controller | string | `"main"` |  |
 | service.main.ports.http.port | int | `11434` |  |
 | service.main.ports.http.primary | bool | `true` |  |
