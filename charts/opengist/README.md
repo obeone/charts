@@ -7,7 +7,7 @@
 -->
 # opengist
 
-![Version: 1.1.4](https://img.shields.io/badge/Version-1.1.4-informational?style=flat-square) ![AppVersion: 1.15.0](https://img.shields.io/badge/AppVersion-1.15.0-informational?style=flat-square)
+![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![AppVersion: 1.15.0](https://img.shields.io/badge/AppVersion-1.15.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/opengist)
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.
@@ -101,6 +101,14 @@ Kubernetes: `>=1.16.0-0`
 | ingress.main.tls[0].hosts[0] | string | `"gist.example.com"` |  |
 | ingress.main.tls[0].secretName | string | `"gist-tls-cert"` |  |
 | persistence | string | `nil` |  |
+| route.main.enabled | bool | `false` |  |
+| route.main.hostnames[0] | string | `"gist.example.com"` |  |
+| route.main.kind | string | `"HTTPRoute"` |  |
+| route.main.parentRefs[0].name | string | `"gateway"` |  |
+| route.main.parentRefs[0].namespace | string | `"gateway-system"` |  |
+| route.main.rules[0].backendRefs[0].name | string | `"main"` |  |
+| route.main.rules[0].matches[0].path.type | string | `"PathPrefix"` |  |
+| route.main.rules[0].matches[0].path.value | string | `"/"` |  |
 | service.main.controller | string | `"main"` |  |
 | service.main.ports.http.port | int | `80` |  |
 | service.main.ports.http.protocol | string | `"TCP"` |  |

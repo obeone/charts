@@ -7,7 +7,7 @@
 -->
 # transfer.sh
 
-![Version: 1.0.4](https://img.shields.io/badge/Version-1.0.4-informational?style=flat-square) ![AppVersion: v1.6.1](https://img.shields.io/badge/AppVersion-v1.6.1-informational?style=flat-square)
+![Version: 1.0.5](https://img.shields.io/badge/Version-1.0.5-informational?style=flat-square) ![AppVersion: v1.6.1](https://img.shields.io/badge/AppVersion-v1.6.1-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/transfer.sh)
 
 High-performance, secure and user-friendly command-line file sharing tool.
@@ -94,6 +94,8 @@ Kubernetes: `>=1.16.0-0`
 | controllers.main.strategy | string | `"Recreate"` |  |
 | ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. |
 | persistence | object | `{"storage":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/storage"}],"size":"10Gi"}}` | Configure persistence settings for the chart under this key. |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system","sectionName":"http"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API alternative to the Ingress above, mutually exclusive with it. Disabled by default. |
+| route.main.rules[0].backendRefs[0] | object | `{"identifier":"main"}` | No `port` set: common 4.1.2's route template does not resolve port names (unlike Ingress), so this defaults to the service's primary port instead of emitting an invalid literal. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":8080}}}}` | Configures service settings for the chart. |
 
 ## Verifying the chart signature

@@ -7,7 +7,7 @@
 -->
 # libretranslate
 
-![Version: 1.0.6](https://img.shields.io/badge/Version-1.0.6-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
+![Version: 1.0.7](https://img.shields.io/badge/Version-1.0.7-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/libretranslate)
 
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
@@ -115,6 +115,12 @@ Kubernetes: `>=1.16.0-0`
 | persistence.db.enabled | bool | `false` | Enable database storage for application data |
 | persistence.files-translate.enabled | bool | `true` | Temporary storage for uploaded translation files |
 | persistence.share.enabled | bool | `true` | Enable persistent shared storage for translation models and shared assets |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system"}],"rules":[{"backendRefs":[{"name":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default: pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and an existing Gateway in the cluster. |
+| route.main.enabled | bool | `false` | Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`. |
+| route.main.hostnames | list | `["chart-example.local"]` | Hostnames served by this route. |
+| route.main.kind | string | `"HTTPRoute"` | Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute. |
+| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. `namespace` is required on common 3.x. |
+| route.main.rules | list | `[{"backendRefs":[{"name":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `name` resolves to a Service identifier defined above. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":5000}}}}` | Service configuration to expose the application internally in the cluster |
 | service.main.ports.http.port | int | `80` | External service port |
 | service.main.ports.http.protocol | string | `"TCP"` | Protocol to use (TCP/UDP) |

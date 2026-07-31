@@ -7,7 +7,7 @@
 -->
 # olvid-bot
 
-![Version: 0.3.2](https://img.shields.io/badge/Version-0.3.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
+![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/olvid-bot)
 
 Olvid bot-daemon — a bridge service that lets you automate interactions with Olvid secure-messaging groups. This Helm chart packages the daemon using the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
@@ -102,6 +102,8 @@ Kubernetes: `>=1.22.0-0`
 | persistence.data.globalMounts[0].path | string | `"/daemon/data"` |  |
 | persistence.data.size | string | `"1Gi"` |  |
 | persistence.data.type | string | `"persistentVolumeClaim"` |  |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system","sectionName":"http"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API alternative to the Ingress above, mutually exclusive with it. Disabled by default. |
+| route.main.rules[0].backendRefs[0] | object | `{"identifier":"main"}` | No `port` set: common 4.1.2's route template does not resolve port names (unlike Ingress), so this defaults to the service's primary port instead of emitting an invalid literal. |
 | secrets | object | `{"admin-credentials":{"enabled":true,"stringData":{"OLVID_ADMIN_CLIENT_KEY_CLI":"eb9uyjbcuiFhmjFCVKdM"}}}` | --------------------------------------------------------------------------- IMPORTANT:   - Replace the placeholder value with a strong random string before deploying.   - If you prefer managing the Secret outside the chart, set `enabled: false`     and ensure a Secret with the same name exists in the namespace. |
 | service.main.controller | string | `"main"` |  |
 | service.main.ports.grpc.port | int | `50051` |  |

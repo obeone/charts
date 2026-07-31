@@ -59,6 +59,29 @@ ingress:
           - chart-example.local
         secretName: tls-chart-example-local
 
+# -- Gateway API alternative to the Ingress above, mutually exclusive with
+# it. Disabled by default.
+route:
+  main:
+    enabled: false
+    kind: HTTPRoute
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        sectionName: http
+    hostnames:
+      - chart-example.local
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          # -- No `port` set: common 4.1.2's route template does not resolve
+          # port names (unlike Ingress), so this defaults to the service's
+          # primary port instead of emitting an invalid literal.
+          - identifier: main
+
 # -- Configure persistence settings for the chart under this key.
 persistence:
   storage:

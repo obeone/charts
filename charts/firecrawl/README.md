@@ -7,7 +7,7 @@
 -->
 # firecrawl
 
-![Version: 2.0.14](https://img.shields.io/badge/Version-2.0.14-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.159](https://img.shields.io/badge/AppVersion-2.11.159-informational?style=flat-square)
+![Version: 2.0.15](https://img.shields.io/badge/Version-2.0.15-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.159](https://img.shields.io/badge/AppVersion-2.11.159-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/firecrawl)
 
 Firecrawl is an open-source API that crawls websites and turns them into LLM-ready data (markdown, HTML, structured JSON). This chart packages the self-hosted topology — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official ghcr.io images.
@@ -139,6 +139,8 @@ Kubernetes: `>=1.25.0-0`
 | rabbitmq | object | `{"auth":{"password":"firecrawl","username":"firecrawl"}}` | --------------------------------------------------------------------------- Interpolated into NUQ_RABBITMQ_URL, so these end up visible in plaintext in the rendered manifest (`helm get manifest` / `kubectl get pod -o yaml`). For real secrecy, use an external broker via `firecrawl.rabbitmq.url`. |
 | rabbitmq.auth.password | string | `"firecrawl"` | Set a strong password before deploying to anything reachable. |
 | rabbitmq.auth.username | string | `"firecrawl"` | RabbitMQ username; must NOT be `guest` (RabbitMQ rejects `guest` over non-loopback connections), hence a named user. |
+| route | object | `{"api":{"enabled":false,"hostnames":["firecrawl.example.com"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system","sectionName":"http"}],"rules":[{"backendRefs":[{"identifier":"api","port":"http"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | --------------------------------------------------------------------------- |
+| route.api.enabled | bool | `false` | Expose the API via an HTTPRoute (Gateway API). See the ingress security note above before enabling. |
 | secrets | object | `{"secrets":{"enabled":true,"stringData":{"BULL_AUTH_KEY":"CHANGEME","LLAMAPARSE_API_KEY":"","OPENAI_API_KEY":"","PROXY_PASSWORD":"","SELF_HOSTED_WEBHOOK_HMAC_SECRET":"","SLACK_WEBHOOK_URL":"","TEST_API_KEY":""}}}` | --------------------------------------------------------------------------- To manage these outside the chart, set `enabled: false` and create a Secret named `<release-fullname>-secrets` (the `secret: secrets` reference is fullname-prefixed by the common library) with the same keys. That Secret is also mounted into the Playwright container (for PROXY_PASSWORD), not only the Firecrawl workers. |
 | secrets.secrets.stringData.BULL_AUTH_KEY | string | `"CHANGEME"` | Protects the admin queue dashboard at /admin/<key>/queues (the URL embeds this key verbatim; the dashboard shows the legacy BullMQ queues). The API itself is unauthenticated — this only guards /admin. CHANGE THIS on any deployment reachable from untrusted networks. |
 | secrets.secrets.stringData.LLAMAPARSE_API_KEY | string | `""` | LlamaParse key for PDF parsing. |

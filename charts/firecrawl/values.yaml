@@ -818,3 +818,28 @@ ingress:
     #   - hosts:
     #       - firecrawl.example.com
     #     secretName: tls-firecrawl-example-com
+
+# -----------------------------------------------------------------------------
+# HTTPRoute (API only) — Gateway API alternative to the Ingress above,
+# mutually exclusive with it. Disabled by default.
+# -----------------------------------------------------------------------------
+route:
+  api:
+    # -- Expose the API via an HTTPRoute (Gateway API). See the ingress
+    # security note above before enabling.
+    enabled: false
+    kind: HTTPRoute
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        sectionName: http
+    hostnames:
+      - firecrawl.example.com
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - identifier: api
+            port: http
