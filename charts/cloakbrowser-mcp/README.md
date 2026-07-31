@@ -7,7 +7,7 @@
 -->
 # cloakbrowser-mcp
 
-![Version: 0.2.2](https://img.shields.io/badge/Version-0.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.10.0](https://img.shields.io/badge/AppVersion-1.10.0-informational?style=flat-square)
+![Version: 0.2.3](https://img.shields.io/badge/Version-0.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.10.0](https://img.shields.io/badge/AppVersion-1.10.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp)
 
 CloakBrowser MCP — a Model Context Protocol browser-automation server that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This Helm chart packages the bridge in its streamable-http transport so it can be reached over the network, driven entirely from values.yaml via the bjw-s common library.
@@ -120,6 +120,12 @@ Kubernetes: `>=1.31.0-0`
 | defaultPodOptions | object | `{"automountServiceAccountToken":false,"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000,"seccompProfile":{"type":"RuntimeDefault"}}}` | Pod-wide options applied to every controller in this chart. |
 | ingress | object | `{"main":{"className":"","enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}}` | Ingress. Disabled by default; flip enabled and set a real host to expose the MCP endpoint. The bridge speaks plain HTTP, so terminate TLS at the ingress. |
 | persistence | object | `{"data":{"globalMounts":[{"path":"/data"}],"type":"emptyDir"},"dshm":{"globalMounts":[{"path":"/dev/shm"}],"medium":"Memory","sizeLimit":"1Gi","type":"emptyDir"}}` | Storage. Artifacts under /data are transient by default (emptyDir). Switch the "data" volume to a persistentVolumeClaim if you need to keep them across restarts. |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default: pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and an existing Gateway in the cluster. |
+| route.main.enabled | bool | `false` | Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`. |
+| route.main.hostnames | list | `["chart-example.local"]` | Hostnames served by this route. |
+| route.main.kind | string | `"HTTPRoute"` | Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute. |
+| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. |
+| route.main.rules | list | `[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `identifier` refers to a Service defined above. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":3000,"protocol":"TCP","targetPort":3000}},"type":"ClusterIP"}}` | Service exposing the streamable-http MCP endpoint inside the cluster. |
 
 ## Verifying the chart signature
