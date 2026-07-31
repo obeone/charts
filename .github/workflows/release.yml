@@ -50,6 +50,7 @@ jobs:
           helm repo add bjw-s https://bjw-s-labs.github.io/helm-charts
 
       - name: Run chart-releaser
+        id: release
         uses: helm/chart-releaser-action@v1.7.0
         with:
           charts_dir: charts
@@ -60,6 +61,19 @@ jobs:
           CR_KEY: helm@obeone.org
           CR_KEYRING: keyring.gpg
           CR_SKIP_EXISTING: true
+
+      # chart-releaser derives the git tag from the release name, so the title
+      # and body are rewritten afterwards instead of through its templates.
+      - name: Enrich releases
+        if: steps.release.outputs.changed_charts != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHARTS_DIR: charts
+          HELM_REPO_NAME: ${{ env.NAME }}
+          HELM_REPO_URL: ${{ env.URL }}
+          ARTIFACTHUB_ORG: ${{ env.NAME }}
+          CHANGED_CHARTS: ${{ steps.release.outputs.changed_charts }}
+        run: ./scripts/enrich-releases.sh "$CHANGED_CHARTS"
 
       - name: Cleanup GPG key
         if: always()
