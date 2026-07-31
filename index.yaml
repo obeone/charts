@@ -3,6 +3,52 @@ entries:
   cloakbrowser-mcp:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.10.0
+    created: "2026-07-31T09:24:43.661106153Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 9c13d8ed09e486244446b56c6a0cbaef1652694fd9d86162a8cd2f6ff068b4d3
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.2.3/cloakbrowser-mcp-0.2.3.tgz
+    version: 0.2.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update CloakBrowser MCP to 1.10.0
       artifacthub.io/links: |
@@ -1256,6 +1302,55 @@ entries:
   draw-things:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/drawthingsai/draw-things-community
+        - name: Draw Things App
+          url: https://drawthings.ai
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-31T09:24:43.787681314Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: Draw Things gRPC server — the official CLI image that exposes a gRPC
+      API for Stable Diffusion image generation, intended to be paired with the macOS/iOS
+      Draw Things app for remote inference on a beefier GPU than your phone. This
+      chart packages it with the bjw-s common library so behaviour is driven almost
+      entirely from values.yaml.
+    digest: 0967fa216e2687c528d6e585e48df14430acae256137a1be653432db575da86e
+    home: https://drawthings.ai
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/draw-things.jpg
+    keywords:
+    - draw-things
+    - stable-diffusion
+    - image-generation
+    - grpc
+    - gpu
+    - nvidia
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: draw-things
+    sources:
+    - https://github.com/drawthingsai/draw-things-community
+    - https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli
+    - https://github.com/obeone/charts/tree/main/charts/draw-things
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/draw-things-0.1.3/draw-things-0.1.3.tgz
+    version: 0.1.3
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Regenerate README from the unified helm-docs template
       artifacthub.io/links: |
@@ -1438,6 +1533,55 @@ entries:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.159
+    created: "2026-07-31T09:24:43.91361567Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: b7c58fae7cf41e538ce94c2e6cf9aef2104dbc879610ad5c067b7a432269f219
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.15/firecrawl-2.0.15.tgz
+    version: 2.0.15
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -1924,6 +2068,44 @@ entries:
     - https://github.com/obeone/charts/releases/download/fooocus-1.0.0/fooocus-1.0.0.tgz
     version: 1.0.0
   libretranslate:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.9.6
+    created: "2026-07-31T09:24:44.165538946Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: 804126e130fc882ed34cc0a7ff6328e47130e3c50a8bf3c5342529841ba12297
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.16.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-1.0.7/libretranslate-1.0.7.tgz
+    version: 1.0.7
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -2827,6 +3009,52 @@ entries:
   ollama:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/ollama/ollama
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-07-31T09:24:44.313335213Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: 'Ollama — run large language models locally, with an optional transparent
+      Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled):
+      on, it fronts the API and exports /metrics; off, the API is served directly.
+      This Helm chart packages the Ollama server on the bjw-s common library so behaviour
+      is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.'
+    digest: a569254bc5b188a84acc152a8f3983afcfeb60b1112438b32fb03160df7cd8e5
+    home: https://ollama.com
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+    keywords:
+    - ollama
+    - llm
+    - ai
+    - inference
+    - gpu
+    - prometheus
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://hub.docker.com/r/ollama/ollama
+    - https://github.com/obeone/charts/tree/main/charts/ollama
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/ollama-0.3.1/ollama-0.3.1.tgz
+    version: 0.3.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Harden the exporter/proxy sidecar defaults (100m/128Mi requests, 500m/512Mi limits) so the in-data-path proxy no longer starves and OOMKills under streaming load
         - kind: changed
@@ -3021,6 +3249,48 @@ entries:
     - https://github.com/obeone/charts/releases/download/ollama-0.1.0/ollama-0.1.0.tgz
     version: 0.1.0
   olvid-bot:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://gitlab.com/olvid/olvid
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.0.1
+    created: "2026-07-31T09:24:44.503930895Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: Olvid bot-daemon — a bridge service that lets you automate interactions
+      with Olvid secure-messaging groups. This Helm chart packages the daemon using
+      the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
+    digest: bc50bccf9e4f5d4b99ea05916b3e6e7dc245aa37970bd99dd1cc6f4a1fa07312
+    home: https://doc.bot.olvid.io/en/stable/index.html
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.png
+    keywords:
+    - olvid
+    - secure-messaging
+    - bot
+    - daemon
+    - self-hosted
+    kubeVersion: '>=1.22.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: olvid-bot
+    sources:
+    - https://gitlab.com/olvid/olvid
+    - https://hub.docker.com/r/olvid/bot-daemon
+    - https://github.com/obeone/charts/charts/olvid-bot
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/olvid-bot-0.3.3/olvid-bot-0.3.3.tgz
+    version: 0.3.3
   - annotations:
       artifacthub.io/changes: |
         - kind: fixed
@@ -3238,6 +3508,50 @@ entries:
     - https://github.com/obeone/charts/releases/download/olvid-bot-0.1.0/olvid-bot-0.1.0.tgz
     version: 0.1.0
   opengist:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Update Opengist to 1.15.0
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.15.0
+    created: "2026-07-31T09:24:44.65970932Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 3.7.1
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: 6bc3bac140c166adb00b4d7bfe95f832427b16d0bf4f2cf23a1e2e1ad83026f9
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-1.1.5/opengist-1.1.5.tgz
+    version: 1.1.5
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -4898,6 +5212,51 @@ entries:
   transfer.sh:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.1
+    created: "2026-07-31T09:24:44.810425001Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.1.2
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: 7f32d05ec8dfb135f93c45c737f999f399819df372545c7ff7dbf497f8cc3d39
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-1.0.5/transfer.sh-1.0.5.tgz
+    version: 1.0.5
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Regenerate README from the unified helm-docs template
       artifacthub.io/license: MIT
@@ -5567,4 +5926,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-07-30T18:56:49.312267133Z"
+generated: "2026-07-31T09:24:44.810799516Z"
