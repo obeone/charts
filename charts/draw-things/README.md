@@ -7,7 +7,7 @@
 -->
 # draw-things
 
-![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/draw-things)
 
 Draw Things gRPC server — the official CLI image that exposes a gRPC API for Stable Diffusion image generation, intended to be paired with the macOS/iOS Draw Things app for remote inference on a beefier GPU than your phone. This chart packages it with the bjw-s common library so behaviour is driven almost entirely from values.yaml.
@@ -111,6 +111,12 @@ Kubernetes: `>=1.31.0-0`
 | persistence.models.globalMounts[0].path | string | `"/grpc-models"` |  |
 | persistence.models.size | string | `"50Gi"` |  |
 | persistence.models.type | string | `"persistentVolumeClaim"` |  |
+| route | object | `{"main":{"enabled":false,"hostnames":["draw-things.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default: pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and an existing Gateway in the cluster. Same gRPC (h2c) caveat as the Ingress applies. |
+| route.main.enabled | bool | `false` | Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`. |
+| route.main.hostnames | list | `["draw-things.local"]` | Hostnames served by this route. |
+| route.main.kind | string | `"HTTPRoute"` | Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute. |
+| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. |
+| route.main.rules | list | `[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `identifier` refers to a Service defined above. |
 | service.main.controller | string | `"main"` |  |
 | service.main.ports.grpc.port | int | `7859` |  |
 | service.main.ports.grpc.protocol | string | `"TCP"` |  |
