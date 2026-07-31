@@ -166,6 +166,34 @@ ingress:
         # Kubernetes Secret that holds the TLS certificate and key.
         secretName: gist-tls-cert
 
+# Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default:
+# pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and
+# an existing Gateway in the cluster.
+route:
+  main:
+    # Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`.
+    enabled: false
+    # Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
+    kind: HTTPRoute
+    # Gateways this route attaches to. `namespace` is required on common 3.x.
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        # Listener name on the Gateway. Optional.
+        # sectionName: https
+    # Hostnames served by this route.
+    hostnames:
+      - gist.example.com
+    # Routing rules. `name` resolves to a Service identifier defined above.
+    rules:
+      - matches:
+          - path:
+              # Path matching strategy.
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - name: main
+
 # Define persistence (storage) for OpenGist.
 persistence:
 
