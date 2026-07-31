@@ -78,3 +78,30 @@ ingress:
       - hosts:
           - draw-things.local
         secretName: draw-things-tls
+
+# -- Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default:
+# pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and
+# an existing Gateway in the cluster. Same gRPC (h2c) caveat as the Ingress applies.
+route:
+  main:
+    # -- Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`.
+    enabled: false
+    # -- Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
+    kind: HTTPRoute
+    # -- Gateways this route attaches to.
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        # -- Listener name on the Gateway. Optional.
+        # sectionName: https
+    # -- Hostnames served by this route.
+    hostnames:
+      - draw-things.local
+    # -- Routing rules. `identifier` refers to a Service defined above.
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - identifier: main

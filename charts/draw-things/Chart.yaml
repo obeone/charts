@@ -1,6 +1,6 @@
 apiVersion: v2
 name: draw-things
-version: 0.1.2
+version: 0.1.3
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
 
@@ -50,5 +50,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Regenerate README from the unified helm-docs template
+    - kind: added
+      description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
