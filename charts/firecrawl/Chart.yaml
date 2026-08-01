@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 2.0.16
-appVersion: "2.11.162"
+version: 2.0.17
+appVersion: "2.11.167"
 kubeVersion: ">=1.25.0-0"
 
 description: >-
@@ -53,3 +53,5 @@ annotations:
       description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
     - kind: changed
       description: "2026-07-31: Bump appVersion to 2.11.162"
+    - kind: changed
+      description: "2026-08-01: Bump appVersion to 2.11.167"
