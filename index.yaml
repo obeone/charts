@@ -5,6 +5,54 @@ entries:
       artifacthub.io/changes: |
         - kind: added
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 1.11.0"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.11.0
+    created: "2026-08-11T13:06:53.610813755Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.0.1
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 894a6392993db7d99f4007b1de838da03f8fef62f003f183afe053273168b914
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.2.4/cloakbrowser-mcp-0.2.4.tgz
+    version: 0.2.4
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
       artifacthub.io/links: |
         - name: Upstream Project
           url: https://github.com/swimmwatch/cloakbrowser-mcp
@@ -1525,6 +1573,73 @@ entries:
     - https://github.com/obeone/charts/releases/download/ferdi-server-1.0.3/ferdi-server-1.0.3.tgz
     version: 1.0.3
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
+        - kind: changed
+          description: "2026-07-31: Bump appVersion to 2.11.162"
+        - kind: changed
+          description: "2026-08-01: Bump appVersion to 2.11.167"
+        - kind: changed
+          description: "2026-08-03: Bump appVersion to 2.11.170"
+        - kind: changed
+          description: "2026-08-04: Bump appVersion to 2.11.174"
+        - kind: changed
+          description: "2026-08-05: Bump appVersion to 2.11.182"
+        - kind: changed
+          description: "2026-08-07: Bump appVersion to 2.11.191"
+        - kind: changed
+          description: "2026-08-08: Bump appVersion to 2.11.192"
+        - kind: changed
+          description: "2026-08-09: Bump appVersion to 2.11.193"
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 2.11.197"
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.197
+    created: "2026-08-11T13:06:53.750995397Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 4.6.2
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON). This chart packages the
+      self-hosted topology — API, workers, Playwright renderer and the bundled Redis
+      / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library, with official
+      ghcr.io images.
+    digest: 884923ec068241b3825fe2fed010cca09d791bb7db04ea0a2d0f6e41484ee3f9
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.25.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-2.0.24/firecrawl-2.0.24.tgz
+    version: 2.0.24
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -6428,4 +6543,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-08-09T09:12:33.366628868Z"
+generated: "2026-08-11T13:06:53.751259614Z"
