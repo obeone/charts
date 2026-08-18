@@ -6,10 +6,10 @@ kubeVersion: ">=1.25.0-0"
 
 description: >-
   Firecrawl is an open-source API that crawls websites and turns them into
-  LLM-ready data (markdown, HTML, structured JSON). This chart packages the
-  self-hosted topology — API, workers, Playwright renderer and the bundled
-  Redis / RabbitMQ / NuQ-Postgres backends — plus an optional MCP server
-  exposing Firecrawl's tools at /v2/mcp, using the bjw-s common library and
+  LLM-ready data (markdown, HTML, structured JSON), with an optional MCP
+  server exposing its tools at /v2/mcp. This chart packages the self-hosted
+  topology — API, workers, Playwright renderer and the bundled Redis /
+  RabbitMQ / NuQ-Postgres backends — using the bjw-s common library and
   official ghcr.io images.
 
 type: application

@@ -10,7 +10,7 @@
 ![Version: 2.1.0](https://img.shields.io/badge/Version-2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.198](https://img.shields.io/badge/AppVersion-2.11.198-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/firecrawl)
 
-Firecrawl is an open-source API that crawls websites and turns them into LLM-ready data (markdown, HTML, structured JSON). This chart packages the self-hosted topology — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres backends — plus an optional MCP server exposing Firecrawl's tools at /v2/mcp, using the bjw-s common library and official ghcr.io images.
+Firecrawl is an open-source API that crawls websites and turns them into LLM-ready data (markdown, HTML, structured JSON), with an optional MCP server exposing its tools at /v2/mcp. This chart packages the self-hosted topology — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library and official ghcr.io images.
 
 ## TL;DR
 
@@ -24,11 +24,11 @@ helm install firecrawl obeone/firecrawl
 
 [Firecrawl](https://www.firecrawl.dev) is a web scraping and crawling API that turns websites into
 LLM-ready data: clean markdown, structured extraction, screenshots, search.
+An optional MCP server exposes those tools to Model Context Protocol clients
+over Streamable HTTP at `/v2/mcp`.
 This chart deploys the complete self-hosted stack: the API and its workers,
 the Playwright service used for browser rendering, plus the Redis, RabbitMQ
-and nuq-postgres backing services. An optional MCP server can be deployed
-alongside it, exposing Firecrawl's tools to Model Context Protocol clients
-over Streamable HTTP at `/v2/mcp`.
+and nuq-postgres backing services.
 
 - **Application:** [firecrawl.dev](https://www.firecrawl.dev)
 - **Container image:** [`ghcr.io/firecrawl/firecrawl`](https://github.com/firecrawl/firecrawl/pkgs/container/firecrawl), plus the bundled Playwright, Redis, RabbitMQ and nuq-postgres images and the optional [`ghcr.io/firecrawl/firecrawl-mcp-server`](https://github.com/firecrawl/firecrawl-mcp-server) (see `values.yaml`)
