@@ -34,6 +34,12 @@
 #   RabbitMQ/Postgres passwords (all ship as placeholders) and protect the API
 #   at the network/ingress layer.
 #
+# MCP SERVER (optional, off by default)
+#   `controllers.mcp` + `service.mcp` deploy the upstream firecrawl-mcp-server
+#   image alongside the API, serving Model Context Protocol clients over
+#   Streamable HTTP at /v2/mcp. See the controller block for the two-step
+#   switch and the ingress/route examples for exposing the path.
+#
 # SWAPPING A BACKEND (Redis / Playwright / NuQ Postgres / RabbitMQ)
 #   Always a TWO-STEP swap: set the matching `firecrawl.<backend>.url` override
 #   AND disable the bundled one (`controllers.<backend>.enabled: false` +
@@ -116,6 +122,22 @@ firecrawl:
     # -- External RabbitMQ AMQP URL (amqp://user:pass@host:5672). Same two-step
     # swap. Empty = use the bundled broker.
     url: ""
+  # The optional MCP server (controllers.mcp) is a CLIENT of the Firecrawl API,
+  # not a backend of it, so it has no bundled counterpart to disable.
+  mcp:
+    # -- Firecrawl API the MCP server drives. Empty = this release's own API
+    # Service, reached in-cluster: that traffic never crosses the Ingress, so
+    # an auth proxy sitting in front of the API (authentik, oauth2-proxy, ...)
+    # does not apply and no credential is needed. Point it elsewhere to front
+    # an external instance (including https://api.firecrawl.dev, which then
+    # needs `apiKey`) — but not at your own auth-proxied public URL, which
+    # would bounce the MCP server to a login page it cannot complete.
+    apiUrl: ""
+    # -- API key sent by the MCP server as `Authorization: Bearer`, only useful
+    # when `apiUrl` targets an instance that authenticates (i.e. Firecrawl
+    # Cloud). Self-hosted Firecrawl authenticates nothing, so leave this empty
+    # for the in-cluster API.
+    apiKey: ""
 
 # -----------------------------------------------------------------------------
 # Bundled RabbitMQ credentials (NuQ broker)
@@ -218,6 +240,90 @@ controllers:
           limits:
             cpu: "2"
             memory: 2560Mi
+
+  # ===== MCP server (optional) ===============================================
+  # Model Context Protocol front-end for this Firecrawl instance. It is a
+  # SEPARATE upstream image (firecrawl-mcp-server) that exposes Firecrawl's
+  # tools over Streamable HTTP at /v2/mcp, so MCP clients (Claude, Cursor,
+  # n8n, ...) can drive the API without an HTTP integration of their own. It
+  # calls the API like any other client, so `controllers.api` must stay on.
+  #
+  # Enabling it is a TWO-STEP switch, like the backend swaps above: set
+  # `controllers.mcp.enabled: true` AND `service.mcp.enabled: true`. To reach
+  # it from outside the cluster, add the /v2/mcp path to `ingress.api` (or
+  # `route.api`) — a commented example sits in each of those blocks.
+  #
+  # SECURITY — /v2/mcp is exactly as open as the API it fronts. Given
+  # FIRECRAWL_API_URL and no key, the server runs "keyless": it accepts any
+  # client and forwards to the API, which itself authenticates nothing. Treat
+  # the endpoint as unauthenticated and keep it off the public internet, or
+  # gate it at the network layer.
+  # A client MAY pass its own credential (`x-firecrawl-api-key`, `x-api-key`
+  # or `Authorization: Bearer`), which the server forwards upstream — useless
+  # against a self-hosted API, which ignores it. And note that an external
+  # auth proxy (authentik, oauth2-proxy, ...) in front of /v2/mcp consumes
+  # that same `Authorization` header and answers with a browser redirect most
+  # MCP clients cannot follow.
+  #
+  # Docs: https://docs.firecrawl.dev/mcp-server/local
+  mcp:
+    # -- Deploy the Firecrawl MCP server (remember the two-step switch above).
+    enabled: false
+    strategy: RollingUpdate
+    containers:
+      mcp:
+        image:
+          # -- MCP server image repository. For a reproducible rollout, pin a
+          # digest here (`ghcr.io/firecrawl/firecrawl-mcp-server@sha256:...`)
+          # and blank out the tag below.
+          repository: ghcr.io/firecrawl/firecrawl-mcp-server
+          # -- Image tag. Upstream publishes this image under a single mutable
+          # `latest` tag and no versioned ones, which is why the pull policy is
+          # Always — otherwise nodes keep serving whatever they cached first.
+          tag: latest
+          pullPolicy: Always
+        env:
+          # The image defaults to the stdio transport and only starts the
+          # Streamable HTTP server when this is set. Without it the container
+          # listens on nothing and the probes below never pass.
+          HTTP_STREAMABLE_SERVER: "true"
+          # Also what lets the server run without a credential: upstream exits
+          # 1 in HTTP mode when neither an API URL nor a key is configured.
+          FIRECRAWL_API_URL: '{{ .Values.firecrawl.mcp.apiUrl | default (printf "http://%s-api:3002" (include "bjw-s.common.lib.chart.names.fullname" .)) }}'
+          FIRECRAWL_API_KEY: '{{ .Values.firecrawl.mcp.apiKey }}'
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                # 8080 is the nginx front-end baked into the image; it proxies
+                # /v2/mcp, /sse, /messages and the health routes to the Node
+                # process on 3000. Do not probe 3000 — it is internal only.
+                path: /health
+                port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 3
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /ready
+                port: 8080
+              initialDelaySeconds: 10
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
 
   # ===== Legacy BullMQ worker ================================================
   worker:
@@ -626,6 +732,14 @@ service:
     ports:
       http:
         port: 3002
+  mcp:
+    # -- Service for the optional MCP server; enable it together with
+    # `controllers.mcp.enabled` (8080 is the container's nginx front-end).
+    enabled: false
+    controller: mcp
+    ports:
+      http:
+        port: 8080
   playwright:
     enabled: true
     controller: playwright
@@ -814,6 +928,16 @@ ingress:
             service:
               identifier: api
               port: http
+          # Optional MCP server on the same hostname. Requires
+          # controllers.mcp.enabled AND service.mcp.enabled — with the Service
+          # off, this backend reference fails the render. Ingress matches the
+          # longest prefix, so it wins over the `/` entry above whatever the
+          # order.
+          # - path: /v2/mcp
+          #   pathType: Prefix
+          #   service:
+          #     identifier: mcp
+          #     port: http
     # tls:
     #   - hosts:
     #       - firecrawl.example.com
@@ -843,3 +967,13 @@ route:
         backendRefs:
           - identifier: api
             port: http
+      # Optional MCP server, same prerequisites as the ingress example above
+      # (controllers.mcp.enabled + service.mcp.enabled). Gateway API ranks the
+      # most specific path first, so this rule wins over the `/` one.
+      # - matches:
+      #     - path:
+      #         type: PathPrefix
+      #         value: /v2/mcp
+      #   backendRefs:
+      #     - identifier: mcp
+      #       port: http

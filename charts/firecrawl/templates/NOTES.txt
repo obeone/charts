@@ -26,6 +26,17 @@ Admin queue panel: /admin/<BULL_AUTH_KEY>/queues
   Default BULL_AUTH_KEY is "CHANGEME" — override secrets.secrets.stringData.BULL_AUTH_KEY
   before exposing this instance to untrusted networks.
 
+{{ if .Values.controllers.mcp.enabled -}}
+MCP server enabled — Streamable HTTP endpoint:
+{{ if .Values.ingress.api.enabled -}}
+  http{{ if .Values.ingress.api.tls }}s{{ end }}://{{ (index .Values.ingress.api.hosts 0).host }}/v2/mcp
+  (only if you uncommented the /v2/mcp path in ingress.api — see values.yaml)
+{{- else -}}
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ $fullname }}-mcp 8080:8080
+  then point your MCP client at http://localhost:8080/v2/mcp
+{{- end }}
+
+{{ end -}}
 Topology deployed:
 - api ............... HTTP API (svc {{ $fullname }}-api:3002)
 - worker ............ legacy BullMQ queue worker
@@ -33,6 +44,7 @@ Topology deployed:
 - nuq-worker ........ primary NuQ queue worker (replicas: {{ $nuqWorker.replicas | default 1 }})
 - nuq-prefetch-worker NuQ prefetch worker{{ if not $nuqPrefetch.enabled }} (disabled){{ end }}
 - playwright ........ headless-browser renderer
+- mcp ............... MCP server on /v2/mcp{{ if not .Values.controllers.mcp.enabled }} (disabled){{ end }}
 - redis ............. {{ if .Values.controllers.redis.enabled }}bundled{{ else }}external ({{ .Values.firecrawl.redis.url }}){{ end }}
 - rabbitmq .......... {{ if .Values.controllers.rabbitmq.enabled }}bundled{{ else }}external{{ end }}
 - nuq-postgres ...... {{ if $nuqPostgres.enabled }}bundled (PVC {{ $pgData.size }}){{ else }}external{{ end }}
