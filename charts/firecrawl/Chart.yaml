@@ -1,6 +1,6 @@
 apiVersion: v2
 name: firecrawl
-version: 2.1.0
+version: 2.1.1
 appVersion: "2.11.198"
 kubeVersion: ">=1.25.0-0"
 
@@ -77,3 +77,5 @@ annotations:
       description: "2026-08-13: Bump appVersion to 2.11.198"
     - kind: added
       description: "2026-08-18: Add an optional MCP server (ghcr.io/firecrawl/firecrawl-mcp-server) serving Streamable HTTP at /v2/mcp, disabled by default"
+    - kind: fixed
+      description: "2026-08-18: Pin the MCP server to HOST=127.0.0.1; it bound [::1] only and every request, probes included, 502'd through the in-image nginx"
