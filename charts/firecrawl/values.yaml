@@ -283,6 +283,15 @@ controllers:
           tag: latest
           pullPolicy: Always
         env:
+          # MUST be the literal 127.0.0.1, not localhost. Upstream falls back to
+          # the string "localhost" (it only forces 0.0.0.0 in its own multi-
+          # tenant CLOUD_SERVICE mode), Node resolves that to ::1 first, and the
+          # app then listens on [::1]:3000 only — while the nginx baked into the
+          # same image proxies to 127.0.0.1:3000. Everything 502s, health probes
+          # included, so liveness recycles the pod until Helm times out and
+          # rolls the release back. An IP literal is taken verbatim, no
+          # resolution, no dual-stack ordering to lose to.
+          HOST: "127.0.0.1"
           # The image defaults to the stdio transport and only starts the
           # Streamable HTTP server when this is set. Without it the container
           # listens on nothing and the probes below never pass.
