@@ -1,11 +1,11 @@
 {{- define "custom.app" -}}
 [Firecrawl](https://www.firecrawl.dev) is a web scraping and crawling API that turns websites into
 LLM-ready data: clean markdown, structured extraction, screenshots, search.
+An optional MCP server exposes those tools to Model Context Protocol clients
+over Streamable HTTP at `/v2/mcp`.
 This chart deploys the complete self-hosted stack: the API and its workers,
 the Playwright service used for browser rendering, plus the Redis, RabbitMQ
-and nuq-postgres backing services. An optional MCP server can be deployed
-alongside it, exposing Firecrawl's tools to Model Context Protocol clients
-over Streamable HTTP at `/v2/mcp`.
+and nuq-postgres backing services.
 {{- end -}}
 
 {{- define "custom.link.app" -}}[firecrawl.dev](https://www.firecrawl.dev){{- end -}}
