@@ -1,6 +1,6 @@
 apiVersion: v2
 name: firecrawl
-version: 2.0.25
+version: 2.1.0
 appVersion: "2.11.198"
 kubeVersion: ">=1.25.0-0"
 
@@ -8,8 +8,9 @@ description: >-
   Firecrawl is an open-source API that crawls websites and turns them into
   LLM-ready data (markdown, HTML, structured JSON). This chart packages the
   self-hosted topology — API, workers, Playwright renderer and the bundled
-  Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library,
-  with official ghcr.io images.
+  Redis / RabbitMQ / NuQ-Postgres backends — plus an optional MCP server
+  exposing Firecrawl's tools at /v2/mcp, using the bjw-s common library and
+  official ghcr.io images.
 
 type: application
 
@@ -21,6 +22,7 @@ keywords:
   - markdown
   - ai
   - self-hosted
+  - mcp
 
 home: https://www.firecrawl.dev
 icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
@@ -45,6 +47,8 @@ annotations:
       url: https://github.com/firecrawl/firecrawl
     - name: Documentation
       url: https://docs.firecrawl.dev
+    - name: MCP Server
+      url: https://docs.firecrawl.dev/mcp-server/local
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
@@ -71,3 +75,5 @@ annotations:
       description: "2026-08-11: Bump appVersion to 2.11.197"
     - kind: changed
       description: "2026-08-13: Bump appVersion to 2.11.198"
+    - kind: added
+      description: "2026-08-18: Add an optional MCP server (ghcr.io/firecrawl/firecrawl-mcp-server) serving Streamable HTTP at /v2/mcp, disabled by default"
