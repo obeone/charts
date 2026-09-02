@@ -31,19 +31,19 @@ helm install my-release obeone/<chart> --verify
 | :-: | --- | --- | --- |
 | 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.11.0` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) — Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
 | 🔪 | [**cyberchef**](charts/cyberchef) | `v11.3.0` | GCHQ's [Cyber Swiss Army Knife](https://github.com/gchq/CyberChef) — encode, decode, encrypt, analyze. Multi-arch. |
-| 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.16` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
+| 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.18` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
 | 🖌️ | [**draw-things**](charts/draw-things) | `latest` | [Draw Things](https://drawthings.ai) gRPC server — Stable Diffusion inference backend for the macOS/iOS app, GPU-accelerated. |
 | 🔥 | [**firecrawl**](charts/firecrawl) | `2.11.198` | [Firecrawl](https://github.com/firecrawl/firecrawl) — crawl & scrape sites into LLM-ready data (markdown, HTML, JSON). Self-hosted API, workers & Playwright. |
 | 🎨 | [**fooocus**](charts/fooocus) | `latest` | [Fooocus](https://github.com/lllyasviel/Fooocus) — open-source image-generation UI on top of Stable Diffusion. |
 | 🌍 | [**libretranslate**](charts/libretranslate) | `v1.9.6` | [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) — free, offline-capable machine-translation API. |
 | 📡 | [**mktxp**](charts/mktxp) | `latest` | [MKTXP](https://github.com/akpw/mktxp) — Prometheus exporter for MikroTik RouterOS metrics. |
-| 📂 | [**nfs-server**](charts/nfs-server) | `2.2.2` | Lightweight, multi-arch [containerized NFS server](https://github.com/obeone/docker-nfs-server). |
+| 📂 | [**nfs-server**](charts/nfs-server) | `2.2.3` | Lightweight, multi-arch [containerized NFS server](https://github.com/obeone/docker-nfs-server). |
 | 🦙 | [**ollama**](charts/ollama) | `latest` | [Ollama](https://ollama.com) — run LLMs locally, with an optional single-switch transparent Prometheus exporter/proxy sidecar (cosign-signed). GPU-accelerated, multi-arch. |
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `2.0.1` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
 | 📝 | [**opengist**](charts/opengist) | `1.15.1` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
 | 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.4.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
 | 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
-| 🪟 | [**winbox**](charts/winbox) | `3.40` | [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. |
+| 🪟 | [**winbox**](charts/winbox) | `3.40` | **Deprecated.** [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. Upstream is archived (no image rebuild since 2023); use MikroTik's native WinBox 4 instead. |
 
 > 💡 Each chart ships with a per-folder `README.md` and a `values.yaml` annotated for [helm-docs](https://github.com/norwoodj/helm-docs).
 
