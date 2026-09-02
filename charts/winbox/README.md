@@ -7,10 +7,20 @@
 -->
 # winbox
 
-![Version: 1.3.9](https://img.shields.io/badge/Version-1.3.9-informational?style=flat-square) ![AppVersion: 3.40](https://img.shields.io/badge/AppVersion-3.40-informational?style=flat-square)
+> **:exclamation: This Helm Chart is deprecated!**
+
+![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![AppVersion: 3.40](https://img.shields.io/badge/AppVersion-3.40-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/winbox)
 
 Mikrotik Winbox in browser
+
+DEPRECATED: this chart is no longer maintained and will receive no further
+releases. Its upstream project (obeone/winbox-docker) was archived in
+September 2026: the last image build dates from August 2023 (Winbox 3.40,
+Ubuntu 20.04, Wine and KasmVNC of that time) and has had no security
+updates since. MikroTik now ships WinBox 4 natively for Linux and macOS
+(https://mikrotik.com/download), which removes most of the reason this
+chart existed. Run the image at your own risk, or better, not at all.
 
 Access to Mikrotik Winbox using your browser. This container start a VNC server and client,
 with winbox started by Wine.
