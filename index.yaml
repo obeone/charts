@@ -6301,6 +6301,56 @@ entries:
   winbox:
   - annotations:
       artifacthub.io/changes: |
+        - kind: deprecated
+          description: >-
+            Chart deprecated. Upstream obeone/winbox-docker is archived: the image
+            has not been rebuilt since August 2023 and gets no security updates.
+            MikroTik ships WinBox 4 natively for Linux and macOS.
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/screenshots: |
+        - title: Login screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/login.png
+        - title: Main screen
+          url: https://raw.githubusercontent.com/obeone/winbox-docker/main/docs/screenshots/main.png
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: "3.40"
+    created: "2026-09-02T00:35:54.598535169Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.3.0
+    deprecated: true
+    description: 'Mikrotik Winbox in browser  DEPRECATED: this chart is no longer
+      maintained and will receive no further releases. Its upstream project (obeone/winbox-docker)
+      was archived in September 2026: the last image build dates from August 2023
+      (Winbox 3.40, Ubuntu 20.04, Wine and KasmVNC of that time) and has had no security
+      updates since. MikroTik now ships WinBox 4 natively for Linux and macOS (https://mikrotik.com/download),
+      which removes most of the reason this chart existed. Run the image at your own
+      risk, or better, not at all.  Access to Mikrotik Winbox using your browser.
+      This container start a VNC server and client, with winbox started by Wine.  Currently
+      only available for amd64 platforms. '
+    digest: e1a3994ce56ca8f7276819759c80f50377918ba9022bd4d03b2b72dcc816cf36
+    home: https://mikrotik.com/download
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/winbox.png
+    keywords:
+    - winbox
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: winbox
+    sources:
+    - https://github.com/obeone/winbox-docker
+    urls:
+    - https://github.com/obeone/charts/releases/download/winbox-1.4.0/winbox-1.4.0.tgz
+    version: 1.4.0
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Value schema
       artifacthub.io/maintainers: |
@@ -6762,4 +6812,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-08-18T13:56:41.233065643Z"
+generated: "2026-09-02T00:35:54.598953087Z"
