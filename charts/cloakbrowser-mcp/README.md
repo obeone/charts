@@ -7,7 +7,7 @@
 -->
 # cloakbrowser-mcp
 
-![Version: 0.2.4](https://img.shields.io/badge/Version-0.2.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.11.0](https://img.shields.io/badge/AppVersion-1.11.0-informational?style=flat-square)
+![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.12.0](https://img.shields.io/badge/AppVersion-1.12.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp)
 
 CloakBrowser MCP — a Model Context Protocol browser-automation server that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This Helm chart packages the bridge in its streamable-http transport so it can be reached over the network, driven entirely from values.yaml via the bjw-s common library.
@@ -80,7 +80,7 @@ Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 5.0.1 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 
