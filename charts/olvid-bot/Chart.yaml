@@ -1,8 +1,8 @@
 apiVersion: v2
 name: olvid-bot
-version: 0.3.3
+version: 1.0.0
 appVersion: 2.0.1
-kubeVersion: ">=1.22.0-0"
+kubeVersion: ">=1.31.0-0"
 
 description: >-
   Olvid bot-daemon — a bridge service that lets you automate interactions with Olvid
@@ -32,7 +32,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.1.2
+    version: 5.1.0
 
 annotations:
   artifacthub.io/links: |
@@ -44,3 +44,8 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+    - kind: changed
+      description: >-
+        Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
+        Kubernetes version to 1.31 and Helm to 3.18. No values changes were
+        required for this chart.

@@ -1,7 +1,7 @@
 apiVersion: v2
 name: cloakbrowser-mcp
-version: 0.2.4
-appVersion: "1.11.0"
+version: 0.3.0
+appVersion: "1.12.0"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -35,7 +35,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 5.0.1
+    version: 5.1.0
 
 annotations:
   artifacthub.io/links: |
@@ -49,3 +49,7 @@ annotations:
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
     - kind: changed
       description: "2026-08-11: Bump appVersion to 1.11.0"
+    - kind: changed
+      description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+    - kind: changed
+      description: "2026-09-05: Bump appVersion to 1.12.0"

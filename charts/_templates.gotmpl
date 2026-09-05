@@ -21,11 +21,14 @@ Per-chart blocks:
                         content must start with a newline followed by "- "
   custom.configuration  (optional) chart-specific notes and examples; content
                         must start with a blank line
+  custom.upgrade.notes  (optional) chart-specific notes rendered at the top of
+                        the Upgrading section, before the helm upgrade command
 */}}
 
 {{- define "custom.links.extra" -}}{{- end -}}
 {{- define "custom.prerequisites" -}}{{- end -}}
 {{- define "custom.configuration" -}}{{- end -}}
+{{- define "custom.upgrade.notes" -}}{{- end -}}
 
 {{- define "lineage.k8s-at-home" -}}
 This chart is built on the [k8s-at-home common library](https://github.com/k8s-at-home/library-charts)
@@ -94,6 +97,7 @@ helm install {{ template "chart.name" . }} obeone/{{ template "chart.name" . }} 
 {{- template "custom.configuration" . }}
 
 ## Upgrading
+{{- template "custom.upgrade.notes" . }}
 
 ```shell
 helm repo update
