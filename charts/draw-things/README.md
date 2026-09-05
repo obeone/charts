@@ -7,7 +7,7 @@
 -->
 # draw-things
 
-![Version: 0.1.3](https://img.shields.io/badge/Version-0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/draw-things)
 
 Draw Things gRPC server — the official CLI image that exposes a gRPC API for Stable Diffusion image generation, intended to be paired with the macOS/iOS Draw Things app for remote inference on a beefier GPU than your phone. This chart packages it with the bjw-s common library so behaviour is driven almost entirely from values.yaml.
@@ -80,7 +80,7 @@ Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 5.0.1 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 
