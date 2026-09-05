@@ -1,6 +1,6 @@
 apiVersion: v2
 name: draw-things
-version: 0.1.3
+version: 0.2.0
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
 
@@ -38,7 +38,7 @@ maintainers:
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 5.0.1
+    version: 5.1.0
 
 annotations:
   artifacthub.io/links: |
@@ -52,3 +52,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+    - kind: changed
+      description: "2026-09-05: Bump bjw-s common library to 5.1.0"

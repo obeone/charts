@@ -1,5 +1,10 @@
 # yaml-language-server: $schema=./values.schema.json
 
+# Pod-wide options applied to every controller in this chart.
+defaultPodOptions:
+  # OpenGist never talks to the Kubernetes API, so keep the SA token out of the pod.
+  automountServiceAccountToken: false
+
 # Define the main controller (deployment) for the OpenGist application.
 controllers:
   main:
@@ -175,7 +180,7 @@ route:
     enabled: false
     # Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
     kind: HTTPRoute
-    # Gateways this route attaches to. `namespace` is required on common 3.x.
+    # Gateways this route attaches to.
     parentRefs:
       - name: gateway
         namespace: gateway-system
@@ -195,7 +200,7 @@ route:
           - name: main
 
 # Define persistence (storage) for OpenGist.
-persistence:
+persistence: {}
 
   # -> Use this if you need to create a PVC. If you want to use an existing claim, see below
   # opengist:
