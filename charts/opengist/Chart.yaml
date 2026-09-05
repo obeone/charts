@@ -40,6 +40,10 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  # Remove once this chart reaches 2.4.0: documents the breaking
+  # selector-label change introduced in 2.0.0. Delete this comment together
+  # with the custom.banner and custom.upgrade.notes defines in
+  # README.md.gotmpl.
   artifacthub.io/changes: |
     - kind: changed
       description: >-

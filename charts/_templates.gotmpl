@@ -23,12 +23,15 @@ Per-chart blocks:
                         must start with a blank line
   custom.upgrade.notes  (optional) chart-specific notes rendered at the top of
                         the Upgrading section, before the helm upgrade command
+  custom.banner         (optional) short warning banner rendered right after
+                        the chart title and badges, before the TL;DR section
 */}}
 
 {{- define "custom.links.extra" -}}{{- end -}}
 {{- define "custom.prerequisites" -}}{{- end -}}
 {{- define "custom.configuration" -}}{{- end -}}
 {{- define "custom.upgrade.notes" -}}{{- end -}}
+{{- define "custom.banner" -}}{{- end -}}
 
 {{- define "lineage.k8s-at-home" -}}
 This chart is built on the [k8s-at-home common library](https://github.com/k8s-at-home/library-charts)
@@ -57,6 +60,7 @@ for everything it supports beyond what is spelled out in `values.yaml`.
 
 {{ template "chart.badgesSection" . }}
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/{{ template "chart.name" . }})
+{{- template "custom.banner" . }}
 
 {{ template "chart.description" . }}
 

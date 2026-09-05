@@ -10,6 +10,10 @@
 ![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/libretranslate)
 
+> **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
+> than 2.0.0 will fail unless you delete the Deployment first. See
+> [Upgrading](#upgrading) for the exact commands.
+
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 
 ## TL;DR

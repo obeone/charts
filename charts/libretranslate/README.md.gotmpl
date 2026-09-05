@@ -11,6 +11,18 @@ top of the REST API for interactive use.
 
 {{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
 
+{{/*
+Remove this banner once this chart reaches 2.4.0: it documents the breaking
+selector-label change introduced in 2.0.0. At that point, delete this
+custom.banner define and the matching custom.upgrade.notes define below.
+*/}}
+{{- define "custom.banner" }}
+
+> **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
+> than 2.0.0 will fail unless you delete the Deployment first. See
+> [Upgrading](#upgrading) for the exact commands.
+{{- end }}
+
 {{- define "custom.upgrade.notes" }}
 
 > **Warning**

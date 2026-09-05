@@ -10,6 +10,10 @@
 ![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.15.2](https://img.shields.io/badge/AppVersion-1.15.2-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/opengist)
 
+> **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
+> than 2.0.0 will fail unless you delete the Deployment first. See
+> [Upgrading](#upgrading) for the exact commands.
+
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.
 
 ## TL;DR
