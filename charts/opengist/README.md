@@ -7,7 +7,7 @@
 -->
 # opengist
 
-![Version: 1.1.6](https://img.shields.io/badge/Version-1.1.6-informational?style=flat-square) ![AppVersion: 1.15.1](https://img.shields.io/badge/AppVersion-1.15.1-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.15.2](https://img.shields.io/badge/AppVersion-1.15.2-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/opengist)
 
 Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.
@@ -74,11 +74,11 @@ manually if you also want the data gone.
 
 ## Requirements
 
-Kubernetes: `>=1.16.0-0`
+Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 3.7.1 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 
@@ -92,6 +92,7 @@ Kubernetes: `>=1.16.0-0`
 | controllers.main.containers.main.image.repository | string | `"ghcr.io/thomiceli/opengist"` |  |
 | controllers.main.containers.main.image.tag | string | `"{{ .Chart.AppVersion }}"` |  |
 | controllers.main.strategy | string | `"Recreate"` |  |
+| defaultPodOptions.automountServiceAccountToken | bool | `false` |  |
 | ingress.main.enabled | bool | `false` |  |
 | ingress.main.hosts[0].host | string | `"gist.example.com"` |  |
 | ingress.main.hosts[0].paths[0].path | string | `"/"` |  |
@@ -100,7 +101,7 @@ Kubernetes: `>=1.16.0-0`
 | ingress.main.hosts[0].paths[0].service.port | string | `"http"` |  |
 | ingress.main.tls[0].hosts[0] | string | `"gist.example.com"` |  |
 | ingress.main.tls[0].secretName | string | `"gist-tls-cert"` |  |
-| persistence | string | `nil` |  |
+| persistence | object | `{}` |  |
 | route.main.enabled | bool | `false` |  |
 | route.main.hostnames[0] | string | `"gist.example.com"` |  |
 | route.main.kind | string | `"HTTPRoute"` |  |
