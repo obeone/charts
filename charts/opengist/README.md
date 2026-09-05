@@ -54,6 +54,30 @@ helm install opengist obeone/opengist -f my-values.yaml
 
 ## Upgrading
 
+> **Warning**
+> If you are upgrading from a chart version older than 2.0.0, `helm upgrade`
+> will fail: the bjw-s common 5.1.0 migration changes the controller selector
+> label from `app.kubernetes.io/component` to `app.kubernetes.io/controller`,
+> and selector labels are immutable on a Kubernetes Deployment. Delete the
+> Deployment first, then upgrade:
+>
+> ```shell
+> kubectl delete deployment <release-name>-opengist
+> helm upgrade <release-name> obeone/opengist
+> ```
+>
+> This is a plain cascading delete, the default for `kubectl delete
+> deployment`: the pods go down with it, so expect a short outage while the
+> upgrade recreates them. Do not add `--cascade=orphan` here. It looks like
+> the safe, zero-downtime option, but the new Deployment selects on
+> `app.kubernetes.io/controller`, a label the old pods never had, so it can
+> never adopt them. The orphaned pods would keep running unmanaged forever
+> alongside the new ones. Any PersistentVolumeClaims are not affected by the
+> Deployment delete and must not be deleted separately.
+>
+> Fresh installs are unaffected; this only applies to upgrades from a
+> pre-2.0.0 release.
+
 ```shell
 helm repo update
 helm upgrade opengist obeone/opengist

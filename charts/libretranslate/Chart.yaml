@@ -34,7 +34,9 @@ annotations:
         changes from app.kubernetes.io/component to
         app.kubernetes.io/controller, which is immutable on an existing
         Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
-        you delete the Deployment (not the PVC) before upgrading
+        you delete the Deployment (not the PVC) before upgrading. The models
+        share PVC keeps its `<release>-share` name across the migration,
+        via an explicit persistence suffix; no action needed on your side
     - kind: changed
       description: Regenerate README from the unified helm-docs template
     - kind: added
