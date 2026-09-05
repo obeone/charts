@@ -1,6 +1,6 @@
 apiVersion: v2
 name: transfer.sh
-version: 1.0.5
+version: 2.0.0
 appVersion: v1.6.1
 description: |
   High-performance, secure and user-friendly command-line file sharing tool.
@@ -23,11 +23,11 @@ keywords:
 maintainers:
   - name: obeone
     email: obeone@obeone.org
-kubeVersion: ">=1.16.0-0"
+kubeVersion: ">=1.31.0-0"
 dependencies:
   - name: common
     repository: https://bjw-s-labs.github.io/helm-charts
-    version: 4.1.2
+    version: 5.1.0
 annotations:
   artifacthub.io/signKey: |
     fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
@@ -39,3 +39,8 @@ annotations:
   artifacthub.io/changes: |
     - kind: added
       description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+    - kind: changed
+      description: >-
+        Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
+        Kubernetes version to 1.31 and Helm to 3.18. No values changes were
+        required for this chart.
