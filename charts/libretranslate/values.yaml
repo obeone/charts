@@ -7,6 +7,11 @@ global:
   # -- Enable GPU-specific settings (like CUDA paths and GPU resources)
   gpuEnabled: false
 
+# -- Pod-wide options applied to every controller in this chart.
+defaultPodOptions:
+  # -- LibreTranslate never talks to the Kubernetes API, so keep the SA token out of the pod.
+  automountServiceAccountToken: false
+
 controllers:
   main:
     strategy: Recreate
@@ -94,7 +99,7 @@ route:
     enabled: false
     # -- Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
     kind: HTTPRoute
-    # -- Gateways this route attaches to. `namespace` is required on common 3.x.
+    # -- Gateways this route attaches to.
     parentRefs:
       - name: gateway
         namespace: gateway-system
@@ -142,6 +147,10 @@ persistence:
   share:
     # -- Enable persistent shared storage for translation models and shared assets
     enabled: true
+    # -- Pin the PVC name suffix so it keeps matching pre-5.x installs: common
+    # 5.x only appends the identifier when more than one PVC is enabled, which
+    # would otherwise rename this PVC and orphan existing translation models.
+    suffix: share
     accessMode: ReadWriteOnce
     size: 20Gi
     annotations: {}

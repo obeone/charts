@@ -7,7 +7,7 @@
 -->
 # libretranslate
 
-![Version: 1.0.7](https://img.shields.io/badge/Version-1.0.7-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
+![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/libretranslate)
 
 Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
@@ -74,11 +74,11 @@ manually if you also want the data gone.
 
 ## Requirements
 
-Kubernetes: `>=1.16.0-0`
+Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 3.7.1 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 
@@ -103,23 +103,26 @@ Kubernetes: `>=1.16.0-0`
 | controllers.main.containers.main.resources.limits | object | `{"cpu":"500m","memory":"512Mi"}` | Resource limits for the main container |
 | controllers.main.containers.main.resources.requests | object | `{"cpu":"100m","memory":"128Mi"}` | Resource requests for the main container |
 | controllers.main.strategy | string | `"Recreate"` |  |
+| defaultPodOptions | object | `{"automountServiceAccountToken":false}` | Pod-wide options applied to every controller in this chart. |
+| defaultPodOptions.automountServiceAccountToken | bool | `false` | LibreTranslate never talks to the Kubernetes API, so keep the SA token out of the pod. |
 | global | object | `{"gpuEnabled":false}` | Global parameters for the chart Used to configure GPU support and other global settings |
 | global.gpuEnabled | bool | `false` | Enable GPU-specific settings (like CUDA paths and GPU resources) |
 | ingress | object | `{"main":{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}}` | Ingress configuration for external access to the service |
 | ingress.main.enabled | bool | `false` | Enable or disable ingress |
 | ingress.main.tls[0].secretName | string | `"tls-chart-example-local"` | Secret containing TLS certificate for the ingress |
 | nodeSelector | object | `{}` | Node selector for pod assignment |
-| persistence | object | `{"api-keys":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/app/db"}],"size":"10Mi"},"cache":{"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/cache"}],"type":"emptyDir"},"db":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/home/libretranslate/.local/db"}],"size":"1Gi"},"files-translate":{"enabled":true,"globalMounts":[{"path":"/tmp/libretranslate-files-translate"}],"type":"emptyDir"},"share":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/share"}],"size":"20Gi"}}` | Persistence volumes configuration for different data types |
+| persistence | object | `{"api-keys":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/app/db"}],"size":"10Mi"},"cache":{"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/cache"}],"type":"emptyDir"},"db":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/home/libretranslate/.local/db"}],"size":"1Gi"},"files-translate":{"enabled":true,"globalMounts":[{"path":"/tmp/libretranslate-files-translate"}],"type":"emptyDir"},"share":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":true,"globalMounts":[{"path":"/home/libretranslate/.local/share"}],"size":"20Gi","suffix":"share"}}` | Persistence volumes configuration for different data types |
 | persistence.api-keys.enabled | bool | `false` | Enable persistence for API keys database |
 | persistence.cache.enabled | bool | `true` | Enable temporary cache storage |
 | persistence.db.enabled | bool | `false` | Enable database storage for application data |
 | persistence.files-translate.enabled | bool | `true` | Temporary storage for uploaded translation files |
 | persistence.share.enabled | bool | `true` | Enable persistent shared storage for translation models and shared assets |
+| persistence.share.suffix | string | `"share"` | Pin the PVC name suffix so it keeps matching pre-5.x installs: common 5.x only appends the identifier when more than one PVC is enabled, which would otherwise rename this PVC and orphan existing translation models. |
 | route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system"}],"rules":[{"backendRefs":[{"name":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default: pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and an existing Gateway in the cluster. |
 | route.main.enabled | bool | `false` | Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`. |
 | route.main.hostnames | list | `["chart-example.local"]` | Hostnames served by this route. |
 | route.main.kind | string | `"HTTPRoute"` | Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute. |
-| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. `namespace` is required on common 3.x. |
+| route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. |
 | route.main.rules | list | `[{"backendRefs":[{"name":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `name` resolves to a Service identifier defined above. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":5000}}}}` | Service configuration to expose the application internally in the cluster |
 | service.main.ports.http.port | int | `80` | External service port |
