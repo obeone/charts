@@ -16,6 +16,50 @@ contacts.
 
 {{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
 
+{{/*
+This warning documents the daemon's 1.x to 2.x gRPC breaking change, which
+chart releases before 0.3.0 (the first to ship daemon 2.0.1) cross on
+upgrade. It can be removed once it is safe to assume nobody upgrades across
+that boundary anymore: delete this custom.banner define and the matching
+custom.upgrade.notes define below.
+*/}}
+{{- define "custom.banner" }}
+
+> **Note: daemon 1.x to 2.x migration.** Upgrading from a chart release older
+> than 0.3.0 jumps the daemon from the 1.x series to 2.x, whose gRPC API
+> changed incompatibly. See [Upgrading](#upgrading) before touching your bot
+> code.
+{{- end }}
+
+{{- define "custom.upgrade.notes" }}
+
+> **Note**
+> If you are upgrading from a chart release older than 0.3.0, the daemon
+> image jumps from the 1.x series straight to 2.x. That release changed the
+> gRPC API in incompatible ways: `messageSendVoip` was replaced by
+> `callCommandService`, `keycloakBind`/`keycloakUnbind` moved to
+> `keycloakCommandService`, `discussionSettingsGet`/`discussionSettingsSet`
+> moved to `settingsCommandService`, the `delete_everywhere` parameter was
+> dropped from `attachmentDelete` and `discussionEmpty`, the
+> `GroupUpdateInProgress`/`GroupUpdateFinished` notifications were removed,
+> `identityNew` lost its `api_key` parameter, `Identity.invitation_url` was
+> removed, and `MessageFilter.reactions_filter` was renamed to
+> `reaction_filters`. If your own bot code talks to the daemon over gRPC, it
+> needs to be updated against the 2.x API before you upgrade; this only
+> affects bots that call the daemon, not a fresh install of this chart.
+>
+> Client connection settings also changed: `DAEMON_HOSTNAME`, `DAEMON_PORT`
+> and `OLVID_DAEMON_TARGET` were replaced by a single `OLVID_DAEMON_URL`, and
+> the `.client_key` / `.admin_client_key` files were replaced by a `.env`
+> file carrying `OLVID_CLIENT_KEY` / `OLVID_ADMIN_CLIENT_KEY`.
+>
+> This chart's own settings are unchanged across that boundary (same admin
+> key environment variable, same gRPC port 50051, same `/daemon/data`
+> volume), so no values edit is needed here. See the official
+> [migration guide](https://doc.bot.olvid.io/en/stable/migrations/migration_1_2.html)
+> for the full list of changes.
+{{- end }}
+
 {{- define "custom.configuration" }}
 
 ### Daemon client keys

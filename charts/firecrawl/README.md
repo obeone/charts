@@ -7,7 +7,7 @@
 -->
 # firecrawl
 
-![Version: 2.1.1](https://img.shields.io/badge/Version-2.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.198](https://img.shields.io/badge/AppVersion-2.11.198-informational?style=flat-square)
+![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.209](https://img.shields.io/badge/AppVersion-2.11.209-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/firecrawl)
 
 Firecrawl is an open-source API that crawls websites and turns them into LLM-ready data (markdown, HTML, structured JSON), with an optional MCP server exposing its tools at /v2/mcp. This chart packages the self-hosted topology — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library and official ghcr.io images.
@@ -79,11 +79,11 @@ manually if you also want the data gone.
 
 ## Requirements
 
-Kubernetes: `>=1.25.0-0`
+Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 4.6.2 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 

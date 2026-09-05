@@ -7,8 +7,13 @@
 -->
 # olvid-bot
 
-![Version: 0.3.3](https://img.shields.io/badge/Version-0.3.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.1](https://img.shields.io/badge/AppVersion-2.0.1-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/olvid-bot)
+
+> **Note: daemon 1.x to 2.x migration.** Upgrading from a chart release older
+> than 0.3.0 jumps the daemon from the 1.x series to 2.x, whose gRPC API
+> changed incompatibly. See [Upgrading](#upgrading) before touching your bot
+> code.
 
 Olvid bot-daemon — a bridge service that lets you automate interactions with Olvid secure-messaging groups. This Helm chart packages the daemon using the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
 
@@ -62,6 +67,32 @@ provisioned declaratively through the `secrets` value; see the comments in
 
 ## Upgrading
 
+> **Note**
+> If you are upgrading from a chart release older than 0.3.0, the daemon
+> image jumps from the 1.x series straight to 2.x. That release changed the
+> gRPC API in incompatible ways: `messageSendVoip` was replaced by
+> `callCommandService`, `keycloakBind`/`keycloakUnbind` moved to
+> `keycloakCommandService`, `discussionSettingsGet`/`discussionSettingsSet`
+> moved to `settingsCommandService`, the `delete_everywhere` parameter was
+> dropped from `attachmentDelete` and `discussionEmpty`, the
+> `GroupUpdateInProgress`/`GroupUpdateFinished` notifications were removed,
+> `identityNew` lost its `api_key` parameter, `Identity.invitation_url` was
+> removed, and `MessageFilter.reactions_filter` was renamed to
+> `reaction_filters`. If your own bot code talks to the daemon over gRPC, it
+> needs to be updated against the 2.x API before you upgrade; this only
+> affects bots that call the daemon, not a fresh install of this chart.
+>
+> Client connection settings also changed: `DAEMON_HOSTNAME`, `DAEMON_PORT`
+> and `OLVID_DAEMON_TARGET` were replaced by a single `OLVID_DAEMON_URL`, and
+> the `.client_key` / `.admin_client_key` files were replaced by a `.env`
+> file carrying `OLVID_CLIENT_KEY` / `OLVID_ADMIN_CLIENT_KEY`.
+>
+> This chart's own settings are unchanged across that boundary (same admin
+> key environment variable, same gRPC port 50051, same `/daemon/data`
+> volume), so no values edit is needed here. See the official
+> [migration guide](https://doc.bot.olvid.io/en/stable/migrations/migration_1_2.html)
+> for the full list of changes.
+
 ```shell
 helm repo update
 helm upgrade olvid-bot obeone/olvid-bot
@@ -82,11 +113,11 @@ manually if you also want the data gone.
 
 ## Requirements
 
-Kubernetes: `>=1.22.0-0`
+Kubernetes: `>=1.31.0-0`
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 4.1.2 |
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
 
 ## Values
 
