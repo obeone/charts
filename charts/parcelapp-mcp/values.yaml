@@ -1,0 +1,201 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# -- Pod-wide options applied to every controller in this chart.
+defaultPodOptions:
+  # The server only talks to the Parcel API, never to the Kubernetes API,
+  # so keep the service-account token out of the pod.
+  automountServiceAccountToken: false
+  # Run as the unprivileged 10001 user baked into the upstream image.
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 10001
+    fsGroup: 10001
+    seccompProfile:
+      type: RuntimeDefault
+  # -- Pull secrets for the container image. The default image is public, so none
+  # is needed; set one only if you mirror the image into a private registry:
+  # imagePullSecrets:
+  #   - name: registry-credentials
+
+# Main controller running the Parcel MCP server.
+controllers:
+  main:
+    # Stateless HTTP server with no volume contention, so roll pods instead of the
+    # library's Recreate default and keep the endpoint up across upgrades.
+    strategy: RollingUpdate
+    containers:
+      main:
+        image:
+          # -- Container image, published on GitHub Container Registry by the
+          # upstream project. Override it to pull your own build or a mirror.
+          repository: ghcr.io/obeone/parcelapp-mcp
+          # -- Image tag. Tracks the chart's appVersion, so bumping one bumps the
+          # other. Floating tags `0.2` and `0` also exist upstream.
+          tag: "0.2.1"
+          # Immutable version tag, so there is nothing to re-pull on restart.
+          pullPolicy: IfNotPresent
+
+        # -- Environment driving the server. The image has no entrypoint arguments,
+        # so the whole configuration is expressed through these PARCEL_* variables.
+        env:
+          # Expose the MCP server over the network instead of stdio.
+          # Set to "stdio" only if you run the container interactively.
+          PARCEL_TRANSPORT: streamable-http
+          # Bind on all interfaces so the Service can reach it; upstream defaults to
+          # loopback, which is unreachable from outside the container.
+          PARCEL_HOST: 0.0.0.0
+          PARCEL_PORT: "8000"
+          # MCP endpoint path on the HTTP listener.
+          PARCEL_PATH: /mcp
+          # Python log level: DEBUG|INFO|WARNING|ERROR|CRITICAL.
+          PARCEL_LOG_LEVEL: INFO
+          # -- Parcel API key. UNSET by default: without it the server starts but
+          # every Parcel call fails. `PARCEL_API_KEY` is an accepted alias for the
+          # same value, set one or the other, not both.
+          #
+          # Option 1 — reference a Secret you already manage:
+          # PARCEL_TOKEN:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: parcelapp-credentials
+          #       key: PARCEL_TOKEN
+          #
+          # Option 2 — let the chart create the Secret: enable the `secrets` block
+          # at the bottom of this file and pull it in wholesale with:
+          # envFrom:
+          #   - secret: credentials
+
+        # Container-level hardening. The app writes nothing outside /tmp, which is
+        # mounted from an emptyDir below.
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+
+        # Resource envelope for a single stateless Python process. No CPU limit so
+        # it can burst through a batch of API calls.
+        resources:
+          requests:
+            cpu: 10m
+            memory: 64Mi
+          limits:
+            memory: 256Mi
+
+        # -- Health probes. The server exposes no HTTP health endpoint: its only
+        # route is the MCP path, which answers a JSON-RPC POST and rejects a plain
+        # GET. A TCP connect on the listener is therefore the honest check here.
+        # If you want a real end-to-end probe, switch to an `exec` probe running a
+        # JSON-RPC `initialize` POST, the way the image's own HEALTHCHECK does.
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 8000
+              initialDelaySeconds: 10
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 5
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              tcpSocket:
+                port: 8000
+              initialDelaySeconds: 5
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+          # Disabled by default: the process is up in a couple of seconds, so the
+          # liveness delay above is enough. Enable it if you add a slow init step.
+          startup:
+            enabled: false
+            custom: true
+            spec:
+              tcpSocket:
+                port: 8000
+              periodSeconds: 5
+              failureThreshold: 30
+
+# -- Service exposing the streamable-http MCP endpoint inside the cluster.
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 8000
+        targetPort: 8000
+        protocol: TCP
+
+# -- Storage. The read-only root filesystem above leaves Python nowhere to write
+# its temporary files, so /tmp comes from a small emptyDir.
+persistence:
+  tmp:
+    type: emptyDir
+    sizeLimit: 64Mi
+    globalMounts:
+      - path: /tmp
+
+# -- Ingress. Disabled by default; flip enabled and set a real host to expose the
+# MCP endpoint. The server speaks plain HTTP, so terminate TLS at the ingress.
+ingress:
+  main:
+    enabled: false
+    className: ""
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default:
+# pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and
+# an existing Gateway in the cluster.
+route:
+  main:
+    # -- Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`.
+    enabled: false
+    # -- Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
+    kind: HTTPRoute
+    # -- Gateways this route attaches to.
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        # -- Listener name on the Gateway. Optional.
+        # sectionName: https
+    # -- Hostnames served by this route.
+    hostnames:
+      - chart-example.local
+    # -- Routing rules. `identifier` refers to a Service defined above.
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - identifier: main
+
+# -- Secrets created by this chart. Disabled by default: the recommended path is
+# to point `PARCEL_TOKEN` at a Secret you manage yourself (see the env block
+# above). Enable this only if you are comfortable with the API key living in your
+# values file, and pair it with `envFrom: [{ secret: credentials }]` on the
+# container.
+secrets:
+  credentials:
+    enabled: false
+    stringData:
+      # -- Parcel API key, taken from the app's settings. Replace before enabling.
+      PARCEL_TOKEN: ""

@@ -1,0 +1,64 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+
+Parcel App MCP has been deployed in namespace **{{ .Release.Namespace }}**.
+
+The server runs over the streamable-http transport, reachable inside the cluster at:
+
+  http://{{ include "bjw-s.common.lib.chart.names.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.service.main.ports.http.port }}{{ .Values.controllers.main.containers.main.env.PARCEL_PATH }}
+
+{{- $env := .Values.controllers.main.containers.main.env }}
+{{- $fromEnv := or (hasKey $env "PARCEL_TOKEN") (hasKey $env "PARCEL_API_KEY") }}
+{{- $fromSecret := and .Values.controllers.main.containers.main.envFrom (gt (len .Values.controllers.main.containers.main.envFrom) 0) }}
+{{- if not (or $fromEnv $fromSecret) }}
+
+!!  NO PARCEL API KEY CONFIGURED  !!
+The pod will start and answer MCP requests, but every call to the Parcel API will
+fail. Set PARCEL_TOKEN (or its alias PARCEL_API_KEY) from a Secret, either through
+`controllers.main.containers.main.env.PARCEL_TOKEN.valueFrom.secretKeyRef` or by
+enabling the chart's own `secrets.credentials` block and referencing it with
+`envFrom`. See the "Configuration" section of the chart README.
+{{- end }}
+
+!!  THE ENDPOINT IS UNAUTHENTICATED AT THE CLUSTER EDGE  !!
+This chart ships no authentication in front of the MCP endpoint. Anyone who can
+reach the Service can read your deliveries and add tracking numbers on your
+account. Keep it ClusterIP-only, or put an authenticating proxy in front of it
+before exposing it through an Ingress or a Gateway API route.
+
+---------------------------------------------------------------------
+
+## Quick check
+
+Port-forward and send an MCP `initialize` request:
+
+```bash
+kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "bjw-s.common.lib.chart.names.fullname" . }} {{ .Values.service.main.ports.http.port }}:{{ .Values.service.main.ports.http.port }}
+curl -fsS -X POST http://127.0.0.1:{{ .Values.service.main.ports.http.port }}{{ .Values.controllers.main.containers.main.env.PARCEL_PATH }} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json, text/event-stream' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"curl","version":"0"}}}'
+```
+
+There is no plain HTTP health endpoint: a GET on the MCP path is rejected by
+design, which is why the chart's probes are TCP connects.
+
+## Point an MCP client at it
+
+Configure your MCP client to use the streamable-http endpoint:
+
+```
+http://127.0.0.1:{{ .Values.service.main.ports.http.port }}{{ .Values.controllers.main.containers.main.env.PARCEL_PATH }}
+```
+
+{{- if and (not .Values.ingress.main.enabled) (not .Values.route.main.enabled) }}
+
+> Both Ingress and the Gateway API route are disabled. Enable one of them (and
+> terminate TLS there, the server speaks plain HTTP) to reach the endpoint from
+> outside the cluster.
+{{- end }}
+
+---------------------------------------------------------------------
+
+Happy tracking !
