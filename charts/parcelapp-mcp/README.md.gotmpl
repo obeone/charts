@@ -1,0 +1,78 @@
+{{- define "custom.app" -}}
+[parcelapp-mcp](https://github.com/obeone/parcelapp-mcp) is a [Model Context Protocol](https://modelcontextprotocol.io)
+server around the API of [Parcel](https://parcelapp.net), the iOS/macOS delivery-tracking
+app. It lets an LLM client list your deliveries, register new tracking numbers and
+look up carrier codes. This chart runs it with its streamable-http transport, so the
+MCP endpoint is reachable over the cluster network instead of only over stdio.
+
+The Parcel API is a premium feature of the app: you need an active subscription and
+an API key before any of the tools return something useful.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/obeone/parcelapp-mcp](https://github.com/obeone/parcelapp-mcp){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/obeone/parcelapp-mcp`](https://github.com/obeone/parcelapp-mcp/pkgs/container/parcelapp-mcp){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.prerequisites" }}
+- A Parcel subscription and an API key (Parcel app → Settings → Parcel API)
+{{- end }}
+
+{{- define "custom.configuration" }}
+
+### Providing the API key
+
+The server reads the key from `PARCEL_TOKEN`, or from `PARCEL_API_KEY` as an alias.
+Neither is set by default: the pod starts and answers MCP requests, but every call
+to the Parcel API fails.
+
+Point it at a Secret you manage yourself:
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        env:
+          PARCEL_TOKEN:
+            valueFrom:
+              secretKeyRef:
+                name: parcelapp-credentials
+                key: PARCEL_TOKEN
+```
+
+Or let the chart create the Secret, at the cost of keeping the key in your values
+file:
+
+```yaml
+secrets:
+  credentials:
+    enabled: true
+    stringData:
+      PARCEL_TOKEN: "your-api-key"
+
+controllers:
+  main:
+    containers:
+      main:
+        envFrom:
+          - secret: credentials
+```
+
+### Health probes
+
+The server exposes no HTTP health endpoint. Its only route is the MCP path, which
+answers a JSON-RPC POST and rejects a plain GET, so the chart probes the listener
+with a TCP connect. For an end-to-end check, replace them with an `exec` probe that
+performs an `initialize` call, the way the image's own `HEALTHCHECK` does.
+
+### Exposure and authentication
+
+The chart ships no authentication in front of the MCP endpoint, and both `ingress`
+and `route` are disabled by default. Anyone who can reach the Service can read your
+deliveries and add tracking numbers to your account. Put an authenticating proxy in
+front of it before exposing it outside the cluster.
+{{- end }}
+
+{{- template "obeone.readme" . }}
