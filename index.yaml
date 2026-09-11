@@ -4790,6 +4790,50 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/opengist-1.0.0/opengist-1.0.0.tgz
     version: 1.0.0
+  parcelapp-mcp:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-09-11: Initial chart packaging parcelapp-mcp 0.2.1 over the streamable-http transport"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/obeone/parcelapp-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 0.2.1
+    created: "2026-09-11T20:59:05.157863708Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Parcel App MCP — a Model Context Protocol server wrapping the Parcel
+      delivery-tracking API, so an LLM client can list deliveries, add tracking numbers
+      and look up carrier codes. This Helm chart runs it in its streamable-http transport,
+      reachable over the cluster network and driven entirely from values.yaml via
+      the bjw-s common library.
+    digest: 185f118cb2b5e6098cbe5c4053013bd6db1170acacd63509d351e0c9ce96bcfe
+    home: https://github.com/obeone/parcelapp-mcp
+    keywords:
+    - mcp
+    - model-context-protocol
+    - parcel
+    - delivery-tracking
+    - package-tracking
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: parcelapp-mcp
+    sources:
+    - https://github.com/obeone/parcelapp-mcp
+    - https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/parcelapp-mcp-0.1.0/parcelapp-mcp-0.1.0.tgz
+    version: 0.1.0
   petio:
   - annotations:
       artifacthub.io/changes: |
@@ -6812,4 +6856,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-09-02T00:35:54.598953087Z"
+generated: "2026-09-11T20:59:05.158203019Z"
