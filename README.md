@@ -40,6 +40,7 @@ helm install my-release obeone/<chart> --verify
 | 📂 | [**nfs-server**](charts/nfs-server) | `2.2.3` | Lightweight, multi-arch [containerized NFS server](https://github.com/obeone/docker-nfs-server). |
 | 🦙 | [**ollama**](charts/ollama) | `latest` | [Ollama](https://ollama.com) — run LLMs locally, with an optional single-switch transparent Prometheus exporter/proxy sidecar (cosign-signed). GPU-accelerated, multi-arch. |
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `2.0.1` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
+| 📦 | [**parcelapp-mcp**](charts/parcelapp-mcp) | `0.2.1` | [parcelapp-mcp](https://github.com/obeone/parcelapp-mcp) — MCP server over the [Parcel](https://parcelapp.net) delivery-tracking API: list deliveries, add tracking numbers, look up carriers. |
 | 📝 | [**opengist**](charts/opengist) | `1.15.2` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
 | 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.4.0` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
 | 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
