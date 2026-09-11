@@ -1,0 +1,46 @@
+apiVersion: v2
+name: parcelapp-mcp
+version: 0.1.0
+appVersion: "0.2.1"
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  Parcel App MCP — a Model Context Protocol server wrapping the Parcel delivery-tracking
+  API, so an LLM client can list deliveries, add tracking numbers and look up carrier
+  codes. This Helm chart runs it in its streamable-http transport, reachable over the
+  cluster network and driven entirely from values.yaml via the bjw-s common library.
+
+type: application
+
+keywords:
+  - mcp
+  - model-context-protocol
+  - parcel
+  - delivery-tracking
+  - package-tracking
+  - self-hosted
+
+home: https://github.com/obeone/parcelapp-mcp
+sources:
+  - https://github.com/obeone/parcelapp-mcp
+  - https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.1.0
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/obeone/parcelapp-mcp
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: "2026-09-11: Initial chart packaging parcelapp-mcp 0.2.1 over the streamable-http transport"
