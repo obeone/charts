@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 3.0.0
-appVersion: "2.11.209"
+version: 3.0.1
+appVersion: "2.11.330"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -83,3 +83,5 @@ annotations:
       description: "2026-09-05: Migrate to bjw-s common 5.1.0; raises the minimum requirements to Kubernetes >=1.31 and Helm >=3.18"
     - kind: changed
       description: "2026-09-05: Bump appVersion to 2.11.209"
+    - kind: changed
+      description: "2026-09-12: Bump appVersion to 2.11.330"
