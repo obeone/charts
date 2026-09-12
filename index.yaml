@@ -7,6 +7,60 @@ entries:
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
         - kind: changed
           description: "2026-08-11: Bump appVersion to 1.11.0"
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+        - kind: changed
+          description: "2026-09-05: Bump appVersion to 1.12.0"
+        - kind: changed
+          description: "2026-09-12: Bump appVersion to 1.13.0"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.13.0
+    created: "2026-09-12T10:20:10.938011997Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 0d7da33a5132289f011e3e3a0257dca7f2f13b531eb713f81ef109b487ebb6f6
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.3.1/cloakbrowser-mcp-0.3.1.tgz
+    version: 0.3.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 1.11.0"
       artifacthub.io/links: |
         - name: Upstream Project
           url: https://github.com/swimmwatch/cloakbrowser-mcp
@@ -6856,4 +6910,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-09-11T20:59:05.158203019Z"
+generated: "2026-09-12T10:20:10.938172695Z"
