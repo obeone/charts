@@ -3721,6 +3721,45 @@ entries:
   nfs-server:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: Point the env values documentation at the nfs-server image instead of an unrelated project
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.2.3
+    created: "2026-09-14T15:10:51.594274175Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A lightweight, robust, flexible, and containerized NFS server. This
+      charts support multiarch
+    digest: 46526c3ab0d6bd0fb48eff5eca6e0623c190acb6fc88d3b34f82982dc0af3a64
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
+    keywords:
+    - nfs
+    - nfs-server
+    - file-sharing
+    - file-server
+    - file-storage
+    - sharing
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: nfs-server
+    sources:
+    - https://github.com/obeone/docker-nfs-server
+    - https://github.com/ehough/docker-nfs-server
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/nfs-server-1.1.6/nfs-server-1.1.6.tgz
+    version: 1.1.6
+  - annotations:
+      artifacthub.io/changes: |
         - kind: changed
           description: Update nfs-server to 2.2.3
       artifacthub.io/maintainers: |
@@ -6976,4 +7015,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-09-14T09:12:41.186680063Z"
+generated: "2026-09-14T15:10:51.594557472Z"
