@@ -20,7 +20,7 @@ securityContext:
     add:
       - SYS_ADMIN
 
-# -- environment variables. See more environment variables in the [petio documentation](https://petio.org/docs).
+# -- environment variables. See the [image documentation](https://github.com/obeone/docker-nfs-server) for the full list.
 # @default -- See below
 env:
   # -- Set the container timezone

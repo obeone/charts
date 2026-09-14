@@ -10,7 +10,7 @@ keywords:
   - file-server
   - file-storage
   - sharing
-version: 1.1.5
+version: 1.1.6
 appVersion: 2.2.3
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/nfs.png
@@ -33,5 +33,5 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
-    - kind: changed
-      description: Update nfs-server to 2.2.3
+    - kind: fixed
+      description: Point the env values documentation at the nfs-server image instead of an unrelated project
