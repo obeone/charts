@@ -13,6 +13,62 @@ entries:
           description: "2026-09-05: Bump appVersion to 1.12.0"
         - kind: changed
           description: "2026-09-12: Bump appVersion to 1.13.0"
+        - kind: changed
+          description: "2026-09-25: Bump appVersion to 1.14.0"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.14.0
+    created: "2026-09-25T09:11:55.768262509Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 31720b4d4b4f8b4a974e81b851bbdaee1e475968b20882b4264f681d05566b9c
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.3.2/cloakbrowser-mcp-0.3.2.tgz
+    version: 0.3.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 1.11.0"
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+        - kind: changed
+          description: "2026-09-05: Bump appVersion to 1.12.0"
+        - kind: changed
+          description: "2026-09-12: Bump appVersion to 1.13.0"
       artifacthub.io/links: |
         - name: Upstream Project
           url: https://github.com/swimmwatch/cloakbrowser-mcp
@@ -1592,6 +1648,112 @@ entries:
     - https://github.com/obeone/charts/releases/download/draw-things-0.1.0/draw-things-0.1.0.tgz
     version: 0.1.0
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
+        - kind: changed
+          description: "2026-07-31: Bump appVersion to 2.11.162"
+        - kind: changed
+          description: "2026-08-01: Bump appVersion to 2.11.167"
+        - kind: changed
+          description: "2026-08-03: Bump appVersion to 2.11.170"
+        - kind: changed
+          description: "2026-08-04: Bump appVersion to 2.11.174"
+        - kind: changed
+          description: "2026-08-05: Bump appVersion to 2.11.182"
+        - kind: changed
+          description: "2026-08-07: Bump appVersion to 2.11.191"
+        - kind: changed
+          description: "2026-08-08: Bump appVersion to 2.11.192"
+        - kind: changed
+          description: "2026-08-09: Bump appVersion to 2.11.193"
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 2.11.197"
+        - kind: changed
+          description: "2026-08-13: Bump appVersion to 2.11.198"
+        - kind: added
+          description: "2026-08-18: Add an optional MCP server (ghcr.io/firecrawl/firecrawl-mcp-server) serving Streamable HTTP at /v2/mcp, disabled by default"
+        - kind: fixed
+          description: "2026-08-18: Pin the MCP server to HOST=127.0.0.1; it bound [::1] only and every request, probes included, 502'd through the in-image nginx"
+        - kind: changed
+          description: "2026-09-05: Migrate to bjw-s common 5.1.0; raises the minimum requirements to Kubernetes >=1.31 and Helm >=3.18"
+        - kind: changed
+          description: "2026-09-05: Bump appVersion to 2.11.209"
+        - kind: changed
+          description: "2026-09-12: Bump appVersion to 2.11.330"
+        - kind: changed
+          description: "2026-09-13: Bump appVersion to 2.11.332"
+        - kind: changed
+          description: "2026-09-14: Bump appVersion to 2.11.334"
+        - kind: changed
+          description: "2026-09-16: Bump appVersion to 2.11.340"
+        - kind: changed
+          description: "2026-09-16: Bump appVersion to 2.11.341"
+        - kind: changed
+          description: "2026-09-17: Bump appVersion to 2.11.349"
+        - kind: changed
+          description: "2026-09-18: Bump appVersion to 2.11.359"
+        - kind: changed
+          description: "2026-09-20: Bump appVersion to 2.11.371"
+        - kind: changed
+          description: "2026-09-21: Bump appVersion to 2.11.376"
+        - kind: changed
+          description: "2026-09-22: Bump appVersion to 2.11.384"
+        - kind: changed
+          description: "2026-09-23: Bump appVersion to 2.11.395"
+        - kind: changed
+          description: "2026-09-24: Bump appVersion to 2.11.400"
+        - kind: changed
+          description: "2026-09-25: Bump appVersion to 2.11.403"
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+        - name: MCP Server
+          url: https://docs.firecrawl.dev/mcp-server/local
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.11.403
+    created: "2026-09-25T09:11:56.025733379Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON), with an optional MCP
+      server exposing its tools at /v2/mcp. This chart packages the self-hosted topology
+      — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres
+      backends — using the bjw-s common library and official ghcr.io images.
+    digest: 0a37ed2d0c09c246e5a623a1dfb87467911741aff2a3f10148d7838f1029a560
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    - mcp
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-3.0.13/firecrawl-3.0.13.tgz
+    version: 3.0.13
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -7922,4 +8084,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-09-24T09:58:34.689602727Z"
+generated: "2026-09-25T09:11:56.026116494Z"
