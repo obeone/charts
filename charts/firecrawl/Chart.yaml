@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 3.0.13
-appVersion: "2.11.403"
+version: 3.0.14
+appVersion: "2.11.408"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -109,3 +109,5 @@ annotations:
       description: "2026-09-24: Bump appVersion to 2.11.400"
     - kind: changed
       description: "2026-09-25: Bump appVersion to 2.11.403"
+    - kind: changed
+      description: "2026-09-26: Bump appVersion to 2.11.408"
