@@ -1,0 +1,60 @@
+{{- define "custom.app" -}}
+[VoiceStudio](https://github.com/debpalash/VoiceStudio) (formerly OmniVoice Studio)
+is an open-source, fully local alternative to ElevenLabs: voice cloning, voice
+design, video dubbing, dictation, transcription and audiobook creation. This
+chart runs its headless server image, where one port serves both the API and the
+web UI, on CPU by default with optional NVIDIA or AMD ROCm acceleration.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[github.com/debpalash/VoiceStudio](https://github.com/debpalash/VoiceStudio){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/debpalash/voicestudio`](https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.prerequisites" }}
+- `linux/amd64` nodes: upstream publishes no arm64 image
+- A Secret holding the administrator key (see below)
+{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Administrator key
+
+VoiceStudio requires an administrator API key, and the web UI asks for it on
+first use. The pod reads it from the Secret `<fullname>-api-key` (key `api-key`)
+and waits until it exists. Create it before or right after installing:
+
+```bash
+kubectl create secret generic voicestudio-api-key \
+  --from-literal=api-key="$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')"
+```
+
+Alternatively set `secrets.api-key.enabled=true` and pass the value with
+`--set-string secrets.api-key.stringData.api-key=...`.
+
+### GPU acceleration
+
+The default image is the CUDA build, which falls back to CPU when no GPU is
+visible. For an NVIDIA GPU, request it in both `requests` and `limits`, and set
+the RuntimeClass if your cluster needs one:
+
+```yaml
+defaultPodOptions:
+  runtimeClassName: nvidia
+controllers:
+  main:
+    containers:
+      main:
+        resources:
+          requests:
+            nvidia.com/gpu: 1
+          limits:
+            nvidia.com/gpu: 1
+```
+
+For an AMD GPU, switch to the ROCm image (`image.tag: "{{ .AppVersion }}-rocm"`)
+and request `amd.com/gpu` through the AMD device plugin.
+{{- end -}}
+
+{{- template "obeone.readme" . }}
