@@ -43,6 +43,22 @@ controllers:
           tag: "{{ .Chart.AppVersion }}"
           pullPolicy: IfNotPresent
 
+        # The upstream entrypoint runs `uvicorn --host 0.0.0.0`, which listens on
+        # IPv4 only. On a dual-stack cluster, uncomment this override so the app
+        # also listens on IPv6: an empty host makes asyncio bind one socket per
+        # address family. Plain "::" would be IPv6-only (asyncio sets
+        # IPV6_V6ONLY). It mirrors the image entrypoint, so re-check it when
+        # upgrading to a new upstream release.
+        # command:
+        #   - python3
+        #   - -m
+        #   - uvicorn
+        #   - backend.main:app
+        #   - --host
+        #   - ""
+        #   - --port
+        #   - "3900"
+
         # -- Environment of the VoiceStudio backend.
         env:
           # Persistent state (SQLite DB, user voices, settings, encrypted HF token).
@@ -149,9 +165,9 @@ service:
   main:
     controller: main
     type: ClusterIP
-    # The upstream entrypoint hardcodes `uvicorn --host 0.0.0.0`: the app only
-    # listens on IPv4. Do not make this Service dual-stack, or requests routed
-    # to the pod's IPv6 address will hang.
+    # By default the app listens on IPv4 only. Make this Service dual-stack only
+    # together with the `command` override on the container above, otherwise
+    # requests routed to the pod's IPv6 address hang.
     ports:
       http:
         port: 3900
