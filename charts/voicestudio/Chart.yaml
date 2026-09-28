@@ -1,0 +1,58 @@
+apiVersion: v2
+name: voicestudio
+version: 0.1.0
+appVersion: "0.5.6"
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  VoiceStudio (formerly OmniVoice Studio) — an open-source, fully local
+  ElevenLabs alternative: voice cloning, voice design, dubbing, dictation,
+  transcription and audiobook creation. This Helm chart runs the headless
+  server image (API + web UI on a single port), CPU by default with optional
+  NVIDIA or AMD ROCm acceleration, driven from values.yaml via the bjw-s
+  common library.
+
+type: application
+
+keywords:
+  - tts
+  - text-to-speech
+  - voice-cloning
+  - speech-recognition
+  - dubbing
+  - ai
+  - gpu
+  - self-hosted
+
+home: https://voicestudio.sh
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/voicestudio.png
+sources:
+  - https://github.com/debpalash/VoiceStudio
+  - https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio
+  - https://github.com/obeone/charts/tree/main/charts/voicestudio
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.2.1
+
+annotations:
+  artifacthub.io/license: AGPL-3.0
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/debpalash/VoiceStudio
+    - name: Docker install guide
+      url: https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: voicestudio
+      image: ghcr.io/debpalash/voicestudio:0.5.6
+  artifacthub.io/changes: |
+    - kind: added
+      description: "2026-09-28: Initial release, VoiceStudio 0.5.6 on bjw-s common 5.2.1"

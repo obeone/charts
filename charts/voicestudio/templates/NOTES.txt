@@ -1,0 +1,48 @@
+{{- /*
+Post-install notes displayed by Helm.
+*/ -}}
+{{- $fullname := include "bjw-s.common.lib.chart.names.fullname" . -}}
+
+VoiceStudio has been deployed in namespace **{{ .Release.Namespace }}**.
+
+The API and web UI are served on a single port, inside the cluster at:
+
+  http://{{ $fullname }}.{{ .Release.Namespace }}.svc.cluster.local:3900
+
+---------------------------------------------------------------------
+
+## Administrator key (required)
+
+{{- if not (dig "api-key" "enabled" false .Values.secrets) }}
+
+The pod waits for the Secret `{{ $fullname }}-api-key`. Create it once:
+
+  kubectl create secret generic {{ $fullname }}-api-key -n {{ .Release.Namespace }} \
+    --from-literal=api-key="$(python3 -c 'import secrets; print(secrets.token_urlsafe(32))')"
+{{- else }}
+
+The chart manages the Secret `{{ $fullname }}-api-key`.
+{{- end }}
+
+Read it back when the web UI asks for it:
+
+  kubectl get secret {{ $fullname }}-api-key -n {{ .Release.Namespace }} \
+    -o jsonpath='{.data.api-key}' | base64 -d
+
+## First start
+
+The first boot initializes PyTorch and downloads ~4 GB of model weights.
+Follow it with:
+
+  kubectl logs -n {{ .Release.Namespace }} -f deploy/{{ $fullname }}
+
+## Open the UI
+
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ $fullname }} 3900:3900
+
+then browse http://127.0.0.1:3900
+{{- if not (or .Values.ingress.main.enabled .Values.route.main.enabled) }}
+
+> Neither Ingress nor HTTPRoute is enabled. Enable one (with TLS: the admin
+> key travels with every request) to reach VoiceStudio from outside the cluster.
+{{- end }}

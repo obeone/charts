@@ -1,0 +1,271 @@
+# yaml-language-server: $schema=./values.schema.json
+
+# -- Pod-wide options applied to every controller in this chart.
+defaultPodOptions:
+  # VoiceStudio never talks to the Kubernetes API (5.x default).
+  automountServiceAccountToken: false
+  # -- RuntimeClass exposing the GPU to the pod (e.g. "nvidia"). Leave empty
+  # for CPU-only clusters, or for AMD GPUs exposed through a device plugin.
+  runtimeClassName: ""
+  # -- Node selection. Upstream only publishes linux/amd64 images (CUDA and
+  # ROCm alike), so the pod is pinned to amd64 nodes. Add a GPU host label
+  # here when you enable acceleration.
+  nodeSelector:
+    kubernetes.io/arch: amd64
+  # The upstream image runs as root (no USER in its Dockerfile) and writes its
+  # database, voices and model cache under /app/omnivoice_data. Container
+  # capabilities are dropped below instead.
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+# Main controller running the VoiceStudio backend, which also serves the web UI.
+controllers:
+  main:
+    type: deployment
+    # Single RWO PVC: recreate the pod on upgrade so the new one only mounts
+    # the volume once the old one has released it.
+    strategy: Recreate
+    pod:
+      # -- Extra pod labels. Example for Sablier scale-to-zero on a shared GPU:
+      labels: {}
+        # sablier.enable: "true"
+        # sablier.group: gpu
+    containers:
+      main:
+        image:
+          # -- Container image. Mirrored on Docker Hub as `palashdeb/omnivoice-studio`
+          # with identical tags.
+          repository: ghcr.io/debpalash/voicestudio
+          # -- Image tag. Defaults to the chart's appVersion (CUDA build, which
+          # also runs CPU-only when no NVIDIA GPU is present). For AMD GPUs use
+          # the ROCm variant, e.g. "0.5.6-rocm".
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+
+        # The upstream entrypoint runs `uvicorn --host 0.0.0.0`, which listens on
+        # IPv4 only. On a dual-stack cluster, uncomment this override so the app
+        # also listens on IPv6: an empty host makes asyncio bind one socket per
+        # address family. Plain "::" would be IPv6-only (asyncio sets
+        # IPV6_V6ONLY). It mirrors the image entrypoint, so re-check it when
+        # upgrading to a new upstream release.
+        # command:
+        #   - python3
+        #   - -m
+        #   - uvicorn
+        #   - backend.main:app
+        #   - --host
+        #   - ""
+        #   - --port
+        #   - "3900"
+
+        # -- Environment of the VoiceStudio backend.
+        env:
+          # Persistent state (SQLite DB, user voices, settings, encrypted HF token).
+          OMNIVOICE_DATA_DIR: /app/omnivoice_data
+          # Keep the Hugging Face model cache on the same volume so the ~4 GB of
+          # weights downloaded on first run survive restarts.
+          HF_HOME: /app/omnivoice_data/huggingface
+          PYTHONUNBUFFERED: "1"
+          # Bind on all interfaces so the Service can reach the backend.
+          OMNIVOICE_BIND_HOST: 0.0.0.0
+          # Headless server mode: relaxes the desktop-only loopback origin gate
+          # so the admin UI works behind the Service. Admin actions still need
+          # OMNIVOICE_API_KEY. Set to "0" only behind your own auth proxy.
+          OMNIVOICE_SERVER_MODE: "1"
+          # -- Administrator API key, REQUIRED: settings, diagnostics and other
+          # admin actions are refused without it, and the web UI asks for it
+          # (the upstream Compose file will not start without one). Read from the
+          # `<fullname>-api-key` Secret, which you either create yourself
+          # (see NOTES) or let the chart create via `secrets.api-key` below.
+          # The pod stays in CreateContainerConfigError until it exists.
+          OMNIVOICE_API_KEY:
+            valueFrom:
+              secretKeyRef:
+                name: '{{ include "bjw-s.common.lib.chart.names.fullname" $ }}-api-key'
+                key: api-key
+          # Optional knobs (uncomment to set):
+          # -- Hugging Face token, for gated models. Prefer a Secret:
+          # HF_TOKEN:
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: voicestudio-hf
+          #       key: token
+          # -- Public API base URL, only when the UI and the API are served
+          # from different origins behind a reverse proxy. Plain http(s) URL.
+          # OMNIVOICE_PUBLIC_API_BASE: https://api.example.com
+          # -- Force a GFX version on consumer AMD cards (ROCm image only). The
+          # backend picks one itself when needed; set this only if the GPU is
+          # still not used.
+          # HSA_OVERRIDE_GFX_VERSION: "11.0.0"
+          # -- Port of the TLS control plane that remote GPU workers join.
+          # Pair it with `service.main.ports.worker` below.
+          # OMNIVOICE_WORKER_PORT: "7443"
+
+        # Container-level hardening. readOnlyRootFilesystem stays off: the
+        # PyTorch runtime and model loaders write outside the data volume.
+        # Dropping ALL also removes DAC_OVERRIDE from root: if your StorageClass
+        # provisions the volume owned by another uid, add `DAC_OVERRIDE` back
+        # under `capabilities.add` or fix the volume ownership.
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+
+        # -- Resource envelope. Speech models are memory-hungry; no CPU limit so
+        # inference can burst. To use an NVIDIA GPU, add `nvidia.com/gpu: 1` to
+        # BOTH requests and limits (and set runtimeClassName if your cluster
+        # needs it). For AMD, request `amd.com/gpu: 1` with the ROCm image.
+        resources:
+          requests:
+            cpu: 500m
+            memory: 2Gi
+          limits:
+            memory: 8Gi
+            # nvidia.com/gpu: 1
+
+        # The port opens within a second, but /health returns 503 while PyTorch,
+        # the API routes and database migrations initialize. The startup probe
+        # gives that phase up to 15 minutes before liveness takes over.
+        probes:
+          startup:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3900
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 90
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3900
+              periodSeconds: 30
+              timeoutSeconds: 10
+              failureThreshold: 5
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /health
+                port: 3900
+              periodSeconds: 10
+              timeoutSeconds: 5
+              failureThreshold: 3
+
+# -- Service exposing the API and web UI inside the cluster.
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    # By default the app listens on IPv4 only. Make this Service dual-stack only
+    # together with the `command` override on the container above, otherwise
+    # requests routed to the pod's IPv6 address hang.
+    ports:
+      http:
+        port: 3900
+        targetPort: 3900
+        protocol: TCP
+      # -- TLS control plane for remote GPU workers. Disabled by default; enable
+      # it together with OMNIVOICE_WORKER_PORT only if you enroll workers.
+      worker:
+        enabled: false
+        port: 7443
+        targetPort: 7443
+        protocol: TCP
+
+# -- Ingress. Disabled by default; flip enabled and set a real host to expose the
+# UI. The backend speaks plain HTTP and the admin key travels with requests, so
+# terminate TLS at the ingress and never expose it unencrypted.
+ingress:
+  main:
+    enabled: false
+    className: ""
+    annotations: {}
+      # Audio uploads (voice samples, videos to dub) exceed the default body size.
+      # nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Gateway API HTTPRoute, mirroring the Ingress above. Disabled by default:
+# pick either Ingress or HTTPRoute, not both. Requires the Gateway API CRDs and
+# an existing Gateway in the cluster.
+route:
+  main:
+    # -- Enable the HTTPRoute. Mutually exclusive with `ingress.main.enabled`.
+    enabled: false
+    # -- Route kind. HTTPRoute, GRPCRoute, TCPRoute, TLSRoute or UDPRoute.
+    kind: HTTPRoute
+    # -- Gateways this route attaches to.
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        # -- Listener name on the Gateway. Optional.
+        # sectionName: https
+    # -- Hostnames served by this route.
+    hostnames:
+      - chart-example.local
+    # -- Routing rules. `identifier` refers to a Service defined above.
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - identifier: main
+            port: 3900
+
+# -- Secrets managed by the chart.
+secrets:
+  # -- Chart-managed administrator key, rendered as `<fullname>-api-key`.
+  # Disabled by default so the key never lands in a values file by accident:
+  # create the Secret out of band (see NOTES). If you enable it, pass the value
+  # at install time (`--set-string secrets.api-key.stringData.api-key=...`).
+  api-key:
+    enabled: false
+    # Keeps the name stable as `<fullname>-api-key`, which the env above
+    # references, even when this is the chart's only Secret.
+    suffix: api-key
+    stringData:
+      api-key: ""
+
+# -- Storage.
+persistence:
+  # -- Everything VoiceStudio keeps: SQLite database, user voices, settings and
+  # the Hugging Face model cache (~4 GB on first run, more as you add engines).
+  data:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 20Gi
+    # -- StorageClass. Empty uses the cluster default.
+    # storageClass: ""
+    # -- Reuse a pre-created PVC instead.
+    # existingClaim: ""
+    globalMounts:
+      - path: /app/omnivoice_data
+  # PyTorch workers exchange tensors through shared memory; the container's
+  # default 64Mi /dev/shm is too small. Back it with a memory emptyDir.
+  dshm:
+    type: emptyDir
+    medium: Memory
+    sizeLimit: 1Gi
+    globalMounts:
+      - path: /dev/shm
