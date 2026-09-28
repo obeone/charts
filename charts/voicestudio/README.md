@@ -92,6 +92,21 @@ controllers:
 For an AMD GPU, switch to the ROCm image (`image.tag: "0.5.6-rocm"`)
 and request `amd.com/gpu` through the AMD device plugin.
 
+### Image pull fails with a digest mismatch
+
+The image carries a single PyTorch layer of about 4 GB. If the pull fails with
+`unexpected commit digest` (the download was cut short), switch to the Docker
+Hub mirror, which publishes the same image with identical tags:
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: docker.io/palashdeb/omnivoice-studio
+```
+
 ## Upgrading
 
 ```shell
