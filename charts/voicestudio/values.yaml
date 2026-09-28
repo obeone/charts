@@ -149,6 +149,9 @@ service:
   main:
     controller: main
     type: ClusterIP
+    # The upstream entrypoint hardcodes `uvicorn --host 0.0.0.0`: the app only
+    # listens on IPv4. Do not make this Service dual-stack, or requests routed
+    # to the pod's IPv6 address will hang.
     ports:
       http:
         port: 3900
