@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v11.4.0
+appVersion: v11.5.0
 description: GCHQ CyberChef [multi-arch]
 name: cyberchef
-version: 2.0.4
+version: 2.0.5
 kubeVersion: ">=1.16.0-0"
 keywords:
   - cyberchef
@@ -25,4 +25,4 @@ annotations:
     - kind: changed
       description: Regenerate README from the unified helm-docs template
     - kind: changed
-      description: Bump appVersion to v11.4.0
+      description: Bump appVersion to v11.5.0
