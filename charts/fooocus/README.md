@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# fooocus
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">fooocus</h1>
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/fooocus)
+<p align="center">Fooocus is an image generating software</p>
 
-Fooocus is an image generating software
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/fooocus/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.0.2-7c3aed?style=flat-square" alt="Chart version: 1.0.2"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/fooocus"><img src="https://img.shields.io/badge/app-latest-0284c7?style=flat-square" alt="Application version: latest"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/fooocus"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install fooocus obeone/fooocus
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -27,15 +35,27 @@ Its whole philosophy is to hide the knobs: you type a prompt and it handles
 the rest (styles, refiner, upscaling) behind a simple Gradio web interface,
 in the spirit of Midjourney rather than of a node graph.
 
-- **Application:** [github.com/lllyasviel/Fooocus](https://github.com/lllyasviel/Fooocus)
-- **Container image:** [`ghcr.io/lllyasviel/fooocus`](https://github.com/lllyasviel/Fooocus/pkgs/container/fooocus)
-- **Chart source:** [`charts/fooocus`](https://github.com/obeone/charts/tree/main/charts/fooocus)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/lllyasviel/Fooocus](https://github.com/lllyasviel/Fooocus) |
+| Container image | [`ghcr.io/lllyasviel/fooocus`](https://github.com/lllyasviel/Fooocus/pkgs/container/fooocus) |
+| Chart source | [`charts/fooocus`](https://github.com/obeone/charts/tree/main/charts/fooocus) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/fooocus?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.16.0-0` (see [`Chart.yaml`](./Chart.yaml))
 - An NVIDIA GPU node: Fooocus is not designed for CPU-only inference
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install fooocus obeone/fooocus
+```
 
 ## Configuration
 
@@ -44,20 +64,55 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install fooocus obeone/fooocus -f my-values.yaml
+helm upgrade --install fooocus obeone/fooocus --values my-values.yaml
 ```
+
+<!-- markdownlint-disable MD034 MD060 -->
+## Requirements
+
+Kubernetes: `>=1.16.0-0`
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
+<!-- markdownlint-enable MD034 MD060 -->
+
+## Values
+
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| env | object | See below | environment variables |
+| env.TZ | string | `"UTC"` | Set the container timezone |
+| image.pullPolicy | string | `"Always"` | image pull policy |
+| image.repository | string | `"ghcr.io/lllyasviel/fooocus"` | image repository |
+| image.tag | string | chart.appVersion | image tag |
+| ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L312) | Enable and configure ingress settings for the chart under this key. |
+| persistence | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L362) | Configure persistence settings for the chart under this key. |
+| podSecurityContext.fsGroup | int | `1000` |  |
+| service | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L250) | Configures service settings for the chart. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
 
 ## Upgrading
 
+Keep your values file when upgrading an existing release:
+
 ```shell
 helm repo update
-helm upgrade fooocus obeone/fooocus
+helm upgrade fooocus obeone/fooocus --values my-values.yaml
 ```
 
 Each release lists its changes in the
@@ -72,28 +127,6 @@ helm uninstall fooocus
 
 PersistentVolumeClaims created by the chart are kept around: delete them
 manually if you also want the data gone.
-
-## Requirements
-
-Kubernetes: `>=1.16.0-0`
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.5.2 |
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| env | object | See below | environment variables |
-| env.TZ | string | `"UTC"` | Set the container timezone |
-| image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"ghcr.io/lllyasviel/fooocus"` | image repository |
-| image.tag | string | chart.appVersion | image tag |
-| ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L312) | Enable and configure ingress settings for the chart under this key. |
-| persistence | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L362) | Configure persistence settings for the chart under this key. |
-| podSecurityContext.fsGroup | int | `1000` |  |
-| service | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/1b8b81ceb368e378c01aaf826142cfd948a93042/charts/stable/common/values.yaml#L250) | Configures service settings for the chart. |
 
 ## Verifying the chart signature
 

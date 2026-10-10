@@ -5,24 +5,32 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# libretranslate
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">libretranslate</h1>
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/libretranslate)
+<p align="center">Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.</p>
+
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/libretranslate/Chart.yaml"><img src="https://img.shields.io/badge/chart-2.0.0-7c3aed?style=flat-square" alt="Chart version: 2.0.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/libretranslate"><img src="https://img.shields.io/badge/app-v1.9.6-0284c7?style=flat-square" alt="Application version: v1.9.6"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/libretranslate"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
 > **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
 > than 2.0.0 will fail unless you delete the Deployment first. See
 > [Upgrading](#upgrading) for the exact commands.
 
-Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
-
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install libretranslate obeone/libretranslate
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -31,14 +39,26 @@ Argos Translate. It is fully self-hosted and offline capable: no API keys, no
 third-party cloud, your text never leaves the cluster. A small web UI ships on
 top of the REST API for interactive use.
 
-- **Application:** [github.com/LibreTranslate/LibreTranslate](https://github.com/LibreTranslate/LibreTranslate)
-- **Container image:** [`libretranslate/libretranslate`](https://hub.docker.com/r/libretranslate/libretranslate)
-- **Chart source:** [`charts/libretranslate`](https://github.com/obeone/charts/tree/main/charts/libretranslate)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/LibreTranslate/LibreTranslate](https://github.com/LibreTranslate/LibreTranslate) |
+| Container image | [`libretranslate/libretranslate`](https://hub.docker.com/r/libretranslate/libretranslate) |
+| Chart source | [`charts/libretranslate`](https://github.com/obeone/charts/tree/main/charts/libretranslate) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/libretranslate?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install libretranslate obeone/libretranslate
+```
 
 ## Configuration
 
@@ -47,62 +67,15 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install libretranslate obeone/libretranslate -f my-values.yaml
+helm upgrade --install libretranslate obeone/libretranslate --values my-values.yaml
 ```
 
-## Upgrading
-
-> **Warning**
-> If you are upgrading from a chart version older than 2.0.0, `helm upgrade`
-> will fail: the bjw-s common 5.1.0 migration changes the controller selector
-> label from `app.kubernetes.io/component` to `app.kubernetes.io/controller`,
-> and selector labels are immutable on a Kubernetes Deployment. Delete the
-> Deployment first, then upgrade:
->
-> ```shell
-> kubectl delete deployment <release-name>-libretranslate
-> helm upgrade <release-name> obeone/libretranslate
-> ```
->
-> This is a plain cascading delete, the default for `kubectl delete
-> deployment`: the pods go down with it, so expect a short outage while the
-> upgrade recreates them. Do not add `--cascade=orphan` here. It looks like
-> the safe, zero-downtime option, but the new Deployment selects on
-> `app.kubernetes.io/controller`, a label the old pods never had, so it can
-> never adopt them. The orphaned pods would keep running unmanaged forever
-> alongside the new ones, and since the models share PVC
-> (`<release-name>-share`) is ReadWriteOnce, the orphaned pod would keep it
-> attached and the new pod would stay stuck Pending on a multi-attach error.
-> PersistentVolumeClaims (including the models share volume) are not
-> affected by the Deployment delete and must not be deleted separately.
->
-> Fresh installs are unaffected; this only applies to upgrades from a
-> pre-2.0.0 release.
-
-```shell
-helm repo update
-helm upgrade libretranslate obeone/libretranslate
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/libretranslate?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall libretranslate
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -110,11 +83,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | additionalVolumeMounts | list | `[]` | Define additional volumeMounts if needed |
 | additionalVolumes | list | `[]` | Define additional volumes if needed |
 | affinity | object | `{}` | Affinity rules to control pod assignment based on node labels |
@@ -160,6 +141,58 @@ Kubernetes: `>=1.31.0-0`
 | service.main.ports.http.protocol | string | `"TCP"` | Protocol to use (TCP/UDP) |
 | service.main.ports.http.targetPort | int | `5000` | Internal container target port |
 | tolerations | list | `[]` | Tolerations for pod assignment to specific nodes |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+> **Warning**
+> If you are upgrading from a chart version older than 2.0.0, `helm upgrade`
+> will fail: the bjw-s common 5.1.0 migration changes the controller selector
+> label from `app.kubernetes.io/component` to `app.kubernetes.io/controller`,
+> and selector labels are immutable on a Kubernetes Deployment. Delete the
+> Deployment first, then upgrade:
+>
+> ```shell
+> kubectl delete deployment <release-name>-libretranslate
+> helm upgrade <release-name> obeone/libretranslate
+> ```
+>
+> This is a plain cascading delete, the default for `kubectl delete
+> deployment`: the pods go down with it, so expect a short outage while the
+> upgrade recreates them. Do not add `--cascade=orphan` here. It looks like
+> the safe, zero-downtime option, but the new Deployment selects on
+> `app.kubernetes.io/controller`, a label the old pods never had, so it can
+> never adopt them. The orphaned pods would keep running unmanaged forever
+> alongside the new ones, and since the models share PVC
+> (`<release-name>-share`) is ReadWriteOnce, the orphaned pod would keep it
+> attached and the new pod would stay stuck Pending on a multi-attach error.
+> PersistentVolumeClaims (including the models share volume) are not
+> affected by the Deployment delete and must not be deleted separately.
+>
+> Fresh installs are unaffected; this only applies to upgrades from a
+> pre-2.0.0 release.
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade libretranslate obeone/libretranslate --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/libretranslate?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall libretranslate
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 
