@@ -1,0 +1,87 @@
+{{- define "custom.app" -}}
+[Unpackerr](https://unpackerr.zip/) is a companion daemon for the Servarr
+applications (Sonarr, Radarr, ...) that watches their download queues,
+extracts compressed downloads (rar, zip, 7z, ...) as they complete and
+deletes the archives once the import succeeds. It has no web interface of its
+own; it only talks outbound to the Servarr APIs. This chart deploys it on the
+bjw-s common library.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[unpackerr.zip](https://unpackerr.zip/){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/unpackerr/unpackerr`](https://github.com/Unpackerr/unpackerr/pkgs/container/unpackerr){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### No Service, no probes, by design
+
+Unpackerr listens on no port and exposes no health endpoint: it is a
+one-directional client of your Servarr apps' APIs. This chart therefore ships
+no Service, Ingress, Route or liveness/readiness/startup probe for it; there
+is nothing to connect to and nothing to probe. The container's restart policy
+is all the health handling it needs.
+
+### Servarr paths must match exactly, and be mounted here
+
+Each Servarr instance is configured through numbered environment variables,
+set through an existing Secret with `envFrom` rather than in plain values
+(the API keys are secrets):
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        envFrom:
+          - secret: unpackerr-servarr-credentials
+        env:
+          UN_SONARR_0_URL: http://sonarr.media.svc.cluster.local:8989
+          UN_SONARR_0_PATHS_0: /downloads
+          UN_RADARR_0_URL: http://radarr.media.svc.cluster.local:7878
+          UN_RADARR_0_PATHS_0: /downloads
+
+persistence:
+  downloads:
+    enabled: true
+    existingClaim: downloads
+```
+
+The referenced Secret then carries `UN_SONARR_0_API_KEY`,
+`UN_RADARR_0_API_KEY`, and so on for each instance.
+
+The `UN_*_PATHS_*` value must be the path **as the Servarr application
+itself sees it**, not as you see it on your NFS server or host. That same
+path must also be mounted into this pod through `persistence.data` or
+`persistence.downloads` (or additional volumes of your own). A mismatch
+between the two is the single most common reason Unpackerr silently extracts
+nothing.
+
+### Single-mount `/data` layout and the EXDEV hardlink trap
+
+`persistence.data` is the RECOMMENDED layout: one single mount matching the
+single-mount layout of the Servarr apps and download clients
+(`/data/downloads`, `/data/series`, `/data/movies`, ...). Point every app of
+your media stack at the same claim, with the same paths; this is the layout
+the TRaSH guides recommend. With this mount, your `UN_*_PATHS_*` values must
+be the `/data/...` paths.
+
+```yaml
+persistence:
+  data:
+    enabled: true
+    existingClaim: media-data
+```
+
+The separate `persistence.downloads` entry is for genuinely MULTI-VOLUME
+layouts only, where downloads live on storage different from the rest of
+your media stack. Two separate mounts are two distinct mount points as far
+as the kernel is concerned, so `link()` across them fails with `EXDEV` even
+when both sit on the same underlying filesystem. The Servarr apps then
+silently fall back to copying every import instead of hardlinking it, which
+doubles the space used and rewrites the whole file, with no warning. You
+just notice the disk filling up.
+{{- end }}
+
+{{- template "obeone.readme" . }}

@@ -1,0 +1,49 @@
+apiVersion: v2
+name: unpackerr
+version: 1.0.0
+appVersion: 0.16.1
+kubeVersion: ">=1.31.0-0"
+
+description: >-
+  Unpackerr — a companion daemon for the Servarr applications that watches their
+  queues, extracts compressed downloads and deletes the archives once the import
+  succeeds. It has no web interface and exposes no service; it only needs to see
+  the same download volumes as its Servarr instances.
+
+type: application
+
+keywords:
+  - unpackerr
+  - extract
+  - rar
+  - sonarr
+  - radarr
+  - servarr
+  - media
+  - self-hosted
+
+home: https://unpackerr.zip/
+icon: https://raw.githubusercontent.com/obeone/charts/main/logo/unpackerr.png
+sources:
+  - https://github.com/Unpackerr/unpackerr
+  - https://github.com/obeone/charts/tree/main/charts/unpackerr
+
+maintainers:
+  - name: obeone
+    email: obeone@obeone.org
+
+dependencies:
+  - name: common
+    repository: https://bjw-s-labs.github.io/helm-charts
+    version: 5.1.0
+
+annotations:
+  artifacthub.io/links: |
+    - name: Upstream Project
+      url: https://github.com/Unpackerr/unpackerr
+  artifacthub.io/maintainers: |
+    - name: obeone
+      email: obeone@obeone.org
+  artifacthub.io/changes: |
+    - kind: added
+      description: Initial release packaging Unpackerr 0.16.1 on the bjw-s common library 5.1.0

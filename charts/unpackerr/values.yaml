@@ -1,0 +1,132 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+controllers:
+  main:
+    # -- `Recreate`: two Unpackerr instances watching the same queue both start
+    # extracting the same archive into the same directory.
+    strategy: Recreate
+    pod:
+      securityContext:
+        # -- UID the container runs as. Must own (or have group access to)
+        # the download volumes below, and must match what your Servarr apps
+        # run as: Unpackerr writes the extracted files that they then import.
+        # Independent from `runAsGroup` and `fsGroup` below: nothing requires
+        # the three to match each other, e.g. a deployment might run
+        # `runAsUser: 1003` with `runAsGroup`/`fsGroup` at `568`.
+        runAsUser: 1000
+        # -- GID the container's primary group is set to. Independent from
+        # `runAsUser` above: set it to whatever group owns your storage, which
+        # does not have to be the same number as the UID.
+        runAsGroup: 1000
+        runAsNonRoot: true
+        # -- Group ownership Kubernetes applies to the download volumes so
+        # the container's group can write to them, independently of
+        # `runAsUser`/`runAsGroup` above.
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    containers:
+      main:
+        image:
+          # -- Container image repository
+          repository: ghcr.io/unpackerr/unpackerr
+          # -- Image tag. Defaults to the chart's appVersion so a chart upgrade
+          # moves the image too; leave it alone unless you pin deliberately.
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+        env:
+          # -- Timezone used for log timestamps
+          TZ: UTC
+          # -- `debug`, `info` or empty for the default.
+          UN_LOG_LEVEL: info
+          # -- Seconds between queue polls. Lower is not better: each pass hits
+          # every configured Servarr API.
+          UN_INTERVAL: 2m
+          # -- How long an extracted item is kept before its archives are
+          # deleted, giving the Servarr app time to import first.
+          UN_START_DELAY: 1m
+          # -- Delete the archives after a successful import.
+          UN_DELETE_ORIG: false
+          #
+          # Servarr instances are configured through numbered env vars. Set them
+          # through an existing Secret with `envFrom` below rather than here:
+          # the API keys are secrets and this file ends up in your git history.
+          #
+          #   UN_SONARR_0_URL: http://sonarr.media.svc.cluster.local:8989
+          #   UN_SONARR_0_API_KEY: <from a Secret>
+          #   UN_SONARR_0_PATHS_0: /downloads
+          #   UN_RADARR_0_URL: http://radarr.media.svc.cluster.local:7878
+          #   UN_RADARR_0_API_KEY: <from a Secret>
+          #   UN_RADARR_0_PATHS_0: /downloads
+          #
+          # The path you give here must be the path as the SERVARR app sees it,
+          # and the same path must be mounted into this pod. A mismatch is the
+          # single most common reason Unpackerr silently does nothing.
+        # -- Reference a Secret you manage yourself for the URLs and API keys
+        # above. Uncomment and point it at an existing Secret in the namespace.
+        # envFrom:
+        #   - secret: unpackerr-servarr-credentials
+        probes:
+          # -- All probes disabled: Unpackerr listens on no port and offers no
+          # health endpoint, so there is nothing to probe. An exec probe on the
+          # process would only restate what the restart policy already handles.
+          liveness:
+            enabled: false
+          readiness:
+            enabled: false
+          startup:
+            enabled: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
+          # -- No CPU limit: extraction is bursty and capping it only makes
+          # imports slower. Memory is modest; extraction streams to disk.
+          limits:
+            memory: 1Gi
+
+# -- Deliberately no Service, Ingress or Route: Unpackerr is a daemon with no
+# listening socket. Nothing connects to it; it connects out to the Servarr APIs.
+
+persistence:
+  # -- RECOMMENDED layout: one single mount for everything, matching the
+  # single-mount layout of the Servarr apps and download clients
+  # (`/data/downloads`, `/data/series`, `/data/movies`, ...).
+  #
+  # Use this rather than the separate `downloads` entry below whenever it
+  # lives on the same storage as the rest of the stack. Two separate mounts
+  # are two distinct mount points as far as the kernel is concerned, so
+  # `link()` across them fails with EXDEV even on one filesystem: the Servarr
+  # apps then fall back to copying every import instead of hardlinking it,
+  # which doubles the space used and rewrites the whole file. Nothing warns
+  # you; you just notice the disk filling up. With this mount, your
+  # `UN_*_PATHS_*` values must be the `/data/...` paths, matching what the
+  # Servarr apps themselves see.
+  #
+  # Point this at the same claim, with the same paths, in every app of the
+  # stack. This is the layout the TRaSH guides recommend.
+  data:
+    enabled: false
+    type: persistentVolumeClaim
+    existingClaim: ""
+    globalMounts:
+      - path: /data
+  # -- Separate download volume, for MULTI-VOLUME layouts only: use it when
+  # your downloads genuinely live on different storage from the rest of the
+  # stack. If it would point at the same storage as `data` above, use that
+  # single mount instead and read the EXDEV note there first. Shared with the
+  # Servarr apps and the download clients. Unpackerr is useless unless one of
+  # `data` or `downloads` is enabled.
+  downloads:
+    enabled: false
+    type: persistentVolumeClaim
+    existingClaim: ""
+    globalMounts:
+      - path: /downloads
