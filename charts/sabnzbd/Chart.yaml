@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sabnzbd
-version: 1.1.0
+version: 1.2.0
 appVersion: 5.1.3
 kubeVersion: ">=1.31.0-0"
 
@@ -46,6 +46,11 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
+    - kind: added
+      description: >-
+        Document the "External internet access denied" failure behind a reverse
+        proxy and the SABNZBD__LOCAL_RANGES_ENTRIES fix, plus the API key and
+        IPv4-only binding knobs this image actually supports
     - kind: added
       description: >-
         The host whitelist now collects the hosts of every enabled ingress and

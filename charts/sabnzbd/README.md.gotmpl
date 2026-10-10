@@ -54,6 +54,58 @@ Overriding `SABNZBD__HOST_WHITELIST_ENTRIES` directly still works, but it
 replaces the whole computed list, including the in-cluster Service names that
 your other apps use to reach the API. Prefer `extraHostWhitelist`.
 
+### "External internet access denied" behind a reverse proxy
+
+A second, separate check catches people out once the hostname is sorted.
+SABnzbd trusts the `X-Forwarded-For` header, so behind an ingress controller or
+any reverse proxy it sees the *client's public address* rather than an
+in-cluster one, decides the request came from the internet, and answers
+`External internet access denied`. The pod is healthy and the hostname is
+whitelisted; it still refuses.
+
+List the ranges requests actually arrive from, which for a reverse proxy in the
+cluster means your pod and node CIDRs:
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        env:
+          SABNZBD__LOCAL_RANGES_ENTRIES: "192.0.2.0/24,198.51.100.0/24"
+```
+
+Mind the `_ENTRIES` suffix. This image's entrypoint maps exactly four
+variables into `sabnzbd.ini`: `SABNZBD__API_KEY`, `SABNZBD__NZB_KEY`,
+`SABNZBD__HOST_WHITELIST_ENTRIES` and `SABNZBD__LOCAL_RANGES_ENTRIES`.
+SABnzbd's other escape hatch for this problem, `verify_xff_header = 0`, has no
+environment variable here: setting it means editing `sabnzbd.ini` in the config
+volume yourself, which a chart upgrade will not manage for you. Prefer
+`local_ranges`.
+
+### API keys
+
+The image generates a random `api_key` and `nzb_key` on first start and stores
+them in the config volume. That is fine for a standalone install, but Sonarr,
+Radarr and Unpackerr all need to know the API key in advance, so set it
+yourself from a Secret you manage:
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        envFrom:
+          - secret: sabnzbd-apikeys   # SABNZBD__API_KEY, SABNZBD__NZB_KEY
+```
+
+### Binding on IPv4-only clusters
+
+The image binds to `[::]` by default, which accepts both address families on a
+dual-stack node. On a cluster where IPv6 is disabled the process fails to bind
+and the pod never becomes ready; set `SABNZBD__ADDRESS: "0.0.0.0"` in that
+case.
+
 ### Single-mount `/data` layout and the EXDEV hardlink trap
 
 `persistence.data` is the RECOMMENDED layout: one single mount for

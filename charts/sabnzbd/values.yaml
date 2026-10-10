@@ -46,6 +46,40 @@ controllers:
           # -- Port SABnzbd listens on inside the container. Kept in sync with
           # `service.main.ports.http` below; change both together.
           SABNZBD__PORT: 8080
+          #
+          # -- Addresses SABnzbd accepts connections from, as a comma-separated
+          # list of CIDRs. SABnzbd trusts `X-Forwarded-For`, so behind a reverse
+          # proxy it sees the client's PUBLIC address and answers "External
+          # internet access denied" even though the request came through your
+          # own ingress. Listing your pod and node CIDRs here is the fix.
+          #
+          # Empty by default: with no reverse proxy in front there is nothing to
+          # set, and there is no portable default for a cluster's CIDRs. Replace
+          # the documentation ranges below with your own.
+          #
+          #   SABNZBD__LOCAL_RANGES_ENTRIES: "192.0.2.0/24,198.51.100.0/24"
+          #
+          # Note the `_ENTRIES` suffix: this image's entrypoint only maps four
+          # variables (`SABNZBD__API_KEY`, `SABNZBD__NZB_KEY`,
+          # `SABNZBD__HOST_WHITELIST_ENTRIES`, `SABNZBD__LOCAL_RANGES_ENTRIES`).
+          # SABnzbd's other `verify_xff_header` workaround for the same problem
+          # has no environment variable here and would need editing
+          # `sabnzbd.ini` in the config volume by hand.
+          #
+          # -- API keys. The image generates random ones on first start and
+          # stores them in the config volume, which is fine for a standalone
+          # install. Set them explicitly when another app needs to know them
+          # ahead of time (Sonarr, Radarr and Unpackerr all do), and set them
+          # from a Secret through `envFrom` below rather than here:
+          #
+          #   SABNZBD__API_KEY / SABNZBD__NZB_KEY
+          #
+          # -- Interface SABnzbd binds to. The image defaults to `[::]`, which
+          # accepts both families on a dual-stack node. Override it to `0.0.0.0`
+          # on a cluster where IPv6 is disabled, or the process fails to bind
+          # and the pod never becomes ready:
+          #
+          #   SABNZBD__ADDRESS: "0.0.0.0"
           # -- SABnzbd refuses requests whose Host header it does not know and
           # answers "Access denied - Hostname verification failed". Every DNS
           # name you reach it through has to be listed here.
