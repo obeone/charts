@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sabnzbd
-version: 1.0.0
+version: 1.1.0
 appVersion: 5.1.3
 kubeVersion: ">=1.31.0-0"
 
@@ -46,5 +46,15 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
+    - kind: added
+      description: >-
+        The host whitelist now collects the hosts of every enabled ingress and
+        route by itself, so exposing SABnzbd no longer returns "Access denied -
+        Hostname verification failed" until you remember to list the hostname
+        twice
+    - kind: added
+      description: >-
+        New `extraHostWhitelist` value, for names that reach SABnzbd by a path
+        the chart cannot see (an external load balancer, a reverse proxy)
     - kind: added
       description: Initial release packaging SABnzbd 5.1.3 on the bjw-s common library 5.1.0

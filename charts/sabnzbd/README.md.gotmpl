@@ -19,20 +19,40 @@ without further interaction. This chart deploys the rootless
 
 SABnzbd rejects any request whose `Host` header it does not recognise and
 answers `Access denied - Hostname verification failed` instead of serving the
-page. `SABNZBD__HOST_WHITELIST_ENTRIES` must list every hostname you use to
-reach it: the in-cluster Service name is included by default, but you must
-add your own ingress host (and any port-forward host) yourself, as a
-comma-separated string:
+page. This is the single most common way a healthy SABnzbd looks broken: the
+pod is running, the probes pass, and the browser gets a 403.
+
+**You normally do not have to configure this.** The chart builds
+`SABNZBD__HOST_WHITELIST_ENTRIES` for you from three sources:
+
+- the Service name, in its four in-cluster forms
+- the hosts of every **enabled** entry under `ingress`
+- the hostnames of every **enabled** entry under `route`
+
+So enabling the route below is enough; its hostname is whitelisted in the same
+pass, and a disabled entry's placeholder host is not.
 
 ```yaml
-controllers:
+route:
   main:
-    containers:
-      main:
-        env:
-          SABNZBD__HOST_WHITELIST_ENTRIES: >-
-            sabnzbd,sabnzbd.media,sabnzbd.media.svc.cluster.local,sabnzbd.example.com
+    enabled: true
+    hostnames:
+      - sabnzbd.example.com   # whitelisted automatically
 ```
+
+Only names that reach SABnzbd by a path the chart cannot see need declaring,
+for instance an external load balancer or a reverse proxy with its own
+hostname. Those go in `extraHostWhitelist`, which is appended to the list
+rather than replacing it:
+
+```yaml
+extraHostWhitelist:
+  - lb.example.net
+```
+
+Overriding `SABNZBD__HOST_WHITELIST_ENTRIES` directly still works, but it
+replaces the whole computed list, including the in-cluster Service names that
+your other apps use to reach the API. Prefer `extraHostWhitelist`.
 
 ### Single-mount `/data` layout and the EXDEV hardlink trap
 

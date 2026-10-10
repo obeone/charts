@@ -7,7 +7,7 @@
 -->
 # sabnzbd
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.1.3](https://img.shields.io/badge/AppVersion-5.1.3-informational?style=flat-square)
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 5.1.3](https://img.shields.io/badge/AppVersion-5.1.3-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/sabnzbd)
 
 SABnzbd — a free and open-source binary newsreader (Usenet downloader) with a web interface. This Helm chart packages the rootless home-operations image using the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
@@ -58,20 +58,40 @@ helm install sabnzbd obeone/sabnzbd -f my-values.yaml
 
 SABnzbd rejects any request whose `Host` header it does not recognise and
 answers `Access denied - Hostname verification failed` instead of serving the
-page. `SABNZBD__HOST_WHITELIST_ENTRIES` must list every hostname you use to
-reach it: the in-cluster Service name is included by default, but you must
-add your own ingress host (and any port-forward host) yourself, as a
-comma-separated string:
+page. This is the single most common way a healthy SABnzbd looks broken: the
+pod is running, the probes pass, and the browser gets a 403.
+
+**You normally do not have to configure this.** The chart builds
+`SABNZBD__HOST_WHITELIST_ENTRIES` for you from three sources:
+
+- the Service name, in its four in-cluster forms
+- the hosts of every **enabled** entry under `ingress`
+- the hostnames of every **enabled** entry under `route`
+
+So enabling the route below is enough; its hostname is whitelisted in the same
+pass, and a disabled entry's placeholder host is not.
 
 ```yaml
-controllers:
+route:
   main:
-    containers:
-      main:
-        env:
-          SABNZBD__HOST_WHITELIST_ENTRIES: >-
-            sabnzbd,sabnzbd.media,sabnzbd.media.svc.cluster.local,sabnzbd.example.com
+    enabled: true
+    hostnames:
+      - sabnzbd.example.com   # whitelisted automatically
 ```
+
+Only names that reach SABnzbd by a path the chart cannot see need declaring,
+for instance an external load balancer or a reverse proxy with its own
+hostname. Those go in `extraHostWhitelist`, which is appended to the list
+rather than replacing it:
+
+```yaml
+extraHostWhitelist:
+  - lb.example.net
+```
+
+Overriding `SABNZBD__HOST_WHITELIST_ENTRIES` directly still works, but it
+replaces the whole computed list, including the in-cluster Service names that
+your other apps use to reach the API. Prefer `extraHostWhitelist`.
 
 ### Single-mount `/data` layout and the EXDEV hardlink trap
 
@@ -138,7 +158,7 @@ Kubernetes: `>=1.31.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| controllers.main.containers.main.env.SABNZBD__HOST_WHITELIST_ENTRIES | string | `"{{ $n := include \"bjw-s.common.lib.chart.names.fullname\" . -}} {{ $n }},{{ $n }}.{{ .Release.Namespace }},{{ $n }}.{{ .Release.Namespace }}.svc,{{ $n }}.{{ .Release.Namespace }}.svc.cluster.local"` | SABnzbd refuses requests whose Host header it does not know and answers "Access denied - Hostname verification failed". Every DNS name you reach it through (ingress host, Service name, port-forward host) must be listed here as a comma-separated string. The default covers the in-cluster Service name only; add your own hostname when you enable ingress or route below. |
+| controllers.main.containers.main.env.SABNZBD__HOST_WHITELIST_ENTRIES | string | `"{{- $n := include \"bjw-s.common.lib.chart.names.fullname\" . -}} {{- $ns := .Release.Namespace -}} {{- $e := list $n (printf \"%s.%s\" $n $ns) (printf \"%s.%s.svc\" $n $ns) (printf \"%s.%s.svc.cluster.local\" $n $ns) -}} {{- range $k, $v := (.Values.ingress | default dict) -}} {{- if $v.enabled -}} {{- range ($v.hosts | default list) -}} {{- with .host }}{{ $e = append $e . }}{{ end -}} {{- end -}} {{- end -}} {{- end -}} {{- range $k, $v := (.Values.route | default dict) -}} {{- if $v.enabled -}} {{- range ($v.hostnames | default list) -}} {{- $e = append $e . -}} {{- end -}} {{- end -}} {{- end -}} {{- range (.Values.extraHostWhitelist | default list) -}} {{- $e = append $e . -}} {{- end -}} {{ $e | uniq | join \",\" }}"` | SABnzbd refuses requests whose Host header it does not know and answers "Access denied - Hostname verification failed". Every DNS name you reach it through has to be listed here.  You normally do not need to touch this. The default collects, by itself: the Service name in its four in-cluster forms, every host under `ingress.main.hosts`, and every name under `route.main.hostnames`. So enabling the ingress or the route below whitelists that hostname too, instead of leaving you with a 403 and no obvious cause.  Extra names that reach SABnzbd by some other path (an external load balancer, a port-forward through a specific host) go in `extraHostWhitelist` right below, which is appended to the list. |
 | controllers.main.containers.main.env.SABNZBD__PORT | int | `8080` | Port SABnzbd listens on inside the container. Kept in sync with `service.main.ports.http` below; change both together. |
 | controllers.main.containers.main.env.TZ | string | `"UTC"` | Timezone used for schedules and log timestamps |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -174,7 +194,8 @@ Kubernetes: `>=1.31.0-0`
 | controllers.main.pod.securityContext.runAsUser | int | `1000` | UID the container runs as. The home-operations image is rootless, so this also has to own the files inside the config volume and any media volume you mount. Independent from `runAsGroup` and `fsGroup` below: nothing requires the three to match, e.g. a deployment might run `runAsUser: 1003` with `runAsGroup`/`fsGroup` at `568`. Override it to match whatever owns your storage. |
 | controllers.main.pod.securityContext.seccompProfile.type | string | `"RuntimeDefault"` |  |
 | controllers.main.strategy | string | `"Recreate"` | `Recreate` rather than `RollingUpdate`: the config volume is a single-writer ReadWriteOnce PVC and SABnzbd keeps an exclusive SQLite database in it. Two replicas overlapping during a rollout corrupt it. |
-| ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. Remember to add the hostname to `SABNZBD__HOST_WHITELIST_ENTRIES` above. |
+| extraHostWhitelist | list | `[]` | Extra hostnames to append to SABnzbd's host whitelist, on top of the Service names and the ingress/route hosts the chart already collects. Only needed for names that reach SABnzbd by a path the chart cannot see, such as an external load balancer or a reverse proxy with its own hostname. |
+| ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. The hosts listed here are added to SABnzbd's host whitelist automatically. |
 | persistence.config | object | `{"accessMode":"ReadWriteOnce","enabled":true,"globalMounts":[{"path":"/config"}],"size":"1Gi","type":"persistentVolumeClaim"}` | SABnzbd's own configuration and SQLite history database. |
 | persistence.data | object | `{"enabled":false,"existingClaim":"","globalMounts":[{"path":"/data"}],"type":"persistentVolumeClaim"}` | RECOMMENDED layout: one single mount for everything, with your downloads and incomplete downloads as subdirectories of it (`/data/downloads`, `/data/incomplete-downloads`).  Use this rather than the separate `downloads` and `incomplete` entries below whenever they live on the same storage as the rest of your media stack. Two separate mounts are two distinct mount points as far as the kernel is concerned, so `link()` across them fails with EXDEV even on one filesystem: your *arr apps then fall back to copying every import instead of hardlinking it, which doubles the space used and rewrites the whole file. Nothing warns you; you just notice the disk filling up.  Point this at the same claim, with the same paths, in every app of the stack. This is the layout the TRaSH guides recommend. |
 | persistence.downloads | object | `{"enabled":false,"existingClaim":"","globalMounts":[{"path":"/downloads"}],"type":"persistentVolumeClaim"}` | Separate downloads mount, for MULTI-VOLUME layouts only: use it when your downloads genuinely live on different storage from the rest of the stack. If it would point at the same storage as `data` above, use that single mount instead and read the EXDEV note there first. |

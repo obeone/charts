@@ -48,13 +48,40 @@ controllers:
           SABNZBD__PORT: 8080
           # -- SABnzbd refuses requests whose Host header it does not know and
           # answers "Access denied - Hostname verification failed". Every DNS
-          # name you reach it through (ingress host, Service name, port-forward
-          # host) must be listed here as a comma-separated string. The default
-          # covers the in-cluster Service name only; add your own hostname when
-          # you enable ingress or route below.
+          # name you reach it through has to be listed here.
+          #
+          # You normally do not need to touch this. The default collects, by
+          # itself: the Service name in its four in-cluster forms, every host
+          # under `ingress.main.hosts`, and every name under
+          # `route.main.hostnames`. So enabling the ingress or the route below
+          # whitelists that hostname too, instead of leaving you with a 403 and
+          # no obvious cause.
+          #
+          # Extra names that reach SABnzbd by some other path (an external load
+          # balancer, a port-forward through a specific host) go in
+          # `extraHostWhitelist` right below, which is appended to the list.
           SABNZBD__HOST_WHITELIST_ENTRIES: >-
-            {{ $n := include "bjw-s.common.lib.chart.names.fullname" . -}}
-            {{ $n }},{{ $n }}.{{ .Release.Namespace }},{{ $n }}.{{ .Release.Namespace }}.svc,{{ $n }}.{{ .Release.Namespace }}.svc.cluster.local
+            {{- $n := include "bjw-s.common.lib.chart.names.fullname" . -}}
+            {{- $ns := .Release.Namespace -}}
+            {{- $e := list $n (printf "%s.%s" $n $ns) (printf "%s.%s.svc" $n $ns) (printf "%s.%s.svc.cluster.local" $n $ns) -}}
+            {{- range $k, $v := (.Values.ingress | default dict) -}}
+            {{- if $v.enabled -}}
+            {{- range ($v.hosts | default list) -}}
+            {{- with .host }}{{ $e = append $e . }}{{ end -}}
+            {{- end -}}
+            {{- end -}}
+            {{- end -}}
+            {{- range $k, $v := (.Values.route | default dict) -}}
+            {{- if $v.enabled -}}
+            {{- range ($v.hostnames | default list) -}}
+            {{- $e = append $e . -}}
+            {{- end -}}
+            {{- end -}}
+            {{- end -}}
+            {{- range (.Values.extraHostWhitelist | default list) -}}
+            {{- $e = append $e . -}}
+            {{- end -}}
+            {{ $e | uniq | join "," }}
         probes:
           liveness:
             enabled: true
@@ -172,9 +199,15 @@ persistence:
     globalMounts:
       - path: /incomplete-downloads
 
+# -- Extra hostnames to append to SABnzbd's host whitelist, on top of the
+# Service names and the ingress/route hosts the chart already collects. Only
+# needed for names that reach SABnzbd by a path the chart cannot see, such as
+# an external load balancer or a reverse proxy with its own hostname.
+extraHostWhitelist: []
+
 ingress:
-  # -- Enable and configure ingress settings for the chart under this key.
-  # Remember to add the hostname to `SABNZBD__HOST_WHITELIST_ENTRIES` above.
+  # -- Enable and configure ingress settings for the chart under this key. The
+  # hosts listed here are added to SABnzbd's host whitelist automatically.
   main:
     enabled: false
     hosts:
