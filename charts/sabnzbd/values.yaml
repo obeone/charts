@@ -1,0 +1,211 @@
+---
+# yaml-language-server: $schema=./values.schema.json
+
+# Main controller for SABnzbd
+controllers:
+  main:
+    # -- `Recreate` rather than `RollingUpdate`: the config volume is a
+    # single-writer ReadWriteOnce PVC and SABnzbd keeps an exclusive SQLite
+    # database in it. Two replicas overlapping during a rollout corrupt it.
+    strategy: Recreate
+    pod:
+      securityContext:
+        # -- UID the container runs as. The home-operations image is rootless,
+        # so this also has to own the files inside the config volume and any
+        # media volume you mount. Independent from `runAsGroup` and `fsGroup`
+        # below: nothing requires the three to match, e.g. a deployment might
+        # run `runAsUser: 1003` with `runAsGroup`/`fsGroup` at `568`. Override
+        # it to match whatever owns your storage.
+        runAsUser: 1000
+        # -- GID the container's primary group is set to. Independent from
+        # `runAsUser` above: set it to whatever group owns your storage, which
+        # does not have to be the same number as the UID.
+        runAsGroup: 1000
+        runAsNonRoot: true
+        # -- Group ownership Kubernetes applies to the config volume (and any
+        # PVC-backed media volume) so the container's group can write to a
+        # freshly provisioned PVC, independently of `runAsUser`/`runAsGroup`
+        # above. `OnRootMismatch` avoids a full recursive chown on every
+        # start, which is slow on large media volumes.
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    containers:
+      main:
+        image:
+          # -- Container image repository
+          repository: ghcr.io/home-operations/sabnzbd
+          # -- Image tag. Defaults to the chart's appVersion so a chart upgrade
+          # moves the image too; leave it alone unless you pin deliberately.
+          tag: "{{ .Chart.AppVersion }}"
+          pullPolicy: IfNotPresent
+        env:
+          # -- Timezone used for schedules and log timestamps
+          TZ: UTC
+          # -- Port SABnzbd listens on inside the container. Kept in sync with
+          # `service.main.ports.http` below; change both together.
+          SABNZBD__PORT: 8080
+          # -- SABnzbd refuses requests whose Host header it does not know and
+          # answers "Access denied - Hostname verification failed". Every DNS
+          # name you reach it through (ingress host, Service name, port-forward
+          # host) must be listed here as a comma-separated string. The default
+          # covers the in-cluster Service name only; add your own hostname when
+          # you enable ingress or route below.
+          SABNZBD__HOST_WHITELIST_ENTRIES: >-
+            {{ $n := include "bjw-s.common.lib.chart.names.fullname" . -}}
+            {{ $n }},{{ $n }}.{{ .Release.Namespace }},{{ $n }}.{{ .Release.Namespace }}.svc,{{ $n }}.{{ .Release.Namespace }}.svc.cluster.local
+        probes:
+          liveness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api?mode=version
+                port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 30
+              timeoutSeconds: 5
+              failureThreshold: 5
+          readiness:
+            enabled: true
+            custom: true
+            spec:
+              httpGet:
+                path: /api?mode=version
+                port: 8080
+              initialDelaySeconds: 10
+              periodSeconds: 15
+              timeoutSeconds: 5
+              failureThreshold: 3
+          # -- Disabled by default: an unpacking run can starve the event loop
+          # long enough to trip a startup probe on a slow node, and a restart
+          # mid-unpack leaves a partial download behind.
+          startup:
+            enabled: false
+        securityContext:
+          allowPrivilegeEscalation: false
+          # -- SABnzbd only writes under /config and /tmp, both mounted as
+          # volumes below, so the image's own filesystem can stay read-only.
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+              - ALL
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          # -- No CPU limit on purpose: par2 repair and unpacking are bursty and
+          # a CPU limit just makes them take longer. Set one if you share the
+          # node with latency-sensitive workloads.
+          limits:
+            memory: 2Gi
+
+# -- Service exposing the SABnzbd web interface and API.
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 8080
+        protocol: HTTP
+
+persistence:
+  # -- SABnzbd's own configuration and SQLite history database.
+  config:
+    enabled: true
+    type: persistentVolumeClaim
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    # To reuse storage from a previous install instead of provisioning a new
+    # PVC, replace the three keys above with `existingClaim: <pvc-name>`. The
+    # chart's schema rejects `existingClaim` and `size` together.
+    globalMounts:
+      - path: /config
+  # -- Required because `readOnlyRootFilesystem` is enabled: SABnzbd writes
+  # scratch files while assembling and verifying downloads.
+  tmp:
+    enabled: true
+    type: emptyDir
+    globalMounts:
+      - path: /tmp
+  # -- RECOMMENDED layout: one single mount for everything, with your
+  # downloads and incomplete downloads as subdirectories of it
+  # (`/data/downloads`, `/data/incomplete-downloads`).
+  #
+  # Use this rather than the separate `downloads` and `incomplete` entries
+  # below whenever they live on the same storage as the rest of your media
+  # stack. Two separate mounts are two distinct mount points as far as the
+  # kernel is concerned, so `link()` across them fails with EXDEV even on one
+  # filesystem: your *arr apps then fall back to copying every import instead
+  # of hardlinking it, which doubles the space used and rewrites the whole
+  # file. Nothing warns you; you just notice the disk filling up.
+  #
+  # Point this at the same claim, with the same paths, in every app of the
+  # stack. This is the layout the TRaSH guides recommend.
+  data:
+    enabled: false
+    type: persistentVolumeClaim
+    existingClaim: ""
+    globalMounts:
+      - path: /data
+  # -- Separate downloads mount, for MULTI-VOLUME layouts only: use it when
+  # your downloads genuinely live on different storage from the rest of the
+  # stack. If it would point at the same storage as `data` above, use that
+  # single mount instead and read the EXDEV note there first.
+  downloads:
+    enabled: false
+    type: persistentVolumeClaim
+    existingClaim: ""
+    globalMounts:
+      - path: /downloads
+  # -- Scratch space for in-progress downloads, for MULTI-VOLUME layouts only
+  # (same caveat as `downloads` above: prefer the single `data` mount unless
+  # this genuinely lives on separate storage). Keep it on fast local storage,
+  # and keep it on the SAME filesystem as `downloads` if you want the final
+  # move to be atomic rather than a copy.
+  incomplete:
+    enabled: false
+    type: persistentVolumeClaim
+    existingClaim: ""
+    globalMounts:
+      - path: /incomplete-downloads
+
+ingress:
+  # -- Enable and configure ingress settings for the chart under this key.
+  # Remember to add the hostname to `SABNZBD__HOST_WHITELIST_ENTRIES` above.
+  main:
+    enabled: false
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - chart-example.local
+        secretName: tls-chart-example-local
+
+# -- Gateway API alternative to the Ingress above, mutually exclusive with it.
+# Disabled by default.
+route:
+  main:
+    enabled: false
+    kind: HTTPRoute
+    parentRefs:
+      - name: gateway
+        namespace: gateway-system
+        sectionName: http
+    hostnames:
+      - chart-example.local
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
+        backendRefs:
+          - identifier: main

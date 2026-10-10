@@ -1,0 +1,71 @@
+{{- define "custom.app" -}}
+[SABnzbd](https://sabnzbd.org/) is a free, open-source binary newsreader with
+a web interface that automates downloading from Usenet. Point it at your
+Usenet provider and indexers (directly, or through Sonarr/Radarr/Prowlarr) and
+it fetches, verifies (par2), extracts and files away NZB-based downloads
+without further interaction. This chart deploys the rootless
+`home-operations` image on the bjw-s common library.
+{{- end -}}
+
+{{- define "custom.link.app" -}}[sabnzbd.org](https://sabnzbd.org/){{- end -}}
+
+{{- define "custom.link.image" -}}[`ghcr.io/home-operations/sabnzbd`](https://github.com/home-operations/containers/tree/main/apps/sabnzbd){{- end -}}
+
+{{- define "custom.lineage" -}}{{ template "lineage.bjw-s" . }}{{- end -}}
+
+{{- define "custom.configuration" }}
+
+### Host header whitelist
+
+SABnzbd rejects any request whose `Host` header it does not recognise and
+answers `Access denied - Hostname verification failed` instead of serving the
+page. `SABNZBD__HOST_WHITELIST_ENTRIES` must list every hostname you use to
+reach it: the in-cluster Service name is included by default, but you must
+add your own ingress host (and any port-forward host) yourself, as a
+comma-separated string:
+
+```yaml
+controllers:
+  main:
+    containers:
+      main:
+        env:
+          SABNZBD__HOST_WHITELIST_ENTRIES: >-
+            sabnzbd,sabnzbd.media,sabnzbd.media.svc.cluster.local,sabnzbd.example.com
+```
+
+### Single-mount `/data` layout and the EXDEV hardlink trap
+
+`persistence.data` is the RECOMMENDED layout: one single mount for
+everything, with your downloads and incomplete downloads as subdirectories
+of it (`/data/downloads`, `/data/incomplete-downloads`). Point every app of
+your media stack at the same claim, with the same paths; this is the layout
+the TRaSH guides recommend.
+
+```yaml
+persistence:
+  data:
+    enabled: true
+    existingClaim: media-data
+```
+
+The separate `persistence.downloads` and `persistence.incomplete` entries
+below are for genuinely MULTI-VOLUME layouts only, where they live on
+different storage from the rest of your media stack. Two separate mounts are
+two distinct mount points as far as the kernel is concerned, so `link()`
+across them fails with `EXDEV` even when both sit on the same underlying
+filesystem. Your *arr apps then silently fall back to copying every import
+instead of hardlinking it, which doubles the space used and rewrites the
+whole file, with no warning. You just notice the disk filling up.
+
+### Downloads and incomplete downloads on the same filesystem
+
+If you do use the separate `downloads` and `incomplete` entries, keep them on
+the **same filesystem** (ideally the same claim your Sonarr/Radarr instances
+mount for `downloads`): SABnzbd moves a finished download from `incomplete`
+to `downloads` at the end of a job, and a move across filesystems becomes a
+full copy instead, which is slower and briefly doubles disk usage for every
+download.
+{{- end }}
+
+{{- template "obeone.readme" . }}
