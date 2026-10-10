@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# mktxp
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">mktxp</h1>
 
-![Version: 1.1.10](https://img.shields.io/badge/Version-1.1.10-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/mktxp)
+<p align="center">Mikrotik (RouterOS) exporter for Prometheus metics</p>
 
-Mikrotik (RouterOS) exporter for Prometheus metics
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/mktxp/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.1.10-7c3aed?style=flat-square" alt="Chart version: 1.1.10"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/mktxp"><img src="https://img.shields.io/badge/app-latest-0284c7?style=flat-square" alt="Application version: latest"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/mktxp"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install mktxp obeone/mktxp
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -27,14 +35,26 @@ metrics from one or several routers (interfaces, wireless, CAPsMAN, DHCP,
 firewall, system health, ...) and pairs nicely with its companion Grafana
 dashboard.
 
-- **Application:** [github.com/akpw/mktxp](https://github.com/akpw/mktxp)
-- **Container image:** [`ghcr.io/akpw/mktxp`](https://github.com/akpw/mktxp/pkgs/container/mktxp)
-- **Chart source:** [`charts/mktxp`](https://github.com/obeone/charts/tree/main/charts/mktxp)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/akpw/mktxp](https://github.com/akpw/mktxp) |
+| Container image | [`ghcr.io/akpw/mktxp`](https://github.com/akpw/mktxp/pkgs/container/mktxp) |
+| Chart source | [`charts/mktxp`](https://github.com/obeone/charts/tree/main/charts/mktxp) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/mktxp?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.16.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install mktxp obeone/mktxp
+```
 
 ## Configuration
 
@@ -43,13 +63,12 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install mktxp obeone/mktxp -f my-values.yaml
+helm upgrade --install mktxp obeone/mktxp --values my-values.yaml
 ```
 
 ### Declaring routers
@@ -77,11 +96,50 @@ With `metrics.enabled` set (the default), the chart creates a `ServiceMonitor`
 for the Prometheus Operator; scrape interval and labels are tunable under
 `metrics.serviceMonitor`.
 
+<!-- markdownlint-disable MD034 MD060 -->
+## Requirements
+
+Kubernetes: `>=1.16.0-0`
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
+<!-- markdownlint-enable MD034 MD060 -->
+
+## Values
+
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| configmap.config.data."_mktxp.conf" | string | `"[MKTXP]\n  port = 49090\n  socket_timeout = 2\n\n  initial_delay_on_failure = 120\n  max_delay_on_failure = 900\n  delay_inc_div = 5\n\n  bandwidth = True               # Turns metrics bandwidth metrics collection on / off\n  bandwidth_test_interval = 3600   # Interval for colllecting bandwidth metrics\n  minimal_collect_interval = 5    # Minimal metric collection interval\n\n  verbose_mode = True            # Set it on for troubleshooting\n\n  fetch_routers_in_parallel = False   # Set to True if you want to fetch multiple routers parallel\n  max_worker_threads = 5              # Max number of worker threads that can fetch routers (parallel fetch only)\n  max_scrape_duration = 10            # Max duration of individual routers' metrics collection (parallel fetch only)\n  total_max_scrape_duration = 30      # Max overall duration of all metrics collection (parallel fetch only)\n\n  # Required since mktxp 1.2.x: the auto-migration on first boot\n  # writes this key; if the running user cannot write _mktxp.conf\n  # the migration silently fails and mktxp then crashes with\n  # KeyError: 'compact_default_conf_values' at startup.\n  compact_default_conf_values = False\n"` |  |
+| configmap.config.data."mktxp.conf" | string | `"## Copyright (c) 2020 Arseniy Kuznetsov\n##\n## This program is free software; you can redistribute it and/or\n## modify it under the terms of the GNU General Public License\n## as published by the Free Software Foundation; either version 2\n## of the License, or (at your option) any later version.\n##\n## This program is distributed in the hope that it will be useful,\n## but WITHOUT ANY WARRANTY; without even the implied warranty of\n## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n## GNU General Public License for more details.\n\n\n[Sample-Router]\n    enabled = False         # turns metrics collection for this RouterOS device on / off\n\n    hostname = localhost    # RouterOS IP address\n    port = 8728             # RouterOS IP Port\n\n    username = username     # RouterOS user, needs to have 'read' and 'api' permissions\n    password = password\n\n    use_ssl = False                 # enables connection via API-SSL servis\n    no_ssl_certificate = False      # enables API_SSL connect without router SSL certificate\n    ssl_certificate_verify = False  # turns SSL certificate verification on / off\n\n    installed_packages = True       # Installed packages\n    dhcp = True                     # DHCP general metrics\n    dhcp_lease = True               # DHCP lease metrics\n\n    connections = True              # IP connections metrics\n    connection_stats = False        # Open IP connections metrics\n\n    pool = True                     # Pool metrics\n    interface = True                # Interfaces traffic metrics\n\n    firewall = True                 # IPv4 Firewall rules traffic metrics\n    ipv6_firewall = False           # IPv6 Firewall rules traffic metrics\n    ipv6_neighbor = False           # Reachable IPv6 Neighbors\n\n    poe = True                      # POE metrics\n    monitor = True                  # Interface monitor metrics\n    netwatch = True                 # Netwatch metrics\n    public_ip = True                # Public IP metrics\n    route = True                    # Routes metrics\n    wireless = True                 # WLAN general metrics\n    wireless_clients = True         # WLAN clients metrics\n    capsman = True                  # CAPsMAN general metrics\n    capsman_clients = True          # CAPsMAN clients metrics\n\n    user = True                     # Active Users metrics\n    queue = True                    # Queues metrics\n\n    remote_dhcp_entry = None        # An MKTXP entry for remote DHCP info resolution (capsman/wireless)\n\n    use_comments_over_names = True  # when available, forces using comments over the interfaces names\n\n    check_for_updates = False       # check for available ROS updates\n"` |  |
+| configmap.config.enabled | bool | `true` |  |
+| env | object | See below | environment variables. See more environment variables in the [cyberchef documentation](https://cyberchef.org/docs). |
+| env.TZ | string | `"UTC"` | Set the container timezone |
+| image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
+| image.repository | string | `"ghcr.io/akpw/mktxp"` | image repository |
+| image.tag | string | chart.appVersion | image tag |
+| ingress.main.enabled | bool | `false` |  |
+| metrics | object | `{"enabled":true,"serviceMonitor":{"interval":"30s","labels":{},"scrapeTimeout":"20s"}}` | ServiceMonitor to tell to prometheus to scrape metrics |
+| persistence | object | See values.yaml | Configure persistence settings for the chart under this key. (none required for this chart) |
+| service | object | See values.yaml | Configures service settings for the chart. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
 ## Upgrading
+
+Keep your values file when upgrading an existing release:
 
 ```shell
 helm repo update
-helm upgrade mktxp obeone/mktxp
+helm upgrade mktxp obeone/mktxp --values my-values.yaml
 ```
 
 Each release lists its changes in the
@@ -96,31 +154,6 @@ helm uninstall mktxp
 
 PersistentVolumeClaims created by the chart are kept around: delete them
 manually if you also want the data gone.
-
-## Requirements
-
-Kubernetes: `>=1.16.0-0`
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.5.2 |
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| configmap.config.data."_mktxp.conf" | string | `"[MKTXP]\n  port = 49090\n  socket_timeout = 2\n\n  initial_delay_on_failure = 120\n  max_delay_on_failure = 900\n  delay_inc_div = 5\n\n  bandwidth = True               # Turns metrics bandwidth metrics collection on / off\n  bandwidth_test_interval = 3600   # Interval for colllecting bandwidth metrics\n  minimal_collect_interval = 5    # Minimal metric collection interval\n\n  verbose_mode = True            # Set it on for troubleshooting\n\n  fetch_routers_in_parallel = False   # Set to True if you want to fetch multiple routers parallel\n  max_worker_threads = 5              # Max number of worker threads that can fetch routers (parallel fetch only)\n  max_scrape_duration = 10            # Max duration of individual routers' metrics collection (parallel fetch only)\n  total_max_scrape_duration = 30      # Max overall duration of all metrics collection (parallel fetch only)\n\n  # Required since mktxp 1.2.x: the auto-migration on first boot\n  # writes this key; if the running user cannot write _mktxp.conf\n  # the migration silently fails and mktxp then crashes with\n  # KeyError: 'compact_default_conf_values' at startup.\n  compact_default_conf_values = False\n"` |  |
-| configmap.config.data."mktxp.conf" | string | `"## Copyright (c) 2020 Arseniy Kuznetsov\n##\n## This program is free software; you can redistribute it and/or\n## modify it under the terms of the GNU General Public License\n## as published by the Free Software Foundation; either version 2\n## of the License, or (at your option) any later version.\n##\n## This program is distributed in the hope that it will be useful,\n## but WITHOUT ANY WARRANTY; without even the implied warranty of\n## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n## GNU General Public License for more details.\n\n\n[Sample-Router]\n    enabled = False         # turns metrics collection for this RouterOS device on / off\n\n    hostname = localhost    # RouterOS IP address\n    port = 8728             # RouterOS IP Port\n\n    username = username     # RouterOS user, needs to have 'read' and 'api' permissions\n    password = password\n\n    use_ssl = False                 # enables connection via API-SSL servis\n    no_ssl_certificate = False      # enables API_SSL connect without router SSL certificate\n    ssl_certificate_verify = False  # turns SSL certificate verification on / off\n\n    installed_packages = True       # Installed packages\n    dhcp = True                     # DHCP general metrics\n    dhcp_lease = True               # DHCP lease metrics\n\n    connections = True              # IP connections metrics\n    connection_stats = False        # Open IP connections metrics\n\n    pool = True                     # Pool metrics\n    interface = True                # Interfaces traffic metrics\n\n    firewall = True                 # IPv4 Firewall rules traffic metrics\n    ipv6_firewall = False           # IPv6 Firewall rules traffic metrics\n    ipv6_neighbor = False           # Reachable IPv6 Neighbors\n\n    poe = True                      # POE metrics\n    monitor = True                  # Interface monitor metrics\n    netwatch = True                 # Netwatch metrics\n    public_ip = True                # Public IP metrics\n    route = True                    # Routes metrics\n    wireless = True                 # WLAN general metrics\n    wireless_clients = True         # WLAN clients metrics\n    capsman = True                  # CAPsMAN general metrics\n    capsman_clients = True          # CAPsMAN clients metrics\n\n    user = True                     # Active Users metrics\n    queue = True                    # Queues metrics\n\n    remote_dhcp_entry = None        # An MKTXP entry for remote DHCP info resolution (capsman/wireless)\n\n    use_comments_over_names = True  # when available, forces using comments over the interfaces names\n\n    check_for_updates = False       # check for available ROS updates\n"` |  |
-| configmap.config.enabled | bool | `true` |  |
-| env | object | See below | environment variables. See more environment variables in the [cyberchef documentation](https://cyberchef.org/docs). |
-| env.TZ | string | `"UTC"` | Set the container timezone |
-| image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
-| image.repository | string | `"ghcr.io/akpw/mktxp"` | image repository |
-| image.tag | string | chart.appVersion | image tag |
-| ingress.main.enabled | bool | `false` |  |
-| metrics | object | `{"enabled":true,"serviceMonitor":{"interval":"30s","labels":{},"scrapeTimeout":"20s"}}` | ServiceMonitor to tell to prometheus to scrape metrics |
-| persistence | object | See values.yaml | Configure persistence settings for the chart under this key. (none required for this chart) |
-| service | object | See values.yaml | Configures service settings for the chart. |
 
 ## Verifying the chart signature
 
