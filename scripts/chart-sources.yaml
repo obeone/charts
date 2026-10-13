@@ -1,0 +1,111 @@
+# Configuration for scripts/check-chart-updates.py
+#
+# The checker is registry-first: for every monitored chart it lists the tags that
+# actually exist in the container registry the chart points at, and compares the
+# newest usable tag against `appVersion` in Chart.yaml.
+#
+# It deliberately does NOT trust upstream GitHub/GitLab releases as the update
+# signal. A published release whose image has not been built yet is not
+# actionable, and acting on one has already burned this repo once
+# (dnscrypt-proxy 2.1.17 was released, tagged, published, then reverted because
+# klutchell/dnscrypt-proxy had no matching tag).
+
+policy:
+  # An appVersion equal to one of these is a rolling tag: the chart intentionally
+  # follows the moving tag and must be left alone. Never auto-pin these.
+  rolling_tags:
+    - latest
+    - main
+    - master
+    - edge
+    - nightly
+    - dev
+    - stable
+
+  # Tags containing any of these markers are pre-releases and are never proposed.
+  prerelease_markers:
+    - alpha
+    - beta
+    - rc
+    - pre
+    - dev
+    - snapshot
+    - canary
+    - nightly
+    - test
+
+# Charts excluded from monitoring regardless of git state, with the reason.e
+# This is a hard exclusion: it wins even if the chart later gets committed.
+ignore:
+  litellm-proxy: "Stub directory, no Chart.yaml, never packaged."
+  bolt.diy: "Dropped from the repo. Do not monitor, do not update."
+  wallabag: "Dropped from the repo. Do not monitor, do not update."
+  winbox: "Deprecated chart, upstream obeone/winbox-docker archived. Do not monitor, do not update."
+
+# Per-chart overrides. Only needed when auto-detection from values.yaml is wrong
+# or when a human needs extra context in the report.
+#
+# Supported keys:
+#   image       Override the container image reference (registry/namespace/name).
+#   changelog   URL surfaced in the report so the updater can read release notes.
+#   notes       Free-form warning shown in the report.
+#   tag_suffix  Build-variant suffix the chart deploys instead of the plain
+#               release, e.g. '-noroot'. Declaring it tells the checker that
+#               values.yaml is expected to pin '<appVersion><tag_suffix>', so a
+#               variant pin stops being reported as a contradiction. Only tags
+#               carrying the suffix are then considered, and the report asks for
+#               the pinned tag to be moved along with appVersion.
+charts:
+  cyberchef:
+    changelog: https://github.com/gchq/CyberChef/releases
+    notes: >-
+      Image obeoneorg/cyberchef is our own rebuild, not an upstream artifact.
+      It can lag the CyberChef release by several days.
+
+  dnscrypt-proxy:
+    changelog: https://github.com/DNSCrypt/dnscrypt-proxy/releases
+    notes: >-
+      Image klutchell/dnscrypt-proxy is a third-party build that lags upstream.
+      Only the registry tag counts. See commits 32f9225 / 0f32fa4 / 35b78e2.
+
+  winbox:
+    changelog: https://mikrotik.com/download/changelogs
+    notes: >-
+      Image obeoneorg/winbox is our own build wrapping the MikroTik installer.
+      Upstream has no GitHub releases.
+
+  olvid-bot:
+    changelog: https://gitlab.com/olvid/olvid
+    notes: "Upstream is GitLab, not GitHub. Only Docker Hub tags are authoritative."
+
+  nfs-server:
+    changelog: https://github.com/ehough/docker-nfs-server/releases
+    notes: "Image ghcr.io/obeone/nfs-server is our fork of ehough/docker-nfs-server."
+
+  firecrawl:
+    changelog: https://github.com/firecrawl/firecrawl/releases
+    tag_suffix: "-staging"
+    notes: >-
+      Upstream only publishes versioned images as '<version>-staging' on GHCR
+      (plus sha-* tags). values.yaml renders '{{ .Chart.AppVersion }}-staging',
+      so appVersion stays the bare version.
+
+  technitium-dnsserver:
+    changelog: https://github.com/TechnitiumSoftware/DnsServer/releases
+
+  opengist:
+    changelog: https://github.com/thomiceli/opengist/releases
+
+  libretranslate:
+    changelog: https://github.com/LibreTranslate/LibreTranslate/releases
+
+  transfer.sh:
+    changelog: https://github.com/dutchcoders/transfer.sh/releases
+    tag_suffix: "-noroot"
+    notes: >-
+      The chart deploys the non-root build variant, so values.yaml pins
+      '<appVersion>-noroot'. Leaving the tag empty would silently switch the
+      workload back to the root image; move the pin instead.
+
+  cloakbrowser-mcp:
+    changelog: https://github.com/swimmwatch/cloakbrowser-mcp/releases
