@@ -1,6 +1,6 @@
 apiVersion: v2
 name: firecrawl
-version: 3.0.19
+version: 3.0.20
 appVersion: "2.11.693"
 kubeVersion: ">=1.31.0-0"
 
@@ -121,3 +121,5 @@ annotations:
       description: "2026-10-07: Bump appVersion to 2.11.655"
     - kind: changed
       description: "2026-10-10: Bump appVersion to 2.11.693"
+    - kind: fixed
+      description: "2026-10-13: Render the -staging image tag, the only versioned tag upstream publishes on ghcr.io (2.11.693 alone does not exist)"
