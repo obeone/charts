@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# ollama
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">ollama</h1>
 
-![Version: 0.4.0](https://img.shields.io/badge/Version-0.4.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/ollama)
+<p align="center">Ollama — run large language models locally, with an optional transparent Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled): on, it fronts the API and exports /metrics; off, the API is served directly. This Helm chart packages the Ollama server on the bjw-s common library so behaviour is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.</p>
 
-Ollama — run large language models locally, with an optional transparent Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled): on, it fronts the API and exports /metrics; off, the API is served directly. This Helm chart packages the Ollama server on the bjw-s common library so behaviour is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/ollama/Chart.yaml"><img src="https://img.shields.io/badge/chart-0.4.0-7c3aed?style=flat-square" alt="Chart version: 0.4.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/ollama"><img src="https://img.shields.io/badge/app-latest-0284c7?style=flat-square" alt="Application version: latest"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/ollama"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install ollama obeone/ollama
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -28,14 +36,26 @@ stock server: GPU access through a RuntimeClass, and a transparent Prometheus
 exporter/proxy sidecar (`exporter.enabled`) that fronts the API and exposes
 `/metrics` without any change on the client side.
 
-- **Application:** [ollama.com](https://ollama.com)
-- **Container image:** [`ollama/ollama`](https://hub.docker.com/r/ollama/ollama), exporter sidecar [`ghcr.io/obeone/ollama-exporter`](https://github.com/obeone/ollama-exporter/pkgs/container/ollama-exporter)
-- **Chart source:** [`charts/ollama`](https://github.com/obeone/charts/tree/main/charts/ollama)
+| Resource | Link |
+| --- | --- |
+| Application | [ollama.com](https://ollama.com) |
+| Container image | [`ollama/ollama`](https://hub.docker.com/r/ollama/ollama), exporter sidecar [`ghcr.io/obeone/ollama-exporter`](https://github.com/obeone/ollama-exporter/pkgs/container/ollama-exporter) |
+| Chart source | [`charts/ollama`](https://github.com/obeone/charts/tree/main/charts/ollama) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/ollama?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install ollama obeone/ollama
+```
 
 ## Configuration
 
@@ -44,13 +64,12 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install ollama obeone/ollama -f my-values.yaml
+helm upgrade --install ollama obeone/ollama --values my-values.yaml
 ```
 
 ### GPU acceleration
@@ -73,26 +92,7 @@ Models are big: size it for what you actually plan to serve.
 With the exporter sidecar enabled, `serviceMonitor.enabled` creates a
 Prometheus Operator `ServiceMonitor` scraping its `/metrics` endpoint.
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade ollama obeone/ollama
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/ollama?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall ollama
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -100,11 +100,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.exporter | object | `{"dependsOn":"ollama","enabled":true,"env":{"OLLAMA_HOST":"http://localhost:11434"},"image":{"pullPolicy":"Always","repository":"ghcr.io/obeone/ollama-exporter","tag":"latest"},"ports":[{"containerPort":8000,"name":"proxy"}],"probes":{"liveness":{"custom":true,"enabled":true,"spec":{"failureThreshold":6,"httpGet":{"path":"/metrics","port":8000},"initialDelaySeconds":15,"periodSeconds":30,"timeoutSeconds":5}},"readiness":{"custom":true,"enabled":true,"spec":{"failureThreshold":3,"httpGet":{"path":"/api/version","port":8000},"initialDelaySeconds":10,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":5}},"startup":{"custom":true,"enabled":true,"spec":{"failureThreshold":12,"httpGet":{"path":"/metrics","port":8000},"initialDelaySeconds":5,"periodSeconds":5}}},"resources":{"limits":{"cpu":"500m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"128Mi"}}}` | Prometheus exporter / transparent proxy sidecar. Listens on :8000,    exposes /metrics, and forwards API requests to the Ollama server in    the same pod, so the http Service port targets :8000 (see service    below). Source: https://github.com/frcooper/ollama-exporter (Unlicense). |
 | controllers.main.containers.exporter.enabled | bool | `true` | Single switch for the whole metrics/proxy path. Set to false to    drop the sidecar: the chart then routes the http Service port    straight to Ollama (11434) and disables the metrics port. No    other value needs changing (handled in templates/common.yaml). |
 | controllers.main.containers.exporter.env.OLLAMA_HOST | string | `"http://localhost:11434"` | Upstream Ollama URL the exporter proxies to (same pod, localhost). |
@@ -174,6 +182,31 @@ Kubernetes: `>=1.31.0-0`
 | service.main.ports.http.targetPort | string | `"proxy"` |  |
 | service.main.type | string | `"ClusterIP"` |  |
 | serviceMonitor | object | `{"metrics":{"enabled":false,"endpoints":[{"interval":"30s","path":"/metrics","port":"http","scrapeTimeout":"10s"}],"serviceName":"{{ include \"bjw-s.common.lib.chart.names.fullname\" $ }}"}}` | Prometheus Operator ServiceMonitor scraping the exporter's /metrics.    Disabled by default; enable it (or set it in your override) when a    Prometheus Operator stack is present. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade ollama obeone/ollama --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/ollama?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall ollama
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

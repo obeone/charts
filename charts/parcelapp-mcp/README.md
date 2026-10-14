@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# parcelapp-mcp
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">parcelapp-mcp</h1>
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.1](https://img.shields.io/badge/AppVersion-0.2.1-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp)
+<p align="center">Parcel App MCP — a Model Context Protocol server wrapping the Parcel delivery-tracking API, so an LLM client can list deliveries, add tracking numbers and look up carrier codes. This Helm chart runs it in its streamable-http transport, reachable over the cluster network and driven entirely from values.yaml via the bjw-s common library.</p>
 
-Parcel App MCP — a Model Context Protocol server wrapping the Parcel delivery-tracking API, so an LLM client can list deliveries, add tracking numbers and look up carrier codes. This Helm chart runs it in its streamable-http transport, reachable over the cluster network and driven entirely from values.yaml via the bjw-s common library.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp/Chart.yaml"><img src="https://img.shields.io/badge/chart-0.1.0-7c3aed?style=flat-square" alt="Chart version: 0.1.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/parcelapp-mcp"><img src="https://img.shields.io/badge/app-0.2.1-0284c7?style=flat-square" alt="Application version: 0.2.1"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/parcelapp-mcp"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install parcelapp-mcp obeone/parcelapp-mcp
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -31,15 +39,27 @@ MCP endpoint is reachable over the cluster network instead of only over stdio.
 The Parcel API is a premium feature of the app: you need an active subscription and
 an API key before any of the tools return something useful.
 
-- **Application:** [github.com/obeone/parcelapp-mcp](https://github.com/obeone/parcelapp-mcp)
-- **Container image:** [`ghcr.io/obeone/parcelapp-mcp`](https://github.com/obeone/parcelapp-mcp/pkgs/container/parcelapp-mcp)
-- **Chart source:** [`charts/parcelapp-mcp`](https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/obeone/parcelapp-mcp](https://github.com/obeone/parcelapp-mcp) |
+| Container image | [`ghcr.io/obeone/parcelapp-mcp`](https://github.com/obeone/parcelapp-mcp/pkgs/container/parcelapp-mcp) |
+| Chart source | [`charts/parcelapp-mcp`](https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
 - A Parcel subscription and an API key (Parcel app → Settings → Parcel API)
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install parcelapp-mcp obeone/parcelapp-mcp
+```
 
 ## Configuration
 
@@ -48,13 +68,12 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install parcelapp-mcp obeone/parcelapp-mcp -f my-values.yaml
+helm upgrade --install parcelapp-mcp obeone/parcelapp-mcp --values my-values.yaml
 ```
 
 ### Providing the API key
@@ -110,26 +129,7 @@ and `route` are disabled by default. Anyone who can reach the Service can read y
 deliveries and add tracking numbers to your account. Put an authenticating proxy in
 front of it before exposing it outside the cluster.
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade parcelapp-mcp obeone/parcelapp-mcp
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall parcelapp-mcp
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -137,11 +137,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.main.env | object | `{"PARCEL_HOST":"0.0.0.0","PARCEL_LOG_LEVEL":"INFO","PARCEL_PATH":"/mcp","PARCEL_PORT":"8000","PARCEL_TRANSPORT":"streamable-http"}` | Environment driving the server. The image has no entrypoint arguments, so the whole configuration is expressed through these PARCEL_* variables. |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
 | controllers.main.containers.main.image.repository | string | `"ghcr.io/obeone/parcelapp-mcp"` | Container image, published on GitHub Container Registry by the upstream project. Override it to pull your own build or a mirror. |
@@ -166,6 +174,31 @@ Kubernetes: `>=1.31.0-0`
 | secrets | object | `{"credentials":{"enabled":false,"stringData":{"PARCEL_TOKEN":""}}}` | Secrets created by this chart. Disabled by default: the recommended path is to point `PARCEL_TOKEN` at a Secret you manage yourself (see the env block above). Enable this only if you are comfortable with the API key living in your values file, and pair it with `envFrom: [{ secret: credentials }]` on the container. |
 | secrets.credentials.stringData.PARCEL_TOKEN | string | `""` | Parcel API key, taken from the app's settings. Replace before enabling. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":8000,"protocol":"TCP","targetPort":8000}},"type":"ClusterIP"}}` | Service exposing the streamable-http MCP endpoint inside the cluster. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade parcelapp-mcp obeone/parcelapp-mcp --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall parcelapp-mcp
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

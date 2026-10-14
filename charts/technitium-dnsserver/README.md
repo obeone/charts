@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# technitium-dnsserver
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">technitium-dnsserver</h1>
 
-![Version: 1.13.2](https://img.shields.io/badge/Version-1.13.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 15.5.1](https://img.shields.io/badge/AppVersion-15.5.1-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/technitium-dnsserver)
+<p align="center">Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server</p>
 
-Technitium DNS Server is a DNS that can be use as a piHole or AdGuardHome replacement. It can also be used as authoritative server
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/technitium-dnsserver/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.13.3-7c3aed?style=flat-square" alt="Chart version: 1.13.3"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/technitium-dnsserver"><img src="https://img.shields.io/badge/app-15.6.0-0284c7?style=flat-square" alt="Application version: 15.6.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/technitium-dnsserver"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install technitium-dnsserver obeone/technitium-dnsserver
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -27,15 +35,28 @@ self-hosted DNS server with a web console. It works both as a recursive resolver
 Pi-hole or AdGuard Home replacement) and as an authoritative server for your
 own zones, with DNS-over-HTTPS and DNS-over-TLS support built in.
 
-- **Application:** [technitium.com/dns](https://technitium.com/dns/)
-- **Container image:** [`technitium/dns-server`](https://hub.docker.com/r/technitium/dns-server)
+| Resource | Link |
+| --- | --- |
+| Application | [technitium.com/dns](https://technitium.com/dns/) |
+| Container image | [`technitium/dns-server`](https://hub.docker.com/r/technitium/dns-server) |
+| Chart source | [`charts/technitium-dnsserver`](https://github.com/obeone/charts/tree/main/charts/technitium-dnsserver) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/technitium-dnsserver?modal=changelog) |
+
 - **Source code:** [github.com/TechnitiumSoftware/DnsServer](https://github.com/TechnitiumSoftware/DnsServer)
-- **Chart source:** [`charts/technitium-dnsserver`](https://github.com/obeone/charts/tree/main/charts/technitium-dnsserver)
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- A Kubernetes cluster
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install technitium-dnsserver obeone/technitium-dnsserver
+```
 
 ## Configuration
 
@@ -44,13 +65,12 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install technitium-dnsserver obeone/technitium-dnsserver -f my-values.yaml
+helm upgrade --install technitium-dnsserver obeone/technitium-dnsserver --values my-values.yaml
 ```
 
 ### Exposing DNS
@@ -59,36 +79,25 @@ The default Service publishes the web console (HTTP/HTTPS) together with DNS
 on port 53 over both TCP and UDP; DHCP and DNS-over-TLS ports are defined too.
 Adapt `service` in `values.yaml` to what your load balancer supports.
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade technitium-dnsserver obeone/technitium-dnsserver
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/technitium-dnsserver?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall technitium-dnsserver
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 | Repository | Name | Version |
 |------------|------|---------|
 | https://library-charts.k8s-at-home.com | common | 4.5.2 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | env | object | See below | Environment variables for the container. Refer to Technitium DNS Server documentation for available variables. |
 | env.TZ | string | `"UTC"` | Set the container timezone |
 | image.pullPolicy | string | `"Always"` | image pull policy |
@@ -104,6 +113,31 @@ manually if you also want the data gone.
 | service.main.ports.dot | object | `{"enabled":true,"port":853,"protocol":"TCP"}` | TCP port for DNS-over-TLS (DoT) |
 | service.main.ports.http | object | `{"enabled":true,"port":80,"protocol":"TCP","targetPort":5380}` | HTTP port for the web interface |
 | service.main.ports.https | object | `{"enabled":true,"port":443,"targetPort":53443}` | HTTPS port for the web interface |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade technitium-dnsserver obeone/technitium-dnsserver --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/technitium-dnsserver?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall technitium-dnsserver
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

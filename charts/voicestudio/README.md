@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# voicestudio
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">voicestudio</h1>
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.6](https://img.shields.io/badge/AppVersion-0.5.6-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/voicestudio)
+<p align="center">VoiceStudio (formerly OmniVoice Studio) — an open-source, fully local ElevenLabs alternative: voice cloning, voice design, dubbing, dictation, transcription and audiobook creation. This Helm chart runs the headless server image (API + web UI on a single port), CPU by default with optional NVIDIA or AMD ROCm acceleration, driven from values.yaml via the bjw-s common library.</p>
 
-VoiceStudio (formerly OmniVoice Studio) — an open-source, fully local ElevenLabs alternative: voice cloning, voice design, dubbing, dictation, transcription and audiobook creation. This Helm chart runs the headless server image (API + web UI on a single port), CPU by default with optional NVIDIA or AMD ROCm acceleration, driven from values.yaml via the bjw-s common library.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/voicestudio/Chart.yaml"><img src="https://img.shields.io/badge/chart-0.1.0-7c3aed?style=flat-square" alt="Chart version: 0.1.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/voicestudio"><img src="https://img.shields.io/badge/app-0.5.6-0284c7?style=flat-square" alt="Application version: 0.5.6"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/voicestudio"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install voicestudio obeone/voicestudio
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -28,16 +36,28 @@ design, video dubbing, dictation, transcription and audiobook creation. This
 chart runs its headless server image, where one port serves both the API and the
 web UI, on CPU by default with optional NVIDIA or AMD ROCm acceleration.
 
-- **Application:** [github.com/debpalash/VoiceStudio](https://github.com/debpalash/VoiceStudio)
-- **Container image:** [`ghcr.io/debpalash/voicestudio`](https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio)
-- **Chart source:** [`charts/voicestudio`](https://github.com/obeone/charts/tree/main/charts/voicestudio)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/debpalash/VoiceStudio](https://github.com/debpalash/VoiceStudio) |
+| Container image | [`ghcr.io/debpalash/voicestudio`](https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio) |
+| Chart source | [`charts/voicestudio`](https://github.com/obeone/charts/tree/main/charts/voicestudio) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/voicestudio?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
 - `linux/amd64` nodes: upstream publishes no arm64 image
 - A Secret holding the administrator key (see below)
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install voicestudio obeone/voicestudio
+```
 
 ## Configuration
 
@@ -46,13 +66,12 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install voicestudio obeone/voicestudio -f my-values.yaml
+helm upgrade --install voicestudio obeone/voicestudio --values my-values.yaml
 ```
 
 ### Administrator key
@@ -107,26 +126,7 @@ controllers:
           repository: docker.io/palashdeb/omnivoice-studio
 ```
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade voicestudio obeone/voicestudio
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/voicestudio?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall voicestudio
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -134,11 +134,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.2.1 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.main.env | object | `{"HF_HOME":"/app/omnivoice_data/huggingface","OMNIVOICE_API_KEY":{"valueFrom":{"secretKeyRef":{"key":"api-key","name":"{{ include \"bjw-s.common.lib.chart.names.fullname\" $ }}-api-key"}}},"OMNIVOICE_BIND_HOST":"0.0.0.0","OMNIVOICE_DATA_DIR":"/app/omnivoice_data","OMNIVOICE_SERVER_MODE":"1","PYTHONUNBUFFERED":"1"}` | Environment of the VoiceStudio backend. |
 | controllers.main.containers.main.env.OMNIVOICE_API_KEY | object | `{"valueFrom":{"secretKeyRef":{"key":"api-key","name":"{{ include \"bjw-s.common.lib.chart.names.fullname\" $ }}-api-key"}}}` | Administrator API key, REQUIRED: settings, diagnostics and other admin actions are refused without it, and the web UI asks for it (the upstream Compose file will not start without one). Read from the `<fullname>-api-key` Secret, which you either create yourself (see NOTES) or let the chart create via `secrets.api-key` below. The pod stays in CreateContainerConfigError until it exists. |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -188,6 +196,31 @@ Kubernetes: `>=1.31.0-0`
 | secrets.api-key | object | `{"enabled":false,"stringData":{"api-key":""},"suffix":"api-key"}` | Chart-managed administrator key, rendered as `<fullname>-api-key`. Disabled by default so the key never lands in a values file by accident: create the Secret out of band (see NOTES). If you enable it, pass the value at install time (`--set-string secrets.api-key.stringData.api-key=...`). |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":3900,"protocol":"TCP","targetPort":3900},"worker":{"enabled":false,"port":7443,"protocol":"TCP","targetPort":7443}},"type":"ClusterIP"}}` | Service exposing the API and web UI inside the cluster. |
 | service.main.ports.worker | object | `{"enabled":false,"port":7443,"protocol":"TCP","targetPort":7443}` | TLS control plane for remote GPU workers. Disabled by default; enable it together with OMNIVOICE_WORKER_PORT only if you enroll workers. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade voicestudio obeone/voicestudio --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/voicestudio?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall voicestudio
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# cloakbrowser-mcp
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">cloakbrowser-mcp</h1>
 
-![Version: 0.3.0](https://img.shields.io/badge/Version-0.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.12.0](https://img.shields.io/badge/AppVersion-1.12.0-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp)
+<p align="center">CloakBrowser MCP — a Model Context Protocol browser-automation server that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This Helm chart packages the bridge in its streamable-http transport so it can be reached over the network, driven entirely from values.yaml via the bjw-s common library.</p>
 
-CloakBrowser MCP — a Model Context Protocol browser-automation server that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This Helm chart packages the bridge in its streamable-http transport so it can be reached over the network, driven entirely from values.yaml via the bjw-s common library.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp/Chart.yaml"><img src="https://img.shields.io/badge/chart-0.3.3-7c3aed?style=flat-square" alt="Chart version: 0.3.3"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp"><img src="https://img.shields.io/badge/app-1.14.1-0284c7?style=flat-square" alt="Application version: 1.14.1"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install cloakbrowser-mcp obeone/cloakbrowser-mcp
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -29,14 +37,26 @@ browser that keeps a low fingerprint. This chart packages the bridge with its
 streamable-http transport, making the MCP endpoint reachable over the network
 from inside (or outside) the cluster.
 
-- **Application:** [github.com/swimmwatch/cloakbrowser-mcp](https://github.com/swimmwatch/cloakbrowser-mcp)
-- **Container image:** [`swimmwatch/cloakbrowser-mcp`](https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp)
-- **Chart source:** [`charts/cloakbrowser-mcp`](https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/swimmwatch/cloakbrowser-mcp](https://github.com/swimmwatch/cloakbrowser-mcp) |
+| Container image | [`swimmwatch/cloakbrowser-mcp`](https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp) |
+| Chart source | [`charts/cloakbrowser-mcp`](https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install cloakbrowser-mcp obeone/cloakbrowser-mcp
+```
 
 ## Configuration
 
@@ -45,35 +65,15 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install cloakbrowser-mcp obeone/cloakbrowser-mcp -f my-values.yaml
+helm upgrade --install cloakbrowser-mcp obeone/cloakbrowser-mcp --values my-values.yaml
 ```
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade cloakbrowser-mcp obeone/cloakbrowser-mcp
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall cloakbrowser-mcp
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -81,11 +81,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.main.env | object | `{"CLOAK_PLAYWRIGHT_MCP_HTTP_HOST":"0.0.0.0","CLOAK_PLAYWRIGHT_MCP_HTTP_PORT":"3000","CLOAK_PLAYWRIGHT_MCP_LOG_LEVEL":"info","CLOAK_PLAYWRIGHT_MCP_TRANSPORT":"streamable-http","PLAYWRIGHT_MCP_HEADLESS":"true","PLAYWRIGHT_MCP_OUTPUT_DIR":"/data"}` | Environment driving the bridge. The image entrypoint takes no args, so the whole configuration is expressed through these CLOAK_*/PLAYWRIGHT_* variables. |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
 | controllers.main.containers.main.image.repository | string | `"swimmwatch/cloakbrowser-mcp"` | Container image. The same tag is published on Docker Hub and ghcr.io. |
@@ -127,6 +135,31 @@ Kubernetes: `>=1.31.0-0`
 | route.main.parentRefs | list | `[{"name":"gateway","namespace":"gateway-system"}]` | Gateways this route attaches to. |
 | route.main.rules | list | `[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]` | Routing rules. `identifier` refers to a Service defined above. |
 | service | object | `{"main":{"controller":"main","ports":{"http":{"port":3000,"protocol":"TCP","targetPort":3000}},"type":"ClusterIP"}}` | Service exposing the streamable-http MCP endpoint inside the cluster. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade cloakbrowser-mcp obeone/cloakbrowser-mcp --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/cloakbrowser-mcp?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall cloakbrowser-mcp
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 
