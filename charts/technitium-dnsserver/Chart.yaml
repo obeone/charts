@@ -10,8 +10,8 @@ keywords:
   - pihole
   - adguard
 
-version: 1.13.4
-appVersion: "15.6.1"
+version: 1.13.5
+appVersion: "15.6.2"
 
 icon: https://raw.githubusercontent.com/obeone/charts/main/logo/technitium-dnsserver.png
 sources:
@@ -34,3 +34,5 @@ annotations:
   artifacthub.io/changes: |
     - kind: changed
       description: Update Technitium DNS Server to 15.6.1
+    - kind: changed
+      description: Update Technitium DNS Server to 15.6.2
