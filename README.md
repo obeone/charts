@@ -29,7 +29,7 @@ helm install my-release obeone/<chart> --verify
 
 | | Chart | App | Description |
 | :-: | --- | --- | --- |
-| 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.14.1` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) — Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
+| 🕵️ | [**cloakbrowser-mcp**](charts/cloakbrowser-mcp) | `1.15.0` | [CloakBrowser MCP](https://github.com/swimmwatch/cloakbrowser-mcp) — Playwright browser-automation MCP server over HTTP, backed by a stealth Chromium. |
 | 🔪 | [**cyberchef**](charts/cyberchef) | `v11.5.0` | GCHQ's [Cyber Swiss Army Knife](https://github.com/gchq/CyberChef) — encode, decode, encrypt, analyze. Multi-arch. |
 | 🛡️ | [**dnscrypt-proxy**](charts/dnscrypt-proxy) | `2.1.18` | Flexible [DNS proxy](https://github.com/DNSCrypt/dnscrypt-proxy) with encrypted DNS protocols (DoH, DoT, DNSCrypt). |
 | 🖌️ | [**draw-things**](charts/draw-things) | `latest` | [Draw Things](https://drawthings.ai) gRPC server — Stable Diffusion inference backend for the macOS/iOS app, GPU-accelerated. |
@@ -42,7 +42,7 @@ helm install my-release obeone/<chart> --verify
 | 💬 | [**olvid-bot**](charts/olvid-bot) | `2.0.1` | [Olvid bot-daemon](https://gitlab.com/olvid/olvid) — bridge to automate Olvid secure-messaging groups. |
 | 📝 | [**opengist**](charts/opengist) | `1.15.2` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
 | 📦 | [**parcelapp-mcp**](charts/parcelapp-mcp) | `0.2.1` | [parcelapp-mcp](https://github.com/obeone/parcelapp-mcp) — MCP server over the [Parcel](https://parcelapp.net) delivery-tracking API: list deliveries, add tracking numbers, look up carriers. |
-| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.6.1` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
+| 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.6.2` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
 | 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
 | 🎙️ | [**voicestudio**](charts/voicestudio) | `0.5.6` | [VoiceStudio](https://github.com/debpalash/VoiceStudio) — fully local ElevenLabs alternative: voice cloning, voice design, dubbing, transcription. CPU, NVIDIA or AMD ROCm. |
 | 🪟 | [**winbox**](charts/winbox) | `3.40` | **Deprecated.** [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. Upstream is archived (no image rebuild since 2023); use MikroTik's native WinBox 4 instead. |
