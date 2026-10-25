@@ -1,7 +1,7 @@
 apiVersion: v2
 name: opengist
-version: 2.0.0
-appVersion: 1.15.2
+version: 2.0.1
+appVersion: 1.15.3
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -53,6 +53,8 @@ annotations:
         app.kubernetes.io/controller, which is immutable on an existing
         Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
         you delete the Deployment before upgrading
+    - kind: changed
+      description: Update Opengist to 1.15.3
     - kind: changed
       description: Update Opengist to 1.15.2
     - kind: changed
