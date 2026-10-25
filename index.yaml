@@ -1208,6 +1208,42 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update dnscrypt-proxy to 2.1.20
+        - kind: changed
+          description: Update dnscrypt-proxy to 2.1.18
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.20
+    created: "2026-10-25T10:11:14.264896852Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: 7ed654cab69488fd270ce40b79bc34d7c6fc78fffc0084d999e09b979ad64afe
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.6/dnscrypt-proxy-1.4.6.tgz
+    version: 1.4.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update dnscrypt-proxy to 2.1.18
       artifacthub.io/maintainers: |
         - name: obeone
@@ -6116,6 +6152,64 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: >-
+            Migrate to bjw-s common 5.1.0 (from 3.7.1); raises the floor to
+            Kubernetes >= 1.31 and Helm >= 3.18. The controller selector label
+            changes from app.kubernetes.io/component to
+            app.kubernetes.io/controller, which is immutable on an existing
+            Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
+            you delete the Deployment before upgrading
+        - kind: changed
+          description: Update Opengist to 1.15.3
+        - kind: changed
+          description: Update Opengist to 1.15.2
+        - kind: changed
+          description: Update Opengist to 1.15.1
+        - kind: changed
+          description: Update Opengist to 1.15.0
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.15.3
+    created: "2026-10-25T10:11:14.381989803Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: 4ecede7aa9bd48c621bdbe4c7fde221362939a63713371614bf4ca2ff55de36b
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-2.0.1/opengist-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update Opengist to 1.15.1
         - kind: changed
           description: Update Opengist to 1.15.0
@@ -8855,4 +8949,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-10-19T09:10:24.012790367Z"
+generated: "2026-10-25T10:11:14.382230698Z"
