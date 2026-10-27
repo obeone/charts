@@ -1,7 +1,7 @@
 apiVersion: v2
 name: voicestudio
-version: 0.1.0
-appVersion: "0.5.6"
+version: 0.1.1
+appVersion: "0.5.7"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -52,7 +52,9 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/images: |
     - name: voicestudio
-      image: ghcr.io/debpalash/voicestudio:0.5.6
+      image: ghcr.io/debpalash/voicestudio:0.5.7
   artifacthub.io/changes: |
     - kind: added
       description: "2026-09-28: Initial release, VoiceStudio 0.5.6 on bjw-s common 5.2.1"
+    - kind: changed
+      description: "2026-10-27: Bump appVersion to 0.5.7"
