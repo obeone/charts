@@ -1,7 +1,7 @@
 apiVersion: v2
 name: firecrawl
-version: 3.0.22
-appVersion: "2.11.694"
+version: 3.0.23
+appVersion: "2.11.724"
 kubeVersion: ">=1.31.0-0"
 
 description: >-
@@ -128,3 +128,5 @@ annotations:
       description: "2026-10-13: Mark the chart as a pre-release on Artifact Hub while it deploys upstream -staging images"
     - kind: changed
       description: "2026-11-06: Bump appVersion to 2.11.694"
+    - kind: changed
+      description: "2026-11-11: Bump appVersion to 2.11.724"
