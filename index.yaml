@@ -8640,6 +8640,63 @@ entries:
           description: "2026-09-28: Initial release, VoiceStudio 0.5.6 on bjw-s common 5.2.1"
         - kind: changed
           description: "2026-10-27: Bump appVersion to 0.5.7"
+        - kind: changed
+          description: "2026-11-12: Bump appVersion to 0.5.8"
+      artifacthub.io/images: |
+        - name: voicestudio
+          image: ghcr.io/debpalash/voicestudio:0.5.8
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/debpalash/VoiceStudio
+        - name: Docker install guide
+          url: https://github.com/debpalash/VoiceStudio/blob/main/docs/install/docker.md
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 0.5.8
+    created: "2026-11-12T10:10:32.061889888Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.2.1
+    description: 'VoiceStudio (formerly OmniVoice Studio) — an open-source, fully
+      local ElevenLabs alternative: voice cloning, voice design, dubbing, dictation,
+      transcription and audiobook creation. This Helm chart runs the headless server
+      image (API + web UI on a single port), CPU by default with optional NVIDIA or
+      AMD ROCm acceleration, driven from values.yaml via the bjw-s common library.'
+    digest: 4d3aaa0432a3968b5a77661009b9f87097ba33f5c12240aec34303a4efed8cac
+    home: https://voicestudio.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/voicestudio.png
+    keywords:
+    - tts
+    - text-to-speech
+    - voice-cloning
+    - speech-recognition
+    - dubbing
+    - ai
+    - gpu
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: voicestudio
+    sources:
+    - https://github.com/debpalash/VoiceStudio
+    - https://github.com/debpalash/VoiceStudio/pkgs/container/voicestudio
+    - https://github.com/obeone/charts/tree/main/charts/voicestudio
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/voicestudio-0.1.2/voicestudio-0.1.2.tgz
+    version: 0.1.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-09-28: Initial release, VoiceStudio 0.5.6 on bjw-s common 5.2.1"
+        - kind: changed
+          description: "2026-10-27: Bump appVersion to 0.5.7"
       artifacthub.io/images: |
         - name: voicestudio
           image: ghcr.io/debpalash/voicestudio:0.5.7
@@ -9256,4 +9313,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-11T10:09:55.825571025Z"
+generated: "2026-11-12T10:10:32.062141495Z"
