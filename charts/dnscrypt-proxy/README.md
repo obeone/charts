@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# dnscrypt-proxy
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">dnscrypt-proxy</h1>
 
-![Version: 1.4.5](https://img.shields.io/badge/Version-1.4.5-informational?style=flat-square) ![AppVersion: 2.1.18](https://img.shields.io/badge/AppVersion-2.1.18-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy)
+<p align="center">A flexible DNS proxy, with support for encrypted DNS protocols.</p>
 
-A flexible DNS proxy, with support for encrypted DNS protocols.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/dnscrypt-proxy/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.4.5-7c3aed?style=flat-square" alt="Chart version: 1.4.5"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy"><img src="https://img.shields.io/badge/app-2.1.18-0284c7?style=flat-square" alt="Application version: 2.1.18"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install dnscrypt-proxy obeone/dnscrypt-proxy
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -28,15 +36,28 @@ filter, cache and load-balance queries across multiple upstream resolvers,
 which makes it a solid building block for private DNS inside a cluster or a
 home network.
 
-- **Application:** [github.com/DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy)
-- **Container image:** [`klutchell/dnscrypt-proxy`](https://hub.docker.com/r/klutchell/dnscrypt-proxy)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/DNSCrypt/dnscrypt-proxy](https://github.com/DNSCrypt/dnscrypt-proxy) |
+| Container image | [`klutchell/dnscrypt-proxy`](https://hub.docker.com/r/klutchell/dnscrypt-proxy) |
+| Chart source | [`charts/dnscrypt-proxy`](https://github.com/obeone/charts/tree/main/charts/dnscrypt-proxy) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy?modal=changelog) |
+
 - **Documentation:** [dnscrypt-proxy wiki](https://github.com/DNSCrypt/dnscrypt-proxy/wiki)
-- **Chart source:** [`charts/dnscrypt-proxy`](https://github.com/obeone/charts/tree/main/charts/dnscrypt-proxy)
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.16.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install dnscrypt-proxy obeone/dnscrypt-proxy
+```
 
 ## Configuration
 
@@ -45,13 +66,12 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install dnscrypt-proxy obeone/dnscrypt-proxy -f my-values.yaml
+helm upgrade --install dnscrypt-proxy obeone/dnscrypt-proxy --values my-values.yaml
 ```
 
 ### Custom configuration
@@ -71,26 +91,7 @@ configmap:
 See the [example configuration](https://github.com/DNSCrypt/dnscrypt-proxy/blob/master/dnscrypt-proxy/example-dnscrypt-proxy.toml)
 for every available setting.
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade dnscrypt-proxy obeone/dnscrypt-proxy
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall dnscrypt-proxy
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.16.0-0`
@@ -98,11 +99,19 @@ Kubernetes: `>=1.16.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://library-charts.k8s-at-home.com | common | 4.5.2 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | configmap | object | See below | Configure configMaps for the chart here. Additional configMaps can be added by adding a dictionary key similar to the 'config' object. |
 | configmap.config.annotations | object | `{}` | Annotations to add to the configMap |
 | configmap.config.data | object | `{"dnscrypt-proxy.toml":"listen_addresses = ['0.0.0.0:5353']\nlog_level = 1\n\nipv4_servers = true\nipv6_servers = false\ndnscrypt_servers = true\ndoh_servers = false\nodoh_servers = false\nbootstrap_resolvers = ['9.9.9.11:53', '8.8.8.8:53']\nlb_strategy = 'p2'\n\nrequire_nolog = true\nrequire_nofilter = true\n\n[sources]\n  [sources.public-resolvers]\n    urls = ['https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md', 'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md', 'https://ipv6.download.dnscrypt.info/resolvers-list/v3/public-resolvers.md']\n    cache_file = 'public-resolvers.md'\n    minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'\n    refresh_delay = 72\n    prefix = ''\n"}` | configMap data content. Helm template enabled. |
@@ -141,6 +150,31 @@ Kubernetes: `>=1.16.0-0`
 | probes.startup.spec.periodSeconds | int | `5` |  |
 | probes.startup.spec.timeoutSeconds | int | `3` |  |
 | service | object | See values.yaml | Configures service settings for the chart. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade dnscrypt-proxy obeone/dnscrypt-proxy --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/dnscrypt-proxy?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall dnscrypt-proxy
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

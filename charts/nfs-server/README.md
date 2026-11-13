@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# nfs-server
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">nfs-server</h1>
 
-![Version: 1.1.6](https://img.shields.io/badge/Version-1.1.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.2.3](https://img.shields.io/badge/AppVersion-2.2.3-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/nfs-server)
+<p align="center">A lightweight, robust, flexible, and containerized NFS server. This charts support multiarch</p>
 
-A lightweight, robust, flexible, and containerized NFS server. This charts support multiarch
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/nfs-server/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.1.6-7c3aed?style=flat-square" alt="Chart version: 1.1.6"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/nfs-server"><img src="https://img.shields.io/badge/app-2.2.3-0284c7?style=flat-square" alt="Application version: 2.2.3"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/nfs-server"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install nfs-server obeone/nfs-server
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -29,17 +37,30 @@ rebuilt as a maintained multi-arch image. It exports any Kubernetes volume
 over NFS, which is handy to share a PVC across nodes or to serve storage to
 clients living outside the cluster.
 
-- **Application:** [github.com/obeone/docker-nfs-server](https://github.com/obeone/docker-nfs-server)
-- **Container image:** [`ghcr.io/obeone/nfs-server`](https://github.com/obeone/docker-nfs-server/pkgs/container/nfs-server)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/obeone/docker-nfs-server](https://github.com/obeone/docker-nfs-server) |
+| Container image | [`ghcr.io/obeone/nfs-server`](https://github.com/obeone/docker-nfs-server/pkgs/container/nfs-server) |
+| Chart source | [`charts/nfs-server`](https://github.com/obeone/charts/tree/main/charts/nfs-server) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/nfs-server?modal=changelog) |
+
 - **Upstream project:** [github.com/ehough/docker-nfs-server](https://github.com/ehough/docker-nfs-server)
-- **Chart source:** [`charts/nfs-server`](https://github.com/obeone/charts/tree/main/charts/nfs-server)
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- A Kubernetes cluster
 - Nodes must provide the `nfs` and `nfsd` kernel modules
 - The workload runs as a privileged container (see `securityContext` in `values.yaml`)
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install nfs-server obeone/nfs-server
+```
 
 ## Configuration
 
@@ -48,20 +69,53 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install nfs-server obeone/nfs-server -f my-values.yaml
+helm upgrade --install nfs-server obeone/nfs-server --values my-values.yaml
 ```
+
+<!-- markdownlint-disable MD034 MD060 -->
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://library-charts.k8s-at-home.com | common | 4.5.2 |
+<!-- markdownlint-enable MD034 MD060 -->
+
+## Values
+
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| env | object | See below | environment variables. See the [image documentation](https://github.com/obeone/docker-nfs-server) for the full list. |
+| env.TZ | string | `"UTC"` | Set the container timezone |
+| image.pullPolicy | string | `"Always"` | image pull policy |
+| image.repository | string | `"ghcr.io/obeone/nfs-server"` | image repository |
+| image.tag | string | chart.appVersion | image tag |
+| persistence | object | See values.yaml | Configure persistence settings for the chart under this key. |
+| securityContext.capabilities.add[0] | string | `"SYS_ADMIN"` |  |
+| securityContext.privileged | bool | `true` |  |
+| service | object | See values.yaml | Configures service settings for the chart. You can't mix TCP and UDP ports in the same service, so we need to create two services. But a lots of LB provide tag support, so we can use the same IP for both UDP/TCP. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
 
 ## Upgrading
 
+Keep your values file when upgrading an existing release:
+
 ```shell
 helm repo update
-helm upgrade nfs-server obeone/nfs-server
+helm upgrade nfs-server obeone/nfs-server --values my-values.yaml
 ```
 
 Each release lists its changes in the
@@ -76,26 +130,6 @@ helm uninstall nfs-server
 
 PersistentVolumeClaims created by the chart are kept around: delete them
 manually if you also want the data gone.
-
-## Requirements
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.5.2 |
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| env | object | See below | environment variables. See the [image documentation](https://github.com/obeone/docker-nfs-server) for the full list. |
-| env.TZ | string | `"UTC"` | Set the container timezone |
-| image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"ghcr.io/obeone/nfs-server"` | image repository |
-| image.tag | string | chart.appVersion | image tag |
-| persistence | object | See values.yaml | Configure persistence settings for the chart under this key. |
-| securityContext.capabilities.add[0] | string | `"SYS_ADMIN"` |  |
-| securityContext.privileged | bool | `true` |  |
-| service | object | See values.yaml | Configures service settings for the chart. You can't mix TCP and UDP ports in the same service, so we need to create two services. But a lots of LB provide tag support, so we can use the same IP for both UDP/TCP. |
 
 ## Verifying the chart signature
 

@@ -5,14 +5,11 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# winbox
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">winbox</h1>
 
-> **:exclamation: This Helm Chart is deprecated!**
-
-![Version: 1.4.0](https://img.shields.io/badge/Version-1.4.0-informational?style=flat-square) ![AppVersion: 3.40](https://img.shields.io/badge/AppVersion-3.40-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/winbox)
-
-Mikrotik Winbox in browser
+<p align="center">Mikrotik Winbox in browser
 
 DEPRECATED: this chart is no longer maintained and will receive no further
 releases. Its upstream project (obeone/winbox-docker) was archived in
@@ -26,14 +23,26 @@ Access to Mikrotik Winbox using your browser. This container start a VNC server 
 with winbox started by Wine.
 
 Currently only available for amd64 platforms.
+</p>
 
-## TL;DR
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/winbox/Chart.yaml"><img src="https://img.shields.io/badge/chart-1.4.0-7c3aed?style=flat-square" alt="Chart version: 1.4.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/winbox"><img src="https://img.shields.io/badge/app-3.40-0284c7?style=flat-square" alt="Application version: 3.40"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/winbox"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install winbox obeone/winbox
-```
+> **:exclamation: This Helm Chart is deprecated!**
+
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -43,14 +52,26 @@ the Windows application server-side in a container and streams it to your
 browser, so you can manage your MikroTik gear from anywhere without a Windows
 machine or a local WinBox install.
 
-- **Application:** [mikrotik.com/download](https://mikrotik.com/download)
-- **Container image:** [`obeoneorg/winbox`](https://hub.docker.com/r/obeoneorg/winbox)
-- **Chart source:** [`charts/winbox`](https://github.com/obeone/charts/tree/main/charts/winbox)
+| Resource | Link |
+| --- | --- |
+| Application | [mikrotik.com/download](https://mikrotik.com/download) |
+| Container image | [`obeoneorg/winbox`](https://hub.docker.com/r/obeoneorg/winbox) |
+| Chart source | [`charts/winbox`](https://github.com/obeone/charts/tree/main/charts/winbox) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/winbox?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.16.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install winbox obeone/winbox
+```
 
 ## Configuration
 
@@ -59,20 +80,59 @@ This chart is built on the [k8s-at-home common library](https://github.com/k8s-a
 `persistence`, ...) follow its schema, so the library supports more than what
 is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install winbox obeone/winbox -f my-values.yaml
+helm upgrade --install winbox obeone/winbox --values my-values.yaml
 ```
+
+<!-- markdownlint-disable MD034 MD060 -->
+## Requirements
+
+Kubernetes: `>=1.16.0-0`
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://library-charts.k8s-at-home.com | common | 4.3.0 |
+<!-- markdownlint-enable MD034 MD060 -->
+
+## Values
+
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| env | object | See below | environment variables. See more environment variables in the [winbox documentation](https://winbox.org/docs). |
+| env.KASM_DEBUG | string | `"true"` | Set debug mode |
+| env.TZ | string | `"UTC"` | Set the container timezone |
+| env.VNC_PW | string | `"password"` | HTTP password (user is always `kasm_user`) |
+| image.pullPolicy | string | `"Always"` | image pull policy |
+| image.repository | string | `"obeoneorg/winbox"` | image repository (Same image also available on Github : ghcr.io/obeone/winbox) |
+| image.tag | string | chart.appVersion | image tag |
+| ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Enable and configure ingress settings for the chart under this key. |
+| ingress.main.annotations."nginx.org/ssl-services" | string | `"winbox"` | Specify connect to service using TLS (not sure it's the right configuration for nginx... Tell me if it's ok !) |
+| persistence | object | See the [docs](https://docs.k8s-at-home.com/our-helm-charts/common-library-storage/) | Configure persistence settings for the chart under this key. |
+| persistence.cert.enabled | bool | `false` | TLS certificate |
+| service | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Configures service settings for the chart. |
+| service.main.annotations."traefik.ingress.kubernetes.io/service.serversscheme" | string | `"https"` | Tell Traefik to use TLS to connect to service You also need a verified connection (valid certificate, you can set it trougth storage) or by setting insecure server transport (on ingressRoute or with --serversTransport.insecureSkipVerify=true startup option) |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
 
 ## Upgrading
 
+Keep your values file when upgrading an existing release:
+
 ```shell
 helm repo update
-helm upgrade winbox obeone/winbox
+helm upgrade winbox obeone/winbox --values my-values.yaml
 ```
 
 Each release lists its changes in the
@@ -87,32 +147,6 @@ helm uninstall winbox
 
 PersistentVolumeClaims created by the chart are kept around: delete them
 manually if you also want the data gone.
-
-## Requirements
-
-Kubernetes: `>=1.16.0-0`
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://library-charts.k8s-at-home.com | common | 4.3.0 |
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| env | object | See below | environment variables. See more environment variables in the [winbox documentation](https://winbox.org/docs). |
-| env.KASM_DEBUG | string | `"true"` | Set debug mode |
-| env.TZ | string | `"UTC"` | Set the container timezone |
-| env.VNC_PW | string | `"password"` | HTTP password (user is always `kasm_user`) |
-| image.pullPolicy | string | `"Always"` | image pull policy |
-| image.repository | string | `"obeoneorg/winbox"` | image repository (Same image also available on Github : ghcr.io/obeone/winbox) |
-| image.tag | string | chart.appVersion | image tag |
-| ingress.main | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Enable and configure ingress settings for the chart under this key. |
-| ingress.main.annotations."nginx.org/ssl-services" | string | `"winbox"` | Specify connect to service using TLS (not sure it's the right configuration for nginx... Tell me if it's ok !) |
-| persistence | object | See the [docs](https://docs.k8s-at-home.com/our-helm-charts/common-library-storage/) | Configure persistence settings for the chart under this key. |
-| persistence.cert.enabled | bool | `false` | TLS certificate |
-| service | object | See the [docs](https://github.com/k8s-at-home/library-charts/blob/main/charts/stable/common/README.md) | Configures service settings for the chart. |
-| service.main.annotations."traefik.ingress.kubernetes.io/service.serversscheme" | string | `"https"` | Tell Traefik to use TLS to connect to service You also need a verified connection (valid certificate, you can set it trougth storage) or by setting insecure server transport (on ingressRoute or with --serversTransport.insecureSkipVerify=true startup option) |
 
 ## Verifying the chart signature
 

@@ -5,21 +5,30 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# transfer.sh
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">transfer.sh</h1>
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.6.1](https://img.shields.io/badge/AppVersion-v1.6.1-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/transfer.sh)
-
-High-performance, secure and user-friendly command-line file sharing tool.
+<p align="center">High-performance, secure and user-friendly command-line file sharing tool.
 Easily upload, share and manage files directly from the browser and the terminal with support for configurable storage backends and access controls.
+</p>
 
-## TL;DR
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/transfer.sh/Chart.yaml"><img src="https://img.shields.io/badge/chart-2.0.0-7c3aed?style=flat-square" alt="Chart version: 2.0.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/transfer.sh"><img src="https://img.shields.io/badge/app-v1.6.1-0284c7?style=flat-square" alt="Application version: v1.6.1"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/transfer.sh"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install transfer.sh obeone/transfer.sh
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -28,14 +37,26 @@ a file and get a share link back. It supports several storage backends (local
 disk, S3, Google Drive, Storj), optional encryption, and previews for common
 file types.
 
-- **Application:** [github.com/dutchcoders/transfer.sh](https://github.com/dutchcoders/transfer.sh)
-- **Container image:** [`dutchcoders/transfer.sh`](https://hub.docker.com/r/dutchcoders/transfer.sh)
-- **Chart source:** [`charts/transfer.sh`](https://github.com/obeone/charts/tree/main/charts/transfer.sh)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/dutchcoders/transfer.sh](https://github.com/dutchcoders/transfer.sh) |
+| Container image | [`dutchcoders/transfer.sh`](https://hub.docker.com/r/dutchcoders/transfer.sh) |
+| Chart source | [`charts/transfer.sh`](https://github.com/obeone/charts/tree/main/charts/transfer.sh) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/transfer.sh?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install transfer.sh obeone/transfer.sh
+```
 
 ## Configuration
 
@@ -44,20 +65,58 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install transfer.sh obeone/transfer.sh -f my-values.yaml
+helm upgrade --install transfer.sh obeone/transfer.sh --values my-values.yaml
 ```
+
+<!-- markdownlint-disable MD034 MD060 -->
+## Requirements
+
+Kubernetes: `>=1.31.0-0`
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
+
+## Values
+
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
+| Key | Type | Default | Description |
+| --- | --- | --- | --- |
+| controllers.main.containers.main.args | list | `["--provider=local"]` | Arguments to pass to the container. you can change the provider to s3, gdrive, etc. by setting the --provider flag. See https://github.com/dutchcoders/transfer.sh |
+| controllers.main.containers.main.env | object | `{"BASEDIR":"/storage"}` | Environment variables to set in the container. transfer.sh supports environment variables to customize its behavior. For more information, see https://github.com/dutchcoders/transfer.sh |
+| controllers.main.containers.main.envFrom | list | `[]` | Environment variables from secrets or config maps. This is useful for sensitive information like API keys, passwords, etc. |
+| controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
+| controllers.main.containers.main.image.repository | string | `"dutchcoders/transfer.sh"` | image repository |
+| controllers.main.containers.main.image.tag | string | `"v1.6.1-noroot"` | image tag |
+| controllers.main.strategy | string | `"Recreate"` |  |
+| ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. |
+| persistence | object | `{"storage":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/storage"}],"size":"10Gi"}}` | Configure persistence settings for the chart under this key. |
+| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system","sectionName":"http"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API alternative to the Ingress above, mutually exclusive with it. Disabled by default. |
+| route.main.rules[0].backendRefs[0] | object | `{"identifier":"main"}` | No `port` set: common 4.1.2's route template does not resolve port names (unlike Ingress), so this defaults to the service's primary port instead of emitting an invalid literal. |
+| service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":8080}}}}` | Configures service settings for the chart. |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
 
 ## Upgrading
 
+Keep your values file when upgrading an existing release:
+
 ```shell
 helm repo update
-helm upgrade transfer.sh obeone/transfer.sh
+helm upgrade transfer.sh obeone/transfer.sh --values my-values.yaml
 ```
 
 Each release lists its changes in the
@@ -72,31 +131,6 @@ helm uninstall transfer.sh
 
 PersistentVolumeClaims created by the chart are kept around: delete them
 manually if you also want the data gone.
-
-## Requirements
-
-Kubernetes: `>=1.31.0-0`
-
-| Repository | Name | Version |
-|------------|------|---------|
-| https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
-
-## Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| controllers.main.containers.main.args | list | `["--provider=local"]` | Arguments to pass to the container. you can change the provider to s3, gdrive, etc. by setting the --provider flag. See https://github.com/dutchcoders/transfer.sh |
-| controllers.main.containers.main.env | object | `{"BASEDIR":"/storage"}` | Environment variables to set in the container. transfer.sh supports environment variables to customize its behavior. For more information, see https://github.com/dutchcoders/transfer.sh |
-| controllers.main.containers.main.envFrom | list | `[]` | Environment variables from secrets or config maps. This is useful for sensitive information like API keys, passwords, etc. |
-| controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` | image pull policy |
-| controllers.main.containers.main.image.repository | string | `"dutchcoders/transfer.sh"` | image repository |
-| controllers.main.containers.main.image.tag | string | `"v1.6.1-noroot"` | image tag |
-| controllers.main.strategy | string | `"Recreate"` |  |
-| ingress.main | object | `{"enabled":false,"hosts":[{"host":"chart-example.local","paths":[{"path":"/","pathType":"Prefix","service":{"identifier":"main","port":"http"}}]}],"tls":[{"hosts":["chart-example.local"],"secretName":"tls-chart-example-local"}]}` | Enable and configure ingress settings for the chart under this key. |
-| persistence | object | `{"storage":{"accessMode":"ReadWriteOnce","annotations":{},"enabled":false,"globalMounts":[{"path":"/storage"}],"size":"10Gi"}}` | Configure persistence settings for the chart under this key. |
-| route | object | `{"main":{"enabled":false,"hostnames":["chart-example.local"],"kind":"HTTPRoute","parentRefs":[{"name":"gateway","namespace":"gateway-system","sectionName":"http"}],"rules":[{"backendRefs":[{"identifier":"main"}],"matches":[{"path":{"type":"PathPrefix","value":"/"}}]}]}}` | Gateway API alternative to the Ingress above, mutually exclusive with it. Disabled by default. |
-| route.main.rules[0].backendRefs[0] | object | `{"identifier":"main"}` | No `port` set: common 4.1.2's route template does not resolve port names (unlike Ingress), so this defaults to the service's primary port instead of emitting an invalid literal. |
-| service | object | `{"main":{"controller":"main","ports":{"http":{"port":80,"protocol":"TCP","targetPort":8080}}}}` | Configures service settings for the chart. |
 
 ## Verifying the chart signature
 

@@ -5,20 +5,28 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# draw-things
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">draw-things</h1>
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/draw-things)
+<p align="center">Draw Things gRPC server — the official CLI image that exposes a gRPC API for Stable Diffusion image generation, intended to be paired with the macOS/iOS Draw Things app for remote inference on a beefier GPU than your phone. This chart packages it with the bjw-s common library so behaviour is driven almost entirely from values.yaml.</p>
 
-Draw Things gRPC server — the official CLI image that exposes a gRPC API for Stable Diffusion image generation, intended to be paired with the macOS/iOS Draw Things app for remote inference on a beefier GPU than your phone. This chart packages it with the bjw-s common library so behaviour is driven almost entirely from values.yaml.
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/draw-things/Chart.yaml"><img src="https://img.shields.io/badge/chart-0.2.0-7c3aed?style=flat-square" alt="Chart version: 0.2.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/draw-things"><img src="https://img.shields.io/badge/app-latest-0284c7?style=flat-square" alt="Application version: latest"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/draw-things"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install draw-things obeone/draw-things
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -28,15 +36,27 @@ connects to it and delegates the heavy diffusion work to a machine with a
 proper GPU, so your laptop or phone stays cool while the cluster does the
 sweating.
 
-- **Application:** [drawthings.ai](https://drawthings.ai)
-- **Container image:** [`drawthingsai/draw-things-grpc-server-cli`](https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli)
-- **Chart source:** [`charts/draw-things`](https://github.com/obeone/charts/tree/main/charts/draw-things)
+| Resource | Link |
+| --- | --- |
+| Application | [drawthings.ai](https://drawthings.ai) |
+| Container image | [`drawthingsai/draw-things-grpc-server-cli`](https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli) |
+| Chart source | [`charts/draw-things`](https://github.com/obeone/charts/tree/main/charts/draw-things) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/draw-things?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
 - A GPU node is strongly recommended: CPU-only generation works but is painfully slow
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install draw-things obeone/draw-things
+```
 
 ## Configuration
 
@@ -45,35 +65,15 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install draw-things obeone/draw-things -f my-values.yaml
+helm upgrade --install draw-things obeone/draw-things --values my-values.yaml
 ```
 
-## Upgrading
-
-```shell
-helm repo update
-helm upgrade draw-things obeone/draw-things
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/draw-things?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall draw-things
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -81,11 +81,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.main.args[0] | string | `"/grpc-models"` |  |
 | controllers.main.containers.main.command[0] | string | `"gRPCServerCLI"` |  |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -122,6 +130,31 @@ Kubernetes: `>=1.31.0-0`
 | service.main.ports.grpc.protocol | string | `"TCP"` |  |
 | service.main.ports.grpc.targetPort | int | `7859` |  |
 | service.main.type | string | `"ClusterIP"` |  |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade draw-things obeone/draw-things --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/draw-things?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall draw-things
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 

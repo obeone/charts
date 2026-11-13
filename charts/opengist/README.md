@@ -5,24 +5,32 @@
 
     helm-docs --chart-search-root=charts --template-files=./_templates.gotmpl --template-files=README.md.gotmpl
 -->
-# opengist
+<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable MD034 -->
+<h1 align="center">opengist</h1>
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: 1.15.2](https://img.shields.io/badge/AppVersion-1.15.2-informational?style=flat-square)
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/opengist)
+<p align="center">Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.</p>
+
+<p align="center">
+  <a href="https://github.com/obeone/charts/tree/main/charts/opengist/Chart.yaml"><img src="https://img.shields.io/badge/chart-2.0.0-7c3aed?style=flat-square" alt="Chart version: 2.0.0"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/opengist"><img src="https://img.shields.io/badge/app-1.15.2-0284c7?style=flat-square" alt="Application version: 1.15.2"></a>
+  <a href="https://artifacthub.io/packages/helm/obeone/opengist"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone&amp;style=flat-square" alt="Artifact Hub"></a>
+  <a href="#verifying-the-chart-signature"><img src="https://img.shields.io/badge/provenance-GPG_signed-15803d?style=flat-square" alt="GPG signed chart"></a>
+</p>
+<!-- markdownlint-enable MD034 -->
 
 > **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
 > than 2.0.0 will fail unless you delete the Deployment first. See
 > [Upgrading](#upgrading) for the exact commands.
 
-Opengist is a self-hosted Pastebin powered by Git. All snippets are stored in a Git repository and can be read and/or modified using standard Git commands, or with the web interface. It is similar to GitHub Gist, but open-source and self-hosted.
-
-## TL;DR
-
-```shell
-helm repo add obeone https://charts.obeone.cloud
-helm repo update
-helm install opengist obeone/opengist
-```
+<p align="center">
+  <a href="#installation">Installation</a> &middot;
+  <a href="#configuration">Configuration</a> &middot;
+  <a href="#values">Values</a> &middot;
+  <a href="#upgrading">Upgrading</a> &middot;
+  <a href="#verifying-the-chart-signature">Signature</a> &middot;
+  <a href="#support">Support</a>
+</p>
 
 ## About
 
@@ -31,14 +39,26 @@ powered by Git. All snippets are stored in a Git repository and can be read
 and/or modified using standard Git commands, or with the web interface. It is
 similar to GitHub Gist, but open-source and self-hosted.
 
-- **Application:** [github.com/thomiceli/opengist](https://github.com/thomiceli/opengist)
-- **Container image:** [`ghcr.io/thomiceli/opengist`](https://github.com/thomiceli/opengist/pkgs/container/opengist)
-- **Chart source:** [`charts/opengist`](https://github.com/obeone/charts/tree/main/charts/opengist)
+| Resource | Link |
+| --- | --- |
+| Application | [github.com/thomiceli/opengist](https://github.com/thomiceli/opengist) |
+| Container image | [`ghcr.io/thomiceli/opengist`](https://github.com/thomiceli/opengist/pkgs/container/opengist) |
+| Chart source | [`charts/opengist`](https://github.com/obeone/charts/tree/main/charts/opengist) |
+| Default configuration | [`values.yaml`](./values.yaml) |
+| Release history | [Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/opengist?modal=changelog) |
 
 ## Prerequisites
 
 - Helm 3
-- A Kubernetes cluster matching the chart's `kubeVersion` constraint (see [`Chart.yaml`](./Chart.yaml))
+- Kubernetes `>=1.31.0-0` (see [`Chart.yaml`](./Chart.yaml))
+
+## Installation
+
+```shell
+helm repo add obeone https://charts.obeone.cloud
+helm repo update
+helm install opengist obeone/opengist
+```
 
 ## Configuration
 
@@ -47,59 +67,15 @@ Most configuration keys (`controllers`, `service`, `ingress`, `persistence`,
 ...) follow its schema; see the [common library documentation](https://bjw-s-labs.github.io/helm-charts/docs/)
 for everything it supports beyond what is spelled out in `values.yaml`.
 
-Defaults are meant to work out of the box on any cluster. The full list of
-options lives in [`values.yaml`](./values.yaml), is validated by
-[`values.schema.json`](./values.schema.json) at install time, and is documented
-in the [Values](#values) section below. Override it with your own values file:
+Set your overrides in `my-values.yaml`. The available options are documented
+in [Values](#values); [`values.schema.json`](./values.schema.json) validates
+your configuration at install time.
 
 ```shell
-helm install opengist obeone/opengist -f my-values.yaml
+helm upgrade --install opengist obeone/opengist --values my-values.yaml
 ```
 
-## Upgrading
-
-> **Warning**
-> If you are upgrading from a chart version older than 2.0.0, `helm upgrade`
-> will fail: the bjw-s common 5.1.0 migration changes the controller selector
-> label from `app.kubernetes.io/component` to `app.kubernetes.io/controller`,
-> and selector labels are immutable on a Kubernetes Deployment. Delete the
-> Deployment first, then upgrade:
->
-> ```shell
-> kubectl delete deployment <release-name>-opengist
-> helm upgrade <release-name> obeone/opengist
-> ```
->
-> This is a plain cascading delete, the default for `kubectl delete
-> deployment`: the pods go down with it, so expect a short outage while the
-> upgrade recreates them. Do not add `--cascade=orphan` here. It looks like
-> the safe, zero-downtime option, but the new Deployment selects on
-> `app.kubernetes.io/controller`, a label the old pods never had, so it can
-> never adopt them. The orphaned pods would keep running unmanaged forever
-> alongside the new ones. Any PersistentVolumeClaims are not affected by the
-> Deployment delete and must not be deleted separately.
->
-> Fresh installs are unaffected; this only applies to upgrades from a
-> pre-2.0.0 release.
-
-```shell
-helm repo update
-helm upgrade opengist obeone/opengist
-```
-
-Each release lists its changes in the
-[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/opengist?modal=changelog);
-give it a look before jumping across several chart versions.
-
-## Uninstalling
-
-```shell
-helm uninstall opengist
-```
-
-PersistentVolumeClaims created by the chart are kept around: delete them
-manually if you also want the data gone.
-
+<!-- markdownlint-disable MD034 MD060 -->
 ## Requirements
 
 Kubernetes: `>=1.31.0-0`
@@ -107,11 +83,19 @@ Kubernetes: `>=1.31.0-0`
 | Repository | Name | Version |
 |------------|------|---------|
 | https://bjw-s-labs.github.io/helm-charts | common | 5.1.0 |
+<!-- markdownlint-enable MD034 MD060 -->
 
 ## Values
 
+Use [`values.yaml`](./values.yaml) as a starting point for your overrides.
+
+<details>
+<summary>Expand the full values reference</summary>
+
+<!-- markdownlint-disable MD034 MD060 -->
+
 | Key | Type | Default | Description |
-|-----|------|---------|-------------|
+| --- | --- | --- | --- |
 | controllers.main.containers.main.env.OG_LOG_LEVEL | string | `"info"` |  |
 | controllers.main.containers.main.env.OG_LOG_OUTPUT | string | `"stdout"` |  |
 | controllers.main.containers.main.envFrom[0].secretRef.name | string | `"opengist-secrets"` |  |
@@ -146,6 +130,55 @@ Kubernetes: `>=1.31.0-0`
 | service.main.ports.ssh.port | int | `22` |  |
 | service.main.ports.ssh.targetPort | int | `2222` |  |
 | service.main.type | string | `"ClusterIP"` |  |
+<!-- markdownlint-enable MD034 MD060 -->
+
+</details>
+
+## Upgrading
+
+> **Warning**
+> If you are upgrading from a chart version older than 2.0.0, `helm upgrade`
+> will fail: the bjw-s common 5.1.0 migration changes the controller selector
+> label from `app.kubernetes.io/component` to `app.kubernetes.io/controller`,
+> and selector labels are immutable on a Kubernetes Deployment. Delete the
+> Deployment first, then upgrade:
+>
+> ```shell
+> kubectl delete deployment <release-name>-opengist
+> helm upgrade <release-name> obeone/opengist
+> ```
+>
+> This is a plain cascading delete, the default for `kubectl delete
+> deployment`: the pods go down with it, so expect a short outage while the
+> upgrade recreates them. Do not add `--cascade=orphan` here. It looks like
+> the safe, zero-downtime option, but the new Deployment selects on
+> `app.kubernetes.io/controller`, a label the old pods never had, so it can
+> never adopt them. The orphaned pods would keep running unmanaged forever
+> alongside the new ones. Any PersistentVolumeClaims are not affected by the
+> Deployment delete and must not be deleted separately.
+>
+> Fresh installs are unaffected; this only applies to upgrades from a
+> pre-2.0.0 release.
+
+Keep your values file when upgrading an existing release:
+
+```shell
+helm repo update
+helm upgrade opengist obeone/opengist --values my-values.yaml
+```
+
+Each release lists its changes in the
+[Artifact Hub changelog](https://artifacthub.io/packages/helm/obeone/opengist?modal=changelog);
+give it a look before jumping across several chart versions.
+
+## Uninstalling
+
+```shell
+helm uninstall opengist
+```
+
+PersistentVolumeClaims created by the chart are kept around: delete them
+manually if you also want the data gone.
 
 ## Verifying the chart signature
 
