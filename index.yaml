@@ -674,6 +674,40 @@ entries:
           description: Regenerate README from the unified helm-docs template
         - kind: changed
           description: Bump appVersion to v11.5.0
+        - kind: changed
+          description: "2026-11-22: Bump appVersion to v11.6.0"
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v11.6.0
+    created: "2026-11-22T10:31:06.67897375Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: GCHQ CyberChef [multi-arch]
+    digest: b37eab45cd1cfeff12fc57d7db494d6870f0a317e951fa3f6817331fb1cf356b
+    home: https://github.com/gchq/CyberChef
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cyberchef.svg
+    keywords:
+    - cyberchef
+    kubeVersion: '>=1.16.0-0'
+    name: cyberchef
+    urls:
+    - https://github.com/obeone/charts/releases/download/cyberchef-2.0.6/cyberchef-2.0.6.tgz
+    version: 2.0.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Bump appVersion to v11.3.0
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+        - kind: changed
+          description: Bump appVersion to v11.5.0
       artifacthub.io/maintainers: |
         - name: obeone
           email: obeone@obeone.org
@@ -6412,6 +6446,66 @@ entries:
             Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
             you delete the Deployment before upgrading
         - kind: changed
+          description: Update Opengist to 1.16.0
+        - kind: changed
+          description: Update Opengist to 1.15.3
+        - kind: changed
+          description: Update Opengist to 1.15.2
+        - kind: changed
+          description: Update Opengist to 1.15.1
+        - kind: changed
+          description: Update Opengist to 1.15.0
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-11-22T10:31:06.983055449Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: 07230193688d45d5529079a13ebd4b5bd57f24c3aa521a75baee8217ca399544
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-2.0.2/opengist-2.0.2.tgz
+    version: 2.0.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: >-
+            Migrate to bjw-s common 5.1.0 (from 3.7.1); raises the floor to
+            Kubernetes >= 1.31 and Helm >= 3.18. The controller selector label
+            changes from app.kubernetes.io/component to
+            app.kubernetes.io/controller, which is immutable on an existing
+            Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
+            you delete the Deployment before upgrading
+        - kind: changed
           description: Update Opengist to 1.15.3
         - kind: changed
           description: Update Opengist to 1.15.2
@@ -9313,4 +9407,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-12T10:10:32.062141495Z"
+generated: "2026-11-22T10:31:06.983288706Z"
