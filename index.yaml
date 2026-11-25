@@ -1242,6 +1242,44 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: Update dnscrypt-proxy to 2.1.21
+        - kind: changed
+          description: Update dnscrypt-proxy to 2.1.20
+        - kind: changed
+          description: Update dnscrypt-proxy to 2.1.18
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 2.1.21
+    created: "2026-11-25T10:10:56.643857094Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: A flexible DNS proxy, with support for encrypted DNS protocols.
+    digest: a7eb2aae99efbf74533307a564e88e3da084119c44f3760dc42dc5133a743150
+    home: https://github.com/DNSCrypt/dnscrypt-proxy
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/dnscrypt.png
+    keywords:
+    - dnscrypt-proxy
+    kubeVersion: '>=1.16.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: dnscrypt-proxy
+    sources:
+    - https://github.com/klutchell/dnscrypt-proxy-docker
+    - https://github.com/obeone/charts/
+    urls:
+    - https://github.com/obeone/charts/releases/download/dnscrypt-proxy-1.4.7/dnscrypt-proxy-1.4.7.tgz
+    version: 1.4.7
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Update dnscrypt-proxy to 2.1.20
         - kind: changed
           description: Update dnscrypt-proxy to 2.1.18
@@ -4959,6 +4997,56 @@ entries:
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
+          description: >-
+            Migrate to bjw-s common 5.1.0 (from 3.7.1); raises the floor to
+            Kubernetes >= 1.31 and Helm >= 3.18. The controller selector label
+            changes from app.kubernetes.io/component to
+            app.kubernetes.io/controller, which is immutable on an existing
+            Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
+            you delete the Deployment (not the PVC) before upgrading. The models
+            share PVC keeps its `<release>-share` name across the migration,
+            via an explicit persistence suffix; no action needed on your side
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-11-24: Bump appVersion to v1.10.0"
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.10.0
+    created: "2026-11-25T10:10:56.832240193Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: edea0859adcc5aca8d596d5921ff72f2ed418da7c93312610809008e050d3cfc
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.31.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-2.0.1/libretranslate-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
           description: Regenerate README from the unified helm-docs template
         - kind: added
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
@@ -7046,6 +7134,51 @@ entries:
     - https://github.com/obeone/charts/releases/download/opengist-1.0.0/opengist-1.0.0.tgz
     version: 1.0.0
   parcelapp-mcp:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-09-11: Initial chart packaging parcelapp-mcp 0.2.1 over the streamable-http transport"
+        - kind: changed
+          description: "2026-11-25: Bump appVersion to 0.3.2"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/obeone/parcelapp-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 0.3.2
+    created: "2026-11-25T10:10:57.036935256Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Parcel App MCP — a Model Context Protocol server wrapping the Parcel
+      delivery-tracking API, so an LLM client can list deliveries, add tracking numbers
+      and look up carrier codes. This Helm chart runs it in its streamable-http transport,
+      reachable over the cluster network and driven entirely from values.yaml via
+      the bjw-s common library.
+    digest: 2a97dc196159fcfffda05c4e88e0f79a4bcd3a921a1cdf3660fd88d3d1f5f716
+    home: https://github.com/obeone/parcelapp-mcp
+    keywords:
+    - mcp
+    - model-context-protocol
+    - parcel
+    - delivery-tracking
+    - package-tracking
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: parcelapp-mcp
+    sources:
+    - https://github.com/obeone/parcelapp-mcp
+    - https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/parcelapp-mcp-0.1.1/parcelapp-mcp-0.1.1.tgz
+    version: 0.1.1
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -9407,4 +9540,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-22T10:31:06.983288706Z"
+generated: "2026-11-25T10:10:57.037091061Z"
