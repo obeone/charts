@@ -33,7 +33,7 @@ controllers:
           repository: ghcr.io/obeone/parcelapp-mcp
           # -- Image tag. Tracks the chart's appVersion, so bumping one bumps the
           # other. Floating tags `0.2` and `0` also exist upstream.
-          tag: "0.2.1"
+          tag: "0.3.2"
           # Immutable version tag, so there is nothing to re-pull on restart.
           pullPolicy: IfNotPresent
 
