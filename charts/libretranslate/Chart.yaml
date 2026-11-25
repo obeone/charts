@@ -1,8 +1,8 @@
 apiVersion: v2
-appVersion: v1.9.6
+appVersion: v1.10.0
 description: Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 name: libretranslate
-version: 2.0.0
+version: 2.0.1
 kubeVersion: ">=1.31.0-0"
 keywords:
   - libretranslate
@@ -45,3 +45,5 @@ annotations:
       description: Regenerate README from the unified helm-docs template
     - kind: added
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+    - kind: changed
+      description: "2026-11-24: Bump appVersion to v1.10.0"
