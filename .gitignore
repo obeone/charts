@@ -1,2 +1,3 @@
 charts/*/values_local.yaml
 __pycache__/
+.claude/worktrees
