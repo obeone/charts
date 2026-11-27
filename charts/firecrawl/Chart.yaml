@@ -1,6 +1,6 @@
 apiVersion: v2
 name: firecrawl
-version: 3.0.23
+version: 3.0.24
 appVersion: "2.11.724"
 kubeVersion: ">=1.31.0-0"
 
@@ -53,6 +53,17 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: firecrawl
+      image: ghcr.io/firecrawl/firecrawl:2.11.724-staging
+    - name: playwright-service
+      image: ghcr.io/firecrawl/playwright-service:latest@sha256:1f6eba6403207d501a63d9b1d4685b6316b4fc7968fe64a5839ab1bfec9d1c14
+    - name: nuq-postgres
+      image: ghcr.io/firecrawl/nuq-postgres:latest@sha256:f9388bd25ae2e1f1d034518236f993ce236173c1d8800ce24092ea6643a95a33
+    - name: redis
+      image: docker.io/library/redis:7.4-alpine
+    - name: rabbitmq
+      image: docker.io/library/rabbitmq:3.13-management-alpine
   artifacthub.io/changes: |
     - kind: added
       description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
@@ -130,3 +141,5 @@ annotations:
       description: "2026-11-06: Bump appVersion to 2.11.694"
     - kind: changed
       description: "2026-11-11: Bump appVersion to 2.11.724"
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
