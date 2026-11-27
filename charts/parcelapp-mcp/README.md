@@ -7,7 +7,7 @@
 -->
 # parcelapp-mcp
 
-![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.2](https://img.shields.io/badge/AppVersion-0.3.2-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.2](https://img.shields.io/badge/AppVersion-0.3.2-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp)
 
 Parcel App MCP — a Model Context Protocol server wrapping the Parcel delivery-tracking API, so an LLM client can list deliveries, add tracking numbers and look up carrier codes. This Helm chart runs it in its streamable-http transport, reachable over the cluster network and driven entirely from values.yaml via the bjw-s common library.
