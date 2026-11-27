@@ -1,6 +1,6 @@
 apiVersion: v2
 name: transfer.sh
-version: 2.0.0
+version: 2.0.1
 appVersion: v1.6.1
 description: |
   High-performance, secure and user-friendly command-line file sharing tool.
@@ -37,6 +37,8 @@ annotations:
       email: obeone@obeone.org
   artifacthub.io/license: MIT
   artifacthub.io/changes: |
+    - kind: fixed
+      description: "2026-11-27: Republish, 2.0.0 was released but never reached the repository index"
     - kind: added
       description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
     - kind: changed
