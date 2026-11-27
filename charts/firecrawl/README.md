@@ -7,7 +7,7 @@
 -->
 # firecrawl
 
-![Version: 3.0.23](https://img.shields.io/badge/Version-3.0.23-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.724](https://img.shields.io/badge/AppVersion-2.11.724-informational?style=flat-square)
+![Version: 3.0.24](https://img.shields.io/badge/Version-3.0.24-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.11.724](https://img.shields.io/badge/AppVersion-2.11.724-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/firecrawl)
 
 Firecrawl is an open-source API that crawls websites and turns them into LLM-ready data (markdown, HTML, structured JSON), with an optional MCP server exposing its tools at /v2/mcp. This chart packages the self-hosted topology — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres backends — using the bjw-s common library and official ghcr.io images.
