@@ -28,6 +28,8 @@ These rules apply to every chart change, without exceptions:
 
 When bumping a chart, also bump `version:` in `Chart.yaml` (chart-releaser only publishes new versions) and add an entry under `annotations.artifacthub.io/changes`.
 
+When a chart declares `annotations.artifacthub.io/images`, keep it identical to the images the chart renders with its default values (`helm template charts/<name> | grep 'image:'`): update it in the same commit as any `appVersion`, image tag or digest change. Artifact Hub scans the images listed there. Without the annotation it falls back to a dry-run render pinned to Kubernetes 1.29, which fails on `kubeVersion: ">=1.31.0-0"` (and on any chart whose default values do not render), and the chart gets no security report at all.
+
 ## Chart anatomy
 
 Two common-library lineages coexist — check `Chart.yaml` dependencies before editing templates:
