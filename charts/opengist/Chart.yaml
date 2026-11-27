@@ -1,6 +1,6 @@
 apiVersion: v2
 name: opengist
-version: 2.0.2
+version: 2.0.3
 appVersion: 1.16.0
 kubeVersion: ">=1.31.0-0"
 
@@ -40,6 +40,9 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: opengist
+      image: ghcr.io/thomiceli/opengist:1.16.0
   # Remove once this chart reaches 2.4.0: documents the breaking
   # selector-label change introduced in 2.0.0. Delete this comment together
   # with the custom.banner and custom.upgrade.notes defines in
@@ -65,3 +68,5 @@ annotations:
       description: Update Opengist to 1.15.0
     - kind: added
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
