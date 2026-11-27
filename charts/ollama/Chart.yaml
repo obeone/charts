@@ -1,6 +1,6 @@
 apiVersion: v2
 name: ollama
-version: 0.4.1
+version: 0.4.2
 appVersion: "latest"
 kubeVersion: ">=1.31.0-0"
 
@@ -46,7 +46,14 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: ollama
+      image: ollama/ollama:latest
+    - name: ollama-exporter
+      image: ghcr.io/obeone/ollama-exporter:latest
   artifacthub.io/changes: |
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
     - kind: fixed
       description: "2026-11-27: Republish, 0.4.0 was released but never reached the repository index"
     - kind: added
