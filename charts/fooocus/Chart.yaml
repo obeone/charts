@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: latest
 description: Fooocus is an image generating software
 name: fooocus
-version: 1.0.2
+version: 1.0.3
 kubeVersion: ">=1.16.0-0"
 keywords:
   - fooocus
@@ -21,6 +21,11 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: fooocus
+      image: ghcr.io/lllyasviel/fooocus:latest
   artifacthub.io/changes: |
     - kind: changed
       description: Regenerate README from the unified helm-docs template
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
