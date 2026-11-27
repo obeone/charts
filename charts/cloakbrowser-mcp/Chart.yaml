@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cloakbrowser-mcp
-version: 0.3.5
+version: 0.3.6
 appVersion: "1.15.1"
 kubeVersion: ">=1.31.0-0"
 
@@ -44,6 +44,9 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: cloakbrowser-mcp
+      image: swimmwatch/cloakbrowser-mcp:1.15.1
   artifacthub.io/changes: |
     - kind: added
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
@@ -63,3 +66,5 @@ annotations:
       description: "2026-10-18: Bump appVersion to 1.15.0"
     - kind: changed
       description: "2026-10-19: Bump appVersion to 1.15.1"
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
