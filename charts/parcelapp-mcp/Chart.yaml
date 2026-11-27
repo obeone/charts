@@ -1,6 +1,6 @@
 apiVersion: v2
 name: parcelapp-mcp
-version: 0.1.1
+version: 0.1.2
 appVersion: "0.3.2"
 kubeVersion: ">=1.31.0-0"
 
@@ -41,8 +41,13 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: parcelapp-mcp
+      image: ghcr.io/obeone/parcelapp-mcp:0.3.2
   artifacthub.io/changes: |
     - kind: added
       description: "2026-09-11: Initial chart packaging parcelapp-mcp 0.2.1 over the streamable-http transport"
     - kind: changed
       description: "2026-11-25: Bump appVersion to 0.3.2"
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"

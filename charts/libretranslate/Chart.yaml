@@ -2,7 +2,7 @@ apiVersion: v2
 appVersion: v1.10.0
 description: Free and Open Source Machine Translation API. Self-hosted, offline capable and easy to setup.
 name: libretranslate
-version: 2.0.1
+version: 2.0.2
 kubeVersion: ">=1.31.0-0"
 keywords:
   - libretranslate
@@ -26,6 +26,9 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: libretranslate
+      image: libretranslate/libretranslate:v1.10.0
   # Remove once this chart reaches 2.4.0: documents the breaking
   # selector-label change introduced in 2.0.0. Delete this comment together
   # with the custom.banner and custom.upgrade.notes defines in
@@ -47,3 +50,5 @@ annotations:
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
     - kind: changed
       description: "2026-11-24: Bump appVersion to v1.10.0"
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
