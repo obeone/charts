@@ -7,7 +7,7 @@
 -->
 # parcelapp-mcp
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.2.1](https://img.shields.io/badge/AppVersion-0.2.1-informational?style=flat-square)
+![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.3.2](https://img.shields.io/badge/AppVersion-0.3.2-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/parcelapp-mcp)
 
 Parcel App MCP — a Model Context Protocol server wrapping the Parcel delivery-tracking API, so an LLM client can list deliveries, add tracking numbers and look up carrier codes. This Helm chart runs it in its streamable-http transport, reachable over the cluster network and driven entirely from values.yaml via the bjw-s common library.
@@ -145,7 +145,7 @@ Kubernetes: `>=1.31.0-0`
 | controllers.main.containers.main.env | object | `{"PARCEL_HOST":"0.0.0.0","PARCEL_LOG_LEVEL":"INFO","PARCEL_PATH":"/mcp","PARCEL_PORT":"8000","PARCEL_TRANSPORT":"streamable-http"}` | Environment driving the server. The image has no entrypoint arguments, so the whole configuration is expressed through these PARCEL_* variables. |
 | controllers.main.containers.main.image.pullPolicy | string | `"IfNotPresent"` |  |
 | controllers.main.containers.main.image.repository | string | `"ghcr.io/obeone/parcelapp-mcp"` | Container image, published on GitHub Container Registry by the upstream project. Override it to pull your own build or a mirror. |
-| controllers.main.containers.main.image.tag | string | `"0.2.1"` | Image tag. Tracks the chart's appVersion, so bumping one bumps the other. Floating tags `0.2` and `0` also exist upstream. |
+| controllers.main.containers.main.image.tag | string | `"0.3.2"` | Image tag. Tracks the chart's appVersion, so bumping one bumps the other. Floating tags `0.2` and `0` also exist upstream. |
 | controllers.main.containers.main.probes | object | `{"liveness":{"custom":true,"enabled":true,"spec":{"failureThreshold":5,"initialDelaySeconds":10,"periodSeconds":30,"tcpSocket":{"port":8000},"timeoutSeconds":5}},"readiness":{"custom":true,"enabled":true,"spec":{"failureThreshold":3,"initialDelaySeconds":5,"periodSeconds":10,"tcpSocket":{"port":8000},"timeoutSeconds":5}},"startup":{"custom":true,"enabled":false,"spec":{"failureThreshold":30,"periodSeconds":5,"tcpSocket":{"port":8000}}}}` | Health probes. The server exposes no HTTP health endpoint: its only route is the MCP path, which answers a JSON-RPC POST and rejects a plain GET. A TCP connect on the listener is therefore the honest check here. If you want a real end-to-end probe, switch to an `exec` probe running a JSON-RPC `initialize` POST, the way the image's own HEALTHCHECK does. |
 | controllers.main.containers.main.resources.limits.memory | string | `"256Mi"` |  |
 | controllers.main.containers.main.resources.requests.cpu | string | `"10m"` |  |
