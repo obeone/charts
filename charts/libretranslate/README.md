@@ -7,7 +7,7 @@
 -->
 # libretranslate
 
-![Version: 2.0.0](https://img.shields.io/badge/Version-2.0.0-informational?style=flat-square) ![AppVersion: v1.9.6](https://img.shields.io/badge/AppVersion-v1.9.6-informational?style=flat-square)
+![Version: 2.0.1](https://img.shields.io/badge/Version-2.0.1-informational?style=flat-square) ![AppVersion: v1.10.0](https://img.shields.io/badge/AppVersion-v1.10.0-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/libretranslate)
 
 > **Warning: breaking change in 2.0.0.** Upgrading from a chart version older
@@ -122,7 +122,7 @@ Kubernetes: `>=1.31.0-0`
 | controllers.main.containers.main.env.LT_UPDATE_MODELS | string | `"1"` | Set to "1" to update language models on startup |
 | controllers.main.containers.main.image.pullPolicy | string | `"Always"` | Image pull policy (Always, IfNotPresent, Never) |
 | controllers.main.containers.main.image.repository | string | `"libretranslate/libretranslate"` | Image repository to pull |
-| controllers.main.containers.main.image.tag | string | `"v1.9.6"` | Image tag to pull (use vX.X.X-cuda for GPU builds) |
+| controllers.main.containers.main.image.tag | string | `"v1.10.0"` | Image tag to pull (use vX.X.X-cuda for GPU builds) |
 | controllers.main.containers.main.probes.liveness.custom | bool | `true` |  |
 | controllers.main.containers.main.probes.liveness.enabled | bool | `true` |  |
 | controllers.main.containers.main.probes.liveness.spec.httpGet.path | string | `"/"` |  |

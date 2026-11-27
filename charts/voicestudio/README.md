@@ -7,7 +7,7 @@
 -->
 # voicestudio
 
-![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.6](https://img.shields.io/badge/AppVersion-0.5.6-informational?style=flat-square)
+![Version: 0.1.2](https://img.shields.io/badge/Version-0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.5.8](https://img.shields.io/badge/AppVersion-0.5.8-informational?style=flat-square)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/obeone)](https://artifacthub.io/packages/helm/obeone/voicestudio)
 
 VoiceStudio (formerly OmniVoice Studio) — an open-source, fully local ElevenLabs alternative: voice cloning, voice design, dubbing, dictation, transcription and audiobook creation. This Helm chart runs the headless server image (API + web UI on a single port), CPU by default with optional NVIDIA or AMD ROCm acceleration, driven from values.yaml via the bjw-s common library.
@@ -89,7 +89,7 @@ controllers:
             nvidia.com/gpu: 1
 ```
 
-For an AMD GPU, switch to the ROCm image (`image.tag: "0.5.6-rocm"`)
+For an AMD GPU, switch to the ROCm image (`image.tag: "0.5.8-rocm"`)
 and request `amd.com/gpu` through the AMD device plugin.
 
 ### Image pull fails with a digest mismatch
