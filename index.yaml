@@ -21,6 +21,73 @@ entries:
           description: "2026-10-18: Bump appVersion to 1.15.0"
         - kind: changed
           description: "2026-10-19: Bump appVersion to 1.15.1"
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: cloakbrowser-mcp
+          image: swimmwatch/cloakbrowser-mcp:1.15.1
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/swimmwatch/cloakbrowser-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 1.15.1
+    created: "2026-11-27T14:24:43.328747475Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: CloakBrowser MCP — a Model Context Protocol browser-automation server
+      that runs upstream @playwright/mcp with the CloakBrowser Chromium binary. This
+      Helm chart packages the bridge in its streamable-http transport so it can be
+      reached over the network, driven entirely from values.yaml via the bjw-s common
+      library.
+    digest: 879d30b106a7a22abf946a3bea46773dc0e30b07f7ed08a6bab9109e2adccb3d
+    home: https://github.com/swimmwatch/cloakbrowser-mcp
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/cloakbrowser-mcp.svg
+    keywords:
+    - mcp
+    - model-context-protocol
+    - playwright
+    - browser-automation
+    - chromium
+    - cloakbrowser
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: cloakbrowser-mcp
+    sources:
+    - https://github.com/swimmwatch/cloakbrowser-mcp
+    - https://hub.docker.com/r/swimmwatch/cloakbrowser-mcp
+    - https://github.com/obeone/charts/tree/main/charts/cloakbrowser-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/cloakbrowser-mcp-0.3.6/cloakbrowser-mcp-0.3.6.tgz
+    version: 0.3.6
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 1.11.0"
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+        - kind: changed
+          description: "2026-09-05: Bump appVersion to 1.12.0"
+        - kind: changed
+          description: "2026-09-12: Bump appVersion to 1.13.0"
+        - kind: changed
+          description: "2026-09-25: Bump appVersion to 1.14.0"
+        - kind: changed
+          description: "2026-09-28: Bump appVersion to 1.14.1"
+        - kind: changed
+          description: "2026-10-18: Bump appVersion to 1.15.0"
+        - kind: changed
+          description: "2026-10-19: Bump appVersion to 1.15.1"
       artifacthub.io/links: |
         - name: Upstream Project
           url: https://github.com/swimmwatch/cloakbrowser-mcp
@@ -1772,6 +1839,64 @@ entries:
   draw-things:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+        - kind: fixed
+          description: "2026-11-27: Republish, 0.2.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+      artifacthub.io/images: |
+        - name: draw-things
+          image: drawthingsai/draw-things-grpc-server-cli:latest
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/drawthingsai/draw-things-community
+        - name: Draw Things App
+          url: https://drawthings.ai
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-11-27T14:24:43.559634276Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Draw Things gRPC server — the official CLI image that exposes a gRPC
+      API for Stable Diffusion image generation, intended to be paired with the macOS/iOS
+      Draw Things app for remote inference on a beefier GPU than your phone. This
+      chart packages it with the bjw-s common library so behaviour is driven almost
+      entirely from values.yaml.
+    digest: b7f0b32b63b096ef6bb5c172315d82d6f5ce1fc638f8d12c61c6754d5c6f03ae
+    home: https://drawthings.ai
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/draw-things.jpg
+    keywords:
+    - draw-things
+    - stable-diffusion
+    - image-generation
+    - grpc
+    - gpu
+    - nvidia
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: draw-things
+    sources:
+    - https://github.com/drawthingsai/draw-things-community
+    - https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli
+    - https://github.com/obeone/charts/tree/main/charts/draw-things
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/draw-things-0.2.2/draw-things-0.2.2.tgz
+    version: 0.2.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: "2026-11-27: Republish, 0.2.0 was released but never reached the repository index"
         - kind: added
@@ -2021,6 +2146,146 @@ entries:
     - https://github.com/obeone/charts/releases/download/draw-things-0.1.0/draw-things-0.1.0.tgz
     version: 0.1.0
   firecrawl:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-07-30: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress"
+        - kind: changed
+          description: "2026-07-31: Bump appVersion to 2.11.162"
+        - kind: changed
+          description: "2026-08-01: Bump appVersion to 2.11.167"
+        - kind: changed
+          description: "2026-08-03: Bump appVersion to 2.11.170"
+        - kind: changed
+          description: "2026-08-04: Bump appVersion to 2.11.174"
+        - kind: changed
+          description: "2026-08-05: Bump appVersion to 2.11.182"
+        - kind: changed
+          description: "2026-08-07: Bump appVersion to 2.11.191"
+        - kind: changed
+          description: "2026-08-08: Bump appVersion to 2.11.192"
+        - kind: changed
+          description: "2026-08-09: Bump appVersion to 2.11.193"
+        - kind: changed
+          description: "2026-08-11: Bump appVersion to 2.11.197"
+        - kind: changed
+          description: "2026-08-13: Bump appVersion to 2.11.198"
+        - kind: added
+          description: "2026-08-18: Add an optional MCP server (ghcr.io/firecrawl/firecrawl-mcp-server) serving Streamable HTTP at /v2/mcp, disabled by default"
+        - kind: fixed
+          description: "2026-08-18: Pin the MCP server to HOST=127.0.0.1; it bound [::1] only and every request, probes included, 502'd through the in-image nginx"
+        - kind: changed
+          description: "2026-09-05: Migrate to bjw-s common 5.1.0; raises the minimum requirements to Kubernetes >=1.31 and Helm >=3.18"
+        - kind: changed
+          description: "2026-09-05: Bump appVersion to 2.11.209"
+        - kind: changed
+          description: "2026-09-12: Bump appVersion to 2.11.330"
+        - kind: changed
+          description: "2026-09-13: Bump appVersion to 2.11.332"
+        - kind: changed
+          description: "2026-09-14: Bump appVersion to 2.11.334"
+        - kind: changed
+          description: "2026-09-16: Bump appVersion to 2.11.340"
+        - kind: changed
+          description: "2026-09-16: Bump appVersion to 2.11.341"
+        - kind: changed
+          description: "2026-09-17: Bump appVersion to 2.11.349"
+        - kind: changed
+          description: "2026-09-18: Bump appVersion to 2.11.359"
+        - kind: changed
+          description: "2026-09-20: Bump appVersion to 2.11.371"
+        - kind: changed
+          description: "2026-09-21: Bump appVersion to 2.11.376"
+        - kind: changed
+          description: "2026-09-22: Bump appVersion to 2.11.384"
+        - kind: changed
+          description: "2026-09-23: Bump appVersion to 2.11.395"
+        - kind: changed
+          description: "2026-09-24: Bump appVersion to 2.11.400"
+        - kind: changed
+          description: "2026-09-25: Bump appVersion to 2.11.403"
+        - kind: changed
+          description: "2026-09-26: Bump appVersion to 2.11.408"
+        - kind: changed
+          description: "2026-09-29: Bump appVersion to 2.11.615"
+        - kind: changed
+          description: "2026-10-01: Bump appVersion to 2.11.639"
+        - kind: changed
+          description: "2026-10-04: Bump appVersion to 2.11.654"
+        - kind: changed
+          description: "2026-10-07: Bump appVersion to 2.11.655"
+        - kind: changed
+          description: "2026-10-10: Bump appVersion to 2.11.693"
+        - kind: fixed
+          description: "2026-10-13: Render the -staging image tag, the only versioned tag upstream publishes on ghcr.io (2.11.693 alone does not exist)"
+        - kind: changed
+          description: "2026-10-13: Mark the chart as a pre-release on Artifact Hub while it deploys upstream -staging images"
+        - kind: changed
+          description: "2026-11-06: Bump appVersion to 2.11.694"
+        - kind: changed
+          description: "2026-11-11: Bump appVersion to 2.11.724"
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: firecrawl
+          image: ghcr.io/firecrawl/firecrawl:2.11.724-staging
+        - name: playwright-service
+          image: ghcr.io/firecrawl/playwright-service:latest@sha256:1f6eba6403207d501a63d9b1d4685b6316b4fc7968fe64a5839ab1bfec9d1c14
+        - name: nuq-postgres
+          image: ghcr.io/firecrawl/nuq-postgres:latest@sha256:f9388bd25ae2e1f1d034518236f993ce236173c1d8800ce24092ea6643a95a33
+        - name: redis
+          image: docker.io/library/redis:7.4-alpine
+        - name: rabbitmq
+          image: docker.io/library/rabbitmq:3.13-management-alpine
+      artifacthub.io/license: AGPL-3.0
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/firecrawl/firecrawl
+        - name: Documentation
+          url: https://docs.firecrawl.dev
+        - name: MCP Server
+          url: https://docs.firecrawl.dev/mcp-server/local
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 2.11.724
+    created: "2026-11-27T14:24:43.804082481Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Firecrawl is an open-source API that crawls websites and turns them
+      into LLM-ready data (markdown, HTML, structured JSON), with an optional MCP
+      server exposing its tools at /v2/mcp. This chart packages the self-hosted topology
+      — API, workers, Playwright renderer and the bundled Redis / RabbitMQ / NuQ-Postgres
+      backends — using the bjw-s common library and official ghcr.io images.
+    digest: 2cd5d8a57ed83ee98d051e3b383633cddac71dd3805241ce7da1b7c978e7d211
+    home: https://www.firecrawl.dev
+    icon: https://raw.githubusercontent.com/firecrawl/firecrawl/main/img/firecrawl_logo.png
+    keywords:
+    - firecrawl
+    - web-scraping
+    - crawling
+    - llm
+    - markdown
+    - ai
+    - self-hosted
+    - mcp
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: firecrawl
+    sources:
+    - https://github.com/firecrawl/firecrawl
+    - https://docs.firecrawl.dev
+    - https://github.com/obeone/charts/tree/main/charts/firecrawl
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/firecrawl-3.0.24/firecrawl-3.0.24.tgz
+    version: 3.0.24
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -4960,6 +5225,41 @@ entries:
       artifacthub.io/changes: |
         - kind: changed
           description: Regenerate README from the unified helm-docs template
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: fooocus
+          image: ghcr.io/lllyasviel/fooocus:latest
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-11-27T14:24:44.130228483Z"
+    dependencies:
+    - name: common
+      repository: https://library-charts.k8s-at-home.com
+      version: 4.5.2
+    description: Fooocus is an image generating software
+    digest: 4826544a49dd1907747bb382f2021c004c8d62196390d36768882323d6c7bfb4
+    home: https://github.com/lllyasviel/Fooocus
+    keywords:
+    - fooocus
+    - ai
+    - image
+    - gpu
+    kubeVersion: '>=1.16.0-0'
+    name: fooocus
+    urls:
+    - https://github.com/obeone/charts/releases/download/fooocus-1.0.3/fooocus-1.0.3.tgz
+    version: 1.0.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
       artifacthub.io/maintainers: |
         - name: obeone
           email: obeone@obeone.org
@@ -5047,6 +5347,61 @@ entries:
     - https://github.com/obeone/charts/releases/download/fooocus-1.0.0/fooocus-1.0.0.tgz
     version: 1.0.0
   libretranslate:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: >-
+            Migrate to bjw-s common 5.1.0 (from 3.7.1); raises the floor to
+            Kubernetes >= 1.31 and Helm >= 3.18. The controller selector label
+            changes from app.kubernetes.io/component to
+            app.kubernetes.io/controller, which is immutable on an existing
+            Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
+            you delete the Deployment (not the PVC) before upgrading. The models
+            share PVC keeps its `<release>-share` name across the migration,
+            via an explicit persistence suffix; no action needed on your side
+        - kind: changed
+          description: Regenerate README from the unified helm-docs template
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-11-24: Bump appVersion to v1.10.0"
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: libretranslate
+          image: libretranslate/libretranslate:v1.10.0
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.10.0
+    created: "2026-11-27T14:24:44.405479292Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Free and Open Source Machine Translation API. Self-hosted, offline
+      capable and easy to setup.
+    digest: 3745caec9add8706701ce07b75808c5653b779531661fe5bd0b498a7351a65a0
+    home: https://github.com/LibreTranslate/LibreTranslate
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/libretranslate.svg
+    keywords:
+    - libretranslate
+    - machine translation
+    - self-hosted
+    - open-source
+    - offline capable
+    - translation
+    - translator
+    - api
+    kubeVersion: '>=1.31.0-0'
+    name: libretranslate
+    urls:
+    - https://github.com/obeone/charts/releases/download/libretranslate-2.0.2/libretranslate-2.0.2.tgz
+    version: 2.0.2
   - annotations:
       artifacthub.io/changes: |
         - kind: changed
@@ -6077,6 +6432,63 @@ entries:
   ollama:
   - annotations:
       artifacthub.io/changes: |
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+        - kind: fixed
+          description: "2026-11-27: Republish, 0.4.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+      artifacthub.io/images: |
+        - name: ollama
+          image: ollama/ollama:latest
+        - name: ollama-exporter
+          image: ghcr.io/obeone/ollama-exporter:latest
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/ollama/ollama
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-11-27T14:24:44.726982031Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: 'Ollama — run large language models locally, with an optional transparent
+      Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled):
+      on, it fronts the API and exports /metrics; off, the API is served directly.
+      This Helm chart packages the Ollama server on the bjw-s common library so behaviour
+      is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.'
+    digest: 0b44755d7e15b275d234243cdcfb7a169ddbd3d97e0a7bdb31d360ce84259999
+    home: https://ollama.com
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+    keywords:
+    - ollama
+    - llm
+    - ai
+    - inference
+    - gpu
+    - prometheus
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://hub.docker.com/r/ollama/ollama
+    - https://github.com/obeone/charts/tree/main/charts/ollama
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/ollama-0.4.2/ollama-0.4.2.tgz
+    version: 0.4.2
+  - annotations:
+      artifacthub.io/changes: |
         - kind: fixed
           description: "2026-11-27: Republish, 0.4.0 was released but never reached the repository index"
         - kind: added
@@ -6701,6 +7113,71 @@ entries:
           description: Update Opengist to 1.15.0
         - kind: added
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: opengist
+          image: ghcr.io/thomiceli/opengist:1.16.0
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: 1.16.0
+    created: "2026-11-27T14:24:45.015427028Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Opengist is a self-hosted Pastebin powered by Git. All snippets are
+      stored in a Git repository and can be read and/or modified using standard Git
+      commands, or with the web interface. It is similar to GitHub Gist, but open-source
+      and self-hosted.
+    digest: b07bed2908bc421934b3513cbbb56e803240bc804d8d6fdb0454b5662cbde611
+    home: https://github.com/thomiceli/opengist
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/opengist.svg
+    keywords:
+    - opengist
+    - git
+    - pastebin
+    - gist
+    - self-hosted
+    - open-source
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: opengist
+    sources:
+    - https://github.com/thomiceli/opengist
+    - https://github.com/obeone/charts/tree/main/charts/opengist
+    urls:
+    - https://github.com/obeone/charts/releases/download/opengist-2.0.3/opengist-2.0.3.tgz
+    version: 2.0.3
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: >-
+            Migrate to bjw-s common 5.1.0 (from 3.7.1); raises the floor to
+            Kubernetes >= 1.31 and Helm >= 3.18. The controller selector label
+            changes from app.kubernetes.io/component to
+            app.kubernetes.io/controller, which is immutable on an existing
+            Deployment: `helm upgrade` from a pre-2.0.0 release will fail unless
+            you delete the Deployment before upgrading
+        - kind: changed
+          description: Update Opengist to 1.16.0
+        - kind: changed
+          description: Update Opengist to 1.15.3
+        - kind: changed
+          description: Update Opengist to 1.15.2
+        - kind: changed
+          description: Update Opengist to 1.15.1
+        - kind: changed
+          description: Update Opengist to 1.15.0
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
       artifacthub.io/maintainers: |
         - name: obeone
           email: obeone@obeone.org
@@ -7290,6 +7767,56 @@ entries:
     - https://github.com/obeone/charts/releases/download/opengist-1.0.0/opengist-1.0.0.tgz
     version: 1.0.0
   parcelapp-mcp:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: "2026-09-11: Initial chart packaging parcelapp-mcp 0.2.1 over the streamable-http transport"
+        - kind: changed
+          description: "2026-11-25: Bump appVersion to 0.3.2"
+        - kind: added
+          description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
+      artifacthub.io/images: |
+        - name: parcelapp-mcp
+          image: ghcr.io/obeone/parcelapp-mcp:0.3.2
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/obeone/parcelapp-mcp
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 0.3.2
+    created: "2026-11-27T14:24:45.247011452Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Parcel App MCP — a Model Context Protocol server wrapping the Parcel
+      delivery-tracking API, so an LLM client can list deliveries, add tracking numbers
+      and look up carrier codes. This Helm chart runs it in its streamable-http transport,
+      reachable over the cluster network and driven entirely from values.yaml via
+      the bjw-s common library.
+    digest: 3030be6ecdfb592693f690a6b567c7725b819777bcbf5e8174b91f3a929406db
+    home: https://github.com/obeone/parcelapp-mcp
+    keywords:
+    - mcp
+    - model-context-protocol
+    - parcel
+    - delivery-tracking
+    - package-tracking
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: parcelapp-mcp
+    sources:
+    - https://github.com/obeone/parcelapp-mcp
+    - https://github.com/obeone/charts/tree/main/charts/parcelapp-mcp
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/parcelapp-mcp-0.1.2/parcelapp-mcp-0.1.2.tgz
+    version: 0.1.2
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -9748,4 +10275,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-27T11:56:00.342064068Z"
+generated: "2026-11-27T14:24:45.247652972Z"
