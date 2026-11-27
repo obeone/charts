@@ -1772,6 +1772,59 @@ entries:
   draw-things:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "2026-11-27: Republish, 0.2.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/drawthingsai/draw-things-community
+        - name: Draw Things App
+          url: https://drawthings.ai
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-11-27T11:55:58.738005669Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Draw Things gRPC server — the official CLI image that exposes a gRPC
+      API for Stable Diffusion image generation, intended to be paired with the macOS/iOS
+      Draw Things app for remote inference on a beefier GPU than your phone. This
+      chart packages it with the bjw-s common library so behaviour is driven almost
+      entirely from values.yaml.
+    digest: 5355cbb621953d47e5a355e336e956b17f5c68692f4837ddd5014177389a322d
+    home: https://drawthings.ai
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/draw-things.jpg
+    keywords:
+    - draw-things
+    - stable-diffusion
+    - image-generation
+    - grpc
+    - gpu
+    - nvidia
+    - ai
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: draw-things
+    sources:
+    - https://github.com/drawthingsai/draw-things-community
+    - https://hub.docker.com/r/drawthingsai/draw-things-grpc-server-cli
+    - https://github.com/obeone/charts/tree/main/charts/draw-things
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/draw-things-0.2.1/draw-things-0.2.1.tgz
+    version: 0.2.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
       artifacthub.io/links: |
@@ -6024,6 +6077,56 @@ entries:
   ollama:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "2026-11-27: Republish, 0.4.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
+        - kind: changed
+          description: "2026-09-05: Bump bjw-s common library to 5.1.0"
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://github.com/ollama/ollama
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: latest
+    created: "2026-11-27T11:55:59.287524602Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: 'Ollama — run large language models locally, with an optional transparent
+      Prometheus exporter/proxy sidecar you toggle with a single switch (exporter.enabled):
+      on, it fronts the API and exports /metrics; off, the API is served directly.
+      This Helm chart packages the Ollama server on the bjw-s common library so behaviour
+      is driven almost entirely from values.yaml. Supports GPU acceleration via RuntimeClass.'
+    digest: 09e13160896ba63d6fb93f19b94b1e5386ea0d3ec9bbc594ec70445fa063d6d6
+    home: https://ollama.com
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/ollama.svg
+    keywords:
+    - ollama
+    - llm
+    - ai
+    - inference
+    - gpu
+    - prometheus
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: ollama
+    sources:
+    - https://github.com/ollama/ollama
+    - https://hub.docker.com/r/ollama/ollama
+    - https://github.com/obeone/charts/tree/main/charts/ollama
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/ollama-0.4.1/ollama-0.4.1.tgz
+    version: 0.4.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
       artifacthub.io/links: |
@@ -6264,6 +6367,59 @@ entries:
     - https://github.com/obeone/charts/releases/download/ollama-0.1.0/ollama-0.1.0.tgz
     version: 0.1.0
   olvid-bot:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: "2026-11-27: Republish, 1.0.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+        - kind: changed
+          description: >-
+            Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
+            Kubernetes version to 1.31 and Helm to 3.18. No values changes were
+            required for this chart.
+        - kind: changed
+          description: >-
+            Document the upstream daemon 1.x to 2.x migration in the README
+            (2026-09-05), with a link to the official migration guide.
+      artifacthub.io/links: |
+        - name: Upstream Project
+          url: https://gitlab.com/olvid/olvid
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+    apiVersion: v2
+    appVersion: 2.0.1
+    created: "2026-11-27T11:55:59.481317112Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: Olvid bot-daemon — a bridge service that lets you automate interactions
+      with Olvid secure-messaging groups. This Helm chart packages the daemon using
+      the bjw-s common library, so behaviour is driven almost entirely from *values.yaml*.
+    digest: f9bd57934a62cae9f9414a8fbf5471ae3357c25ce413190045665a71b2c18534
+    home: https://doc.bot.olvid.io/en/stable/index.html
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/olvid.png
+    keywords:
+    - olvid
+    - secure-messaging
+    - bot
+    - daemon
+    - self-hosted
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: olvid-bot
+    sources:
+    - https://gitlab.com/olvid/olvid
+    - https://hub.docker.com/r/olvid/bot-daemon
+    - https://github.com/obeone/charts/charts/olvid-bot
+    type: application
+    urls:
+    - https://github.com/obeone/charts/releases/download/olvid-bot-1.0.1/olvid-bot-1.0.1.tgz
+    version: 1.0.1
   - annotations:
       artifacthub.io/changes: |
         - kind: added
@@ -8610,6 +8766,58 @@ entries:
   transfer.sh:
   - annotations:
       artifacthub.io/changes: |
+        - kind: fixed
+          description: "2026-11-27: Republish, 2.0.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+        - kind: changed
+          description: >-
+            Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
+            Kubernetes version to 1.31 and Helm to 3.18. No values changes were
+            required for this chart.
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.6.1
+    created: "2026-11-27T11:56:00.157543278Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: d7b47b3ba56d3d946e6e30ea2451948cfa2a3c2ad669938e1a0846ec25e9bec5
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-2.0.1/transfer.sh-2.0.1.tgz
+    version: 2.0.1
+  - annotations:
+      artifacthub.io/changes: |
         - kind: added
           description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
       artifacthub.io/license: MIT
@@ -9540,4 +9748,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-25T10:10:57.037091061Z"
+generated: "2026-11-27T11:56:00.342064068Z"
