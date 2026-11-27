@@ -1,6 +1,6 @@
 apiVersion: v2
 name: draw-things
-version: 0.2.1
+version: 0.2.2
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
 
@@ -49,7 +49,12 @@ annotations:
   artifacthub.io/maintainers: |
     - name: obeone
       email: obeone@obeone.org
+  artifacthub.io/images: |
+    - name: draw-things
+      image: drawthingsai/draw-things-grpc-server-cli:latest
   artifacthub.io/changes: |
+    - kind: added
+      description: "2026-11-27: Declare container images in the artifacthub.io/images annotation so Artifact Hub can scan them"
     - kind: fixed
       description: "2026-11-27: Republish, 0.2.0 was released but never reached the repository index"
     - kind: added
