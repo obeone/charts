@@ -1,6 +1,6 @@
 apiVersion: v2
 name: draw-things
-version: 0.2.0
+version: 0.2.1
 appVersion: latest
 kubeVersion: ">=1.31.0-0"
 
@@ -50,6 +50,8 @@ annotations:
     - name: obeone
       email: obeone@obeone.org
   artifacthub.io/changes: |
+    - kind: fixed
+      description: "2026-11-27: Republish, 0.2.0 was released but never reached the repository index"
     - kind: added
       description: Add a disabled Gateway API HTTPRoute example mirroring the Ingress
     - kind: changed
