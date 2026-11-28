@@ -9302,6 +9302,60 @@ entries:
             Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
             Kubernetes version to 1.31 and Helm to 3.18. No values changes were
             required for this chart.
+        - kind: changed
+          description: "2026-11-28: Bump appVersion to v1.7.0"
+      artifacthub.io/license: MIT
+      artifacthub.io/maintainers: |
+        - name: obeone
+          email: obeone@obeone.org
+      artifacthub.io/signKey: |
+        fingerprint: B9FE852F28888D27F8C9A11CD33E04CD22E335CE
+        url: https://raw.githubusercontent.com/obeone/charts/main/public_key.gpg
+    apiVersion: v2
+    appVersion: v1.7.0
+    created: "2026-11-28T10:10:43.940503374Z"
+    dependencies:
+    - name: common
+      repository: https://bjw-s-labs.github.io/helm-charts
+      version: 5.1.0
+    description: 'High-performance, secure and user-friendly command-line file sharing
+      tool. Easily upload, share and manage files directly from the browser and the
+      terminal with support for configurable storage backends and access controls. '
+    digest: 3574ab979ed61586c42aa55a74eb62e277f09c975f7543a836937fb949a47c30
+    home: https://github.com/dutchcoders/transfer.sh
+    icon: https://raw.githubusercontent.com/obeone/charts/main/logo/transfer.sh.jpg
+    keywords:
+    - transfer.sh
+    - file sharing
+    - cli
+    - command-line
+    - transfer
+    - share
+    - upload
+    - download
+    - storage
+    kubeVersion: '>=1.31.0-0'
+    maintainers:
+    - email: obeone@obeone.org
+      name: obeone
+    name: transfer.sh
+    sources:
+    - https://github.com/dutchcoders/transfer.sh
+    - https://github.com/obeone/charts/tree/main/charts/transfer.sh
+    urls:
+    - https://github.com/obeone/charts/releases/download/transfer.sh-2.0.2/transfer.sh-2.0.2.tgz
+    version: 2.0.2
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: "2026-11-27: Republish, 2.0.0 was released but never reached the repository index"
+        - kind: added
+          description: Add a disabled route (HTTPRoute / Gateway API) example, mirroring the existing ingress
+        - kind: changed
+          description: >-
+            Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
+            Kubernetes version to 1.31 and Helm to 3.18. No values changes were
+            required for this chart.
       artifacthub.io/license: MIT
       artifacthub.io/maintainers: |
         - name: obeone
@@ -10275,4 +10329,4 @@ entries:
     urls:
     - https://github.com/obeone/charts/releases/download/winbox-1.1.0/winbox-1.1.0.tgz
     version: 1.1.0
-generated: "2026-11-27T14:24:45.247652972Z"
+generated: "2026-11-28T10:10:43.941170831Z"
