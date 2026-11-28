@@ -1,7 +1,7 @@
 apiVersion: v2
 name: transfer.sh
-version: 2.0.1
-appVersion: v1.6.1
+version: 2.0.2
+appVersion: v1.7.0
 description: |
   High-performance, secure and user-friendly command-line file sharing tool.
   Easily upload, share and manage files directly from the browser and the terminal with support for configurable storage backends and access controls.
@@ -46,3 +46,5 @@ annotations:
         Bump bjw-s common library to 5.1.0 (2026-09-05). Raises the minimum
         Kubernetes version to 1.31 and Helm to 3.18. No values changes were
         required for this chart.
+    - kind: changed
+      description: "2026-11-28: Bump appVersion to v1.7.0"
