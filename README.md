@@ -43,7 +43,7 @@ helm install my-release obeone/<chart> --verify
 | 📝 | [**opengist**](charts/opengist) | `1.16.0` | [Opengist](https://github.com/thomiceli/opengist) — self-hosted, Git-backed Pastebin / GitHub Gist alternative. |
 | 📦 | [**parcelapp-mcp**](charts/parcelapp-mcp) | `0.3.2` | [parcelapp-mcp](https://github.com/obeone/parcelapp-mcp) — MCP server over the [Parcel](https://parcelapp.net) delivery-tracking API: list deliveries, add tracking numbers, look up carriers. |
 | 🌐 | [**technitium-dnsserver**](charts/technitium-dnsserver) | `15.6.2` | [Technitium DNS Server](https://github.com/TechnitiumSoftware/DnsServer) — recursive / authoritative DNS, PiHole & AdGuard alternative. |
-| 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.6.1` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
+| 📤 | [**transfer.sh**](charts/transfer.sh) | `v1.7.0` | [transfer.sh](https://github.com/dutchcoders/transfer.sh) — CLI-friendly file-sharing with pluggable storage backends. |
 | 🎙️ | [**voicestudio**](charts/voicestudio) | `0.5.8` | [VoiceStudio](https://github.com/debpalash/VoiceStudio) — fully local ElevenLabs alternative: voice cloning, voice design, dubbing, transcription. CPU, NVIDIA or AMD ROCm. |
 | 🪟 | [**winbox**](charts/winbox) | `3.40` | **Deprecated.** [MikroTik Winbox](https://github.com/obeone/winbox-docker) in your browser — VNC-streamed, Wine-powered. Upstream is archived (no image rebuild since 2023); use MikroTik's native WinBox 4 instead. |
 
