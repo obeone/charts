@@ -11,7 +11,7 @@ controllers:
           # -- image repository
           repository: dutchcoders/transfer.sh
           # -- image tag
-          tag: v1.6.1-noroot
+          tag: v1.7.0-noroot
           # -- image pull policy
           pullPolicy: IfNotPresent
 
